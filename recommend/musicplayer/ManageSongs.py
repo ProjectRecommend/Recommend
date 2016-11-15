@@ -1,28 +1,32 @@
 class MangaeSongs(object):
-    
+
+    def __init__(self):
+        # don init stuff
+        pass
+
     def TriggerPlaySequence(self, songID):
         return False
-    
+
     def Play(self, songID):
         return False
-    
-    def playSong(self, songID):
+
+    def PlaySong(self, songID):
         return False
 
     def Pause(self,):
         return False
-    
-    def next(self, songID):
-        return False
-    
-    def prev(self, songID):
+
+    def Next(self, songID):
         return False
 
-    def seek(self, second):
+    def Prev(self, songID):
         return False
-    
+
+    def Seek(self, second):
+        return False
+
     def Stop(self,):
         return False
-    
-    def volControl(self, targetVol):
+
+    def VolControl(self, targetVol):
         return False
