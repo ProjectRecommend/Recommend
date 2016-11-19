@@ -1,0 +1,93 @@
+0 : Creedence Clearwater Revival 2008 Creedence Clearwater Revival Long As I Can See The Light Greatest Hits (Disc 1) Creedence Clearwater Revival 
+C:\Users\Electron\Music\test_music_mp3\1-Long As I Can See The Light.mp3
+1 : Coldplay 2014-12-02 Coldplay Magic (Live, 2014: The Enmore Theatre, Sydney, Australia) Ghost Stories Live 2014 (Disc 1) Coldplay 
+C:\Users\Electron\Music\test_music_mp3\1-Magic (Live, 2014_ The Enmore Theatre, Sydney, Australia).mp3
+2 : Clean Bandit feat. Glynne, Jess 2014-06-02 Clean Bandit Rather Be (Feat. Jess Glynne) New Eyes (Disc 2) Clean Bandit 
+C:\Users\Electron\Music\test_music_mp3\2-Clean Bandit - Rather Be (Feat. Jess Glynne).mp3
+3 : Coldplay 2014-06-29 Coldplay A Sky Full Of Stars (Radio Edit) A Sky Full Of Stars (Single) Coldplay 
+C:\Users\Electron\Music\test_music_mp3\A Sky Full Of Stars (Radio Edit).mp3
+4 : Coldplay 2015-11-06 Coldplay Adventure Of A Lifetime Adventure Of A Lifetime (Single) Coldplay 
+C:\Users\Electron\Music\test_music_mp3\Adventure Of A Lifetime.mp3
+5 : Crazy Frog 2005 Crazy Frog Axel F Crazy Hits (Crazy Christmas Edition) Crazy Frog 
+C:\Users\Electron\Music\test_music_mp3\Axel F.mp3
+6 : Coldplay 2015-12-04 Coldplay A Head Full Of Dreams A Head Full Of Dreams Coldplay 
+C:\Users\Electron\Music\test_music_mp3\Coldplay - A Head Full Of Dreams.mp3
+7 : Coldplay 2015-12-04 Coldplay Adventure Of A Lifetime A Head Full Of Dreams Coldplay 
+C:\Users\Electron\Music\test_music_mp3\Coldplay - Adventure Of A Lifetime.mp3
+8 : Coldplay 2015-12-04 Coldplay Amazing Day A Head Full Of Dreams Coldplay 
+C:\Users\Electron\Music\test_music_mp3\Coldplay - Amazing Day.mp3
+9 : Coldplay 2015-12-04 Coldplay Army Of One A Head Full Of Dreams Coldplay 
+C:\Users\Electron\Music\test_music_mp3\Coldplay - Army Of One.mp3
+10 : Coldplay 2015-12-04 Coldplay Birds A Head Full Of Dreams Coldplay 
+C:\Users\Electron\Music\test_music_mp3\Coldplay - Birds.mp3
+11 : Coldplay 2015-12-04 Coldplay Colour Spectrum A Head Full Of Dreams Coldplay 
+C:\Users\Electron\Music\test_music_mp3\Coldplay - Colour Spectrum.mp3
+12 : Coldplay 2015-12-04 Coldplay Everglow A Head Full Of Dreams Coldplay 
+C:\Users\Electron\Music\test_music_mp3\Coldplay - Everglow.mp3
+13 : Coldplay feat. Tove Lo 2015-12-04 Coldplay Fun (Feat. Tove Lo) A Head Full Of Dreams Coldplay 
+C:\Users\Electron\Music\test_music_mp3\Coldplay - Fun (Feat. Tove Lo).mp3
+14 : Coldplay 2015-12-04 Coldplay Hymn For The Weekend A Head Full Of Dreams Coldplay 
+C:\Users\Electron\Music\test_music_mp3\Coldplay - Hymn For The Weekend.mp3
+15 : Coldplay 2015-12-04 Coldplay Kaleidoscope A Head Full Of Dreams Coldplay 
+C:\Users\Electron\Music\test_music_mp3\Coldplay - Kaleidoscope.mp3
+16 : Coldplay 2015-12-04 Coldplay Miracles A Head Full Of Dreams Coldplay 
+C:\Users\Electron\Music\test_music_mp3\Coldplay - Miracles.mp3
+17 : Coldplay 2015-12-04 Coldplay Up&Up A Head Full Of Dreams Coldplay 
+C:\Users\Electron\Music\test_music_mp3\Coldplay - Up&Up.mp3
+18 : Daft Punk feat. Williams, Pharrell 2013-04-19 Daft Punk Get Lucky (Radio Edit) (Feat. Pharrell Williams) Get Lucky (Feat. Pharrell Williams) (Single) Daft Punk 
+C:\Users\Electron\Music\test_music_mp3\Get Lucky (Radio Edit) (Feat. Pharrell Williams).mp3
+19 : Lauper, Cyndi 2008-12-16 Cyndi Lauper Girls Just Want To Have Fun Gold: Greatest Hits Cyndi Lauper 
+C:\Users\Electron\Music\test_music_mp3\Girls Just Want To Have Fun.mp3
+20 : Coldplay 2015-12-04 Coldplay Hymn For The Weekend A Head Full Of Dreams Coldplay 
+C:\Users\Electron\Music\test_music_mp3\Hymn For The Weekend.mp3
+21 : Clearlake 2003-02-03 Clearlake I'd Like To Hurt You Cedars Clearlake 
+C:\Users\Electron\Music\test_music_mp3\I'd Like To Hurt You.mp3
+22 : Culture Club 1989 Culture Club Karma Chameleon Best Of Culture Club Culture Club 
+C:\Users\Electron\Music\test_music_mp3\Karma Chameleon.mp3
+23 : Swindell, Cole 2014-02-18 Cole Swindell Let Me See Ya Girl Cole Swindell Cole Swindell 
+C:\Users\Electron\Music\test_music_mp3\Let Me See Ya Girl.mp3
+24 : Vega, Clelia 2010-02-22 Clelia Vega Monster Silent Revolution Clelia Vega 
+C:\Users\Electron\Music\test_music_mp3\Monster.mp3
+25 : Dan + Shay 2014-04-01 Dan + Shay Nothin' Like You Where It All Began Dan + Shay 
+C:\Users\Electron\Music\test_music_mp3\Nothin' Like You.mp3
+26 : Cover Nation 2011-06-30 Cover Nation Rain Over Me (Tribute To Pitbull Feat. Marc Anthony) Rain Over Me (Tribute To Pitbull Feat. Marc Anthony) (Single) Cover Nation 
+C:\Users\Electron\Music\test_music_mp3\Rain Over Me (Tribute To Pitbull Feat. Marc Anthony).mp3
+27 : Daughter 2012-10-08 Daughter Smother Smother (Single) Daughter 
+C:\Users\Electron\Music\test_music_mp3\Smother.mp3
+28 : Coldplay 2016-06-17 Coldplay The Scientist A Rush Of Blood To The Head Coldplay 
+C:\Users\Electron\Music\test_music_mp3\The Scientist.mp3
+-------------KMeans-------------
+cluster Number : 0
+item number : 22 C:\Users\Electron\Music\test_music_mp3\Karma Chameleon.mp3
+item number : 23 C:\Users\Electron\Music\test_music_mp3\Let Me See Ya Girl.mp3
+item number : 24 C:\Users\Electron\Music\test_music_mp3\Monster.mp3
+cluster Number : 1
+item number : 1 C:\Users\Electron\Music\test_music_mp3\1-Magic (Live, 2014_ The Enmore Theatre, Sydney, Australia).mp3
+item number : 3 C:\Users\Electron\Music\test_music_mp3\A Sky Full Of Stars (Radio Edit).mp3
+item number : 4 C:\Users\Electron\Music\test_music_mp3\Adventure Of A Lifetime.mp3
+item number : 6 C:\Users\Electron\Music\test_music_mp3\Coldplay - A Head Full Of Dreams.mp3
+item number : 7 C:\Users\Electron\Music\test_music_mp3\Coldplay - Adventure Of A Lifetime.mp3
+item number : 8 C:\Users\Electron\Music\test_music_mp3\Coldplay - Amazing Day.mp3
+item number : 9 C:\Users\Electron\Music\test_music_mp3\Coldplay - Army Of One.mp3
+item number : 10 C:\Users\Electron\Music\test_music_mp3\Coldplay - Birds.mp3
+item number : 11 C:\Users\Electron\Music\test_music_mp3\Coldplay - Colour Spectrum.mp3
+item number : 12 C:\Users\Electron\Music\test_music_mp3\Coldplay - Everglow.mp3
+item number : 13 C:\Users\Electron\Music\test_music_mp3\Coldplay - Fun (Feat. Tove Lo).mp3
+item number : 14 C:\Users\Electron\Music\test_music_mp3\Coldplay - Hymn For The Weekend.mp3
+item number : 15 C:\Users\Electron\Music\test_music_mp3\Coldplay - Kaleidoscope.mp3
+item number : 16 C:\Users\Electron\Music\test_music_mp3\Coldplay - Miracles.mp3
+item number : 17 C:\Users\Electron\Music\test_music_mp3\Coldplay - Up&Up.mp3
+item number : 20 C:\Users\Electron\Music\test_music_mp3\Hymn For The Weekend.mp3
+item number : 28 C:\Users\Electron\Music\test_music_mp3\The Scientist.mp3
+cluster Number : 2
+item number : 2 C:\Users\Electron\Music\test_music_mp3\2-Clean Bandit - Rather Be (Feat. Jess Glynne).mp3
+item number : 18 C:\Users\Electron\Music\test_music_mp3\Get Lucky (Radio Edit) (Feat. Pharrell Williams).mp3
+item number : 26 C:\Users\Electron\Music\test_music_mp3\Rain Over Me (Tribute To Pitbull Feat. Marc Anthony).mp3
+item number : 27 C:\Users\Electron\Music\test_music_mp3\Smother.mp3
+cluster Number : 3
+item number : 0 C:\Users\Electron\Music\test_music_mp3\1-Long As I Can See The Light.mp3
+item number : 5 C:\Users\Electron\Music\test_music_mp3\Axel F.mp3
+item number : 19 C:\Users\Electron\Music\test_music_mp3\Girls Just Want To Have Fun.mp3
+cluster Number : 4
+item number : 21 C:\Users\Electron\Music\test_music_mp3\I'd Like To Hurt You.mp3
+item number : 25 C:\Users\Electron\Music\test_music_mp3\Nothin' Like You.mp3
