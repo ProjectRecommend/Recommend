@@ -4,8 +4,15 @@ import os
 import const
 from mainWindow import Ui_MainWindow
 
+"""
+refactor everything in a class and clean this bad code
+till that time BDFL please forgive me for this.
+"""
+
 filePathList = []
+# update these from settings before first use
 songsFolder = ""
+volume = ""
 # these will be QMediaPlaylist and QMediaPlayer objects, here they are assigned
 # just to silence errors
 mediaPlaylist = []
@@ -14,6 +21,10 @@ mediaPlayer = []
 # -1 is undetermined
 # 0-stopped, 1-playing, 2-paused
 userAction = -1
+# seek bar time and ui objects
+totalTime = ""
+currentTime = ""
+progressBar = ""
 
 
 def main():
@@ -28,6 +39,9 @@ def main():
 
 
 def extraSetup(Ui_MainWindow):
+    global currentTime
+    global totalTime
+    global progressBar
     # main window
     window = Ui_MainWindow
     # Lists
@@ -73,6 +87,10 @@ def extraSetup(Ui_MainWindow):
     stopBtn.clicked.connect(stopHandler)
     prevBtn.clicked.connect(prevHandler)
     nextBtn.clicked.connect(nextHandler)
+    # volume control handlers
+    volumeIncr.clicked.connect(volumeIncrHandler)
+    volumeDecr.clicked.connect(VolumeDecrHandler)
+    mute.clicked.connect(muteHandler)
 
     # open webpages
     aboutProject.triggered.connect(openAboutUrl)
@@ -89,6 +107,7 @@ def Browse(self):
     global songsFolder
     songsFolder = QtWidgets.QFileDialog.getExistingDirectory(None, "Open a folder", os.getenv('HOME'), QtWidgets.QFileDialog.ShowDirsOnly)
     print(songsFolder)
+    # save folder to settings
     crawlFolder(songsFolder)
     return True
 
@@ -128,7 +147,6 @@ def crawlFolder(folderPath):
     saveSettings()
     buildPlayList()
     buildPlayer()
-    # play()
     return filePathList
 
 
@@ -163,13 +181,19 @@ def buildPlayList():
 def buildPlayer():
     global mediaPlaylist
     global mediaPlayer
+    global volume
+    global progressBar
     mediaPlayer = QtMultimedia.QMediaPlayer()
     mediaPlayer.setPlaylist(mediaPlaylist)
+    mediaPlayer.stateChanged.connect(mediaPlayerMediaStatusChangeHandler)
+    # read from settings and set volume
+    # The playback volume is linear in effect and the value
+    # can range from 0 - 100, values outside this range will be clamped.
+    volume = 50
+    mediaPlayer.setVolume(volume)
+    mediaPlayer.positionChanged.connect(mediaPlayerPositionChangedHandler)
+    progressBar.sliderMoved.connect(seekPosition)
 
-
-# def play():
-#     global mediaPlayer
-#     mediaPlayer.play()
 
 
 def playPauseHandler():
@@ -221,24 +245,41 @@ def nextHandler():
     mediaPlayer.playlist().next()
 
 
-def increaseVolume(self):
-    vol = self.player.volume()
-    vol = min(vol+5,100)
-    self.player.setVolume(vol)
+# The playback volume is linear in effect and the value
+# can range from 0 - 100, values outside this range will be clamped.
+def volumeIncrHandler():
+    global volume
+    global mediaPlayer
+    volume = min(volume + 5, 100)
+    mediaPlayer.setVolume(volume)
 
 
-def decreaseVolume(self):
-    vol = self.player.volume()
-    vol = max(vol-5,0)
-    self.player.setVolume(vol)
+def VolumeDecrHandler():
+    global volume
+    global mediaPlayer
+    volume = max(volume - 5, 0)
+    mediaPlayer.setVolume(volume)
 
 
-def qmp_mediaStatusChanged(self):
-    if self.player.mediaStatus() == QMediaPlayer.LoadedMedia and self.userAction == 1:
-        durationT = self.player.duration()
-        self.centralWidget().layout().itemAt(0).layout().itemAt(1).widget().setRange(0,durationT)
-        self.centralWidget().layout().itemAt(0).layout().itemAt(2).widget().setText('%d:%02d'%(int(durationT/60000),int((durationT/1000)%60)))
-        self.player.play()
+def muteHandler():
+    # don't set global volume to 0 because we want to continue from
+    # same volume on volumeDecr or volumeIncr button click
+    global mediaPlayer
+    mediaPlayer.setVolume(0)
+
+
+def mediaPlayerMediaStatusChangeHandler(self):
+    global mediaPlayer
+    global userAction
+    global currentTime
+    global totalTime
+    global progressBar
+    if mediaPlayer.mediaStatus() == QtMultimedia.QMediaPlayer.LoadedMedia and userAction == 1:
+        print("mediaPlayerMediaStatusChangeHandler executed")
+        durationTotal_ms = mediaPlayer.duration()
+        progressBar.setRange(0, durationTotal_ms)
+        totalTime.setText('%d:%02d' % (int(durationTotal_ms/60000), int((durationTotal_ms/1000) % 60)))
+        # mediaPlayer.play()
 
 
 def qmp_stateChanged(self):
@@ -246,19 +287,22 @@ def qmp_stateChanged(self):
         self.player.stop()
 
 
-def qmp_positionChanged(self, position,senderType=False):
-    sliderLayout = self.centralWidget().layout().itemAt(0).layout()
-    if senderType == False:
-        sliderLayout.itemAt(1).widget().setValue(position)
-    # update the text label
-    sliderLayout.itemAt(0).widget().setText('%d:%02d'%(int(position/60000), int((position/1000)%60)))
+def mediaPlayerPositionChangedHandler(position, senderType=False):
+    print(position)
+    global progressBar
+    global currentTime
+    if senderType is False:
+        progressBar.setValue(position)
+    currentTime.setText('%d:%02d' % (int(position/60000), int((position/1000) % 60)))
 
 
 def seekPosition(self, position):
     sender = self.sender()
-    if isinstance(sender,QSlider):
-        if self.player.isSeekable():
-            self.player.setPosition(position)
+    global mediaPlayer
+    if isinstance(sender, QSlider):
+        if mediaPlayer.isSeekable():
+            mediaPlayer.setPosition(position)
+            print("seek")
 
 
 def qmp_volumeChanged(self):
