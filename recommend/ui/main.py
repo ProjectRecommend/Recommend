@@ -10,11 +10,13 @@ class MainWindow(Ui_MainWindow):
         super().__init__()
         # self.app = QtWidgets.QApplication(sys.argv)
         self.mainWindow = QtWidgets.QMainWindow()
+        # print(dir(self.mainWindow))
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self.mainWindow)
+        self.mainWindow.closeEvent = self.closeEvent
         self.extraSetup()
         # print(mainWindow.centralWidget)
-        self.mainWindow.show()
+        # self.mainWindow.show()
         # self.app.exec_()
 
     def extraSetup(self):
@@ -79,12 +81,17 @@ class MainWindow(Ui_MainWindow):
         self.mediaPlayer = QtMultimedia.QMediaPlayer()
         self.mediaPlaylist = QtMultimedia.QMediaPlaylist()
         self.mediaPlayer.setPlaylist(self.mediaPlaylist)
-        # self.mediaPlayer.stateChanged.connect(self.mediaPlayerMediaStatusChangeHandler)
+        # settings , in Ini format
+        self.settings = QtCore.QSettings(QtCore.QSettings.IniFormat, QtCore.QSettings.UserScope, const.orgName, const.projName)
+        self.settings.setFallbacksEnabled(False)
+        # print(dir(self.settings))
         # read from settings and set volume
+        # set songsFolder None so if we don't find it in settings we don't crawlFolder
+        self.songsFolder = None
+        self.loadSettings()
         # The playback volume is linear in effect and the value
         # can range from 0 - 100, values outside this range will be clamped.
-        self.volume = 50
-        self.mediaPlayer.setVolume(self.volume)
+        self.mediaPlayer.setVolume(int(self.volume))
         self.mediaPlayer.positionChanged.connect(self.mediaPlayerPositionChangedHandler)
         self.mediaPlayer.durationChanged.connect(self.durationChangedHandler)
         self.mediaPlayer.volumeChanged.connect(self.volumeChangedHandler)
@@ -92,16 +99,21 @@ class MainWindow(Ui_MainWindow):
         self.progressBar.sliderMoved.connect(self.seekPosition)
         self.progressBar.setTracking(True)
         self.sliderEventSender = QtWidgets.QSlider.sender(self.progressBar)
+        # load music from songsFolder
+        self.crawlFolder()
 
     """
     Event handlers
     """
+    def closeEvent(self, event):
+        # print("close event")
+        self.saveSettings()
+
     def browseHandler(self):
-        self.songsFolder = QtWidgets.QFileDialog.getExistingDirectory(None, "Open a folder", os.getenv('HOME'),
-                                                                 QtWidgets.QFileDialog.ShowDirsOnly)
-        print(self.songsFolder)
-        # save folder to settings
+        self.songsFolder = QtWidgets.QFileDialog.getExistingDirectory(None, "Open a folder", os.getenv('HOME'), QtWidgets.QFileDialog.ShowDirsOnly)
+        # print(self.songsFolder)
         self.crawlFolder()
+        # save folder to settings
         return True
 
     def openAboutUrl(self):
@@ -117,37 +129,54 @@ class MainWindow(Ui_MainWindow):
         return True
 
     def crawlFolder(self):
-        self.filePathList = []
+        # print(self.songsFolder)
         if self.songsFolder is not None:
-            iterator = QtCore.QDirIterator(self.songsFolder, QtCore.QDirIterator.Subdirectories)
-            # print(dir(iterator))
-            # print(dir(iterator.IteratorFlags))
-            # print(iterator)
-            while iterator.hasNext():
-                iterator.next()
-                fInfo = iterator.fileInfo()
-                if fInfo.isDir() is False and iterator.filePath() is not '.' and iterator.filePath() is not '..':
-                    # print(iterator.fileInfo())
-                    if fInfo.suffix() in ('mp3'):
-                        # print(fInfo.absoluteFilePath())
-                        self.filePathList.append(fInfo.absoluteFilePath())
-        # print(len(self.filePathList))
-        self.saveSettings()
-        self.buildPlayList()
-        return self.filePathList
+            self.filePathList = []
+            if self.songsFolder is not None:
+                iterator = QtCore.QDirIterator(self.songsFolder, QtCore.QDirIterator.Subdirectories)
+                # print(dir(iterator))
+                # print(dir(iterator.IteratorFlags))
+                # print(iterator)
+                while iterator.hasNext():
+                    iterator.next()
+                    fInfo = iterator.fileInfo()
+                    if fInfo.isDir() is False and iterator.filePath() is not '.' and iterator.filePath() is not '..':
+                        # print(iterator.fileInfo())
+                        if fInfo.suffix() in ('mp3'):
+                            # print(fInfo.absoluteFilePath())
+                            self.filePathList.append(fInfo.absoluteFilePath())
+            # print(len(self.filePathList))
+            self.buildPlayList()
+            return self.filePathList
+        else:
+            # throw an error saying to add music folder
+            print("load a folder for music, from settings it is None")
 
     def saveSettings(self):
-        print("settings")
-
+        # print("save settings in")
         # save settings to Ini Format in User scope
-        self.settings = QtCore.QSettings(QtCore.QSettings.IniFormat, QtCore.QSettings.UserScope, const.orgName, const.projName)
-        self.settings.setFallbacksEnabled(False)
-
         # check and update music folder location and volume
-        self.volume = "30"
-        self.settings.setValue("musicFolderLocation", self.songsFolder)
-        self.settings.setValue("volume", self.volume)
-        print("done")
+        self.settings.setValue(const.musicFolderLocationKey, self.songsFolder)
+        self.settings.setValue(const.volumeKey, self.volume)
+        # print(self.songsFolder)
+        # print(self.volume)
+        # print("save settings out")
+
+    def loadSettings(self):
+        # print("load settings in")
+        if self.settings.value(const.volumeKey)is not None:
+            self.volume = self.settings.value(const.volumeKey)
+        else:
+            self.volume = 60
+        if self.settings.value(const.musicFolderLocationKey):
+            self.songsFolder = self.settings.value(const.musicFolderLocationKey)
+        else:
+            print("can't load music folder from settings")
+            # print(self.settings.value(const.musicFolderLocationKey))
+        # print(self.settings)
+        # print(self.volume)
+        # print(self.songsFolder)
+        # print("load settings out")
 
     def buildPlayList(self):
         self.mediaPlaylist.clear()
@@ -221,27 +250,33 @@ class MainWindow(Ui_MainWindow):
         # update seek bar duration and range
         self.durationTotal_ms = self.mediaPlayer.duration()
         # print(self.durationTotal_ms)
-        self.progressBar.setRange(0, self.durationTotal_ms)
-        self.totalTime.setText('%d:%02d' % (int(self.durationTotal_ms / 60000), int((self.durationTotal_ms / 1000) % 60)))
-
-        # update song info in ui
-        if self.mediaPlayer.metaData('ThumbnailImage') is not None:
-            pixmap = QtGui.QPixmap.fromImage(self.mediaPlayer.metaData('ThumbnailImage'))
-            self.posterView.setPixmap(pixmap)
+        if self.durationTotal_ms is 0:
+            pass
+            # this event gets triggered twice when song goes out of plyer and
+            # song comes in player it have 0 durationTotal_ms
+            # when song goes out gets triggered
         else:
-            img = QtGui.QImage("icons\ina.png")
-            pixmap = QtGui.QPixmap.fromImage(img)
-            self.posterView.setPixmap(pixmap)
-            # self.posterView.setText("Image Not Available")
+            self.progressBar.setRange(0, self.durationTotal_ms)
+            self.totalTime.setText('%d:%02d' % (int(self.durationTotal_ms / 60000), int((self.durationTotal_ms / 1000) % 60)))
 
-        self.songArtist.setText(self.mediaPlayer.metaData('AlbumArtist'))
-        self.songAlbum.setText(self.mediaPlayer.metaData('AlbumTitle'))
-        self.songTitle.setText(self.mediaPlayer.metaData('Title'))
-        self.volumeText.setText(str(self.volume))
+            # update song info in ui
+            if self.mediaPlayer.metaData('ThumbnailImage') is not None:
+                pixmap = QtGui.QPixmap.fromImage(self.mediaPlayer.metaData('ThumbnailImage'))
+                self.posterView.setPixmap(pixmap)
+            else:
+                img = QtGui.QImage("icons\ina.png")
+                pixmap = QtGui.QPixmap.fromImage(img)
+                self.posterView.setPixmap(pixmap)
+                # self.posterView.setText("Image Not Available")
+
+            self.songArtist.setText(self.mediaPlayer.metaData('AlbumArtist'))
+            self.songAlbum.setText(self.mediaPlayer.metaData('AlbumTitle'))
+            self.songTitle.setText(self.mediaPlayer.metaData('Title'))
+            self.volumeText.setText(str(self.volume))
 
     def seekPosition(self, position):
         # print("seek position called")
-        # # print(self.mediaPlayer.isSeekable())
+        # print(self.mediaPlayer.isSeekable())
         # print(self.sliderEventSender)
         # print(dir(self.sliderEventSender))
         # if isinstance(QtWidgets.QSlider.sender, QtWidgets.QSlider):
@@ -265,8 +300,13 @@ class MainWindow(Ui_MainWindow):
         self.player.setVolume(vol)
 
 
-if __name__ == '__main__':
+def main():
     app = QtWidgets.QApplication(sys.argv)
-    ex = MainWindow()
+    win = MainWindow()
+    win.mainWindow.show()
     sys.exit(app.exec_())
 
+
+
+if __name__ == '__main__':
+    main()
