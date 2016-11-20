@@ -1,3 +1,5 @@
+from metadataMod import tags 
+
 class ManageMetaData(object):
     def __init__(self):
         # don init stuff
@@ -5,9 +7,12 @@ class ManageMetaData(object):
         # impliment member var stuff
 
     def ReadMetaData(self, SongPath):
+        #this function simply trys to get the metadata from the song and return it if it is found.
+        
         return {}
 
     def WriteMetaData(self, SongPath, SongMetaData):
+        # this function writes metadata in the song
         return False
 
     def FetchMetaDataFromMusicBrainz(self, SongMetaData):
