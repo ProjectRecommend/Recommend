@@ -250,7 +250,7 @@ class Ui_MainWindow(object):
         self.PosterView = QtWidgets.QLabel(self.centralwidget)
         self.PosterView.setMaximumSize(QtCore.QSize(85, 85))
         self.PosterView.setText("")
-        self.PosterView.setPixmap(QtGui.QPixmap("../../Recommend/recommend/ui/icons/ina.png"))
+        self.PosterView.setPixmap(QtGui.QPixmap("icons/ina.png"))
         self.PosterView.setScaledContents(True)
         self.PosterView.setObjectName("PosterView")
         self.SongInfoAndControls.addWidget(self.PosterView, 0, 0, 3, 1)

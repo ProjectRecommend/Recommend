@@ -469,7 +469,7 @@ border-radius: 4px;
            <string notr="true"/>
           </property>
           <property name="pixmap">
-           <pixmap>../../Recommend/recommend/ui/icons/ina.png</pixmap>
+           <pixmap>icons/ina.png</pixmap>
           </property>
           <property name="scaledContents">
            <bool>true</bool>

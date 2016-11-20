@@ -25,6 +25,7 @@ class MainWindow(Ui_MainWindow):
         self.recommendLocalList = self.window.RecommendLocal
         self.recommendOnlineList = self.window.RecommendOnline
         # Song Info section
+        self.posterView = self.window.PosterView
         self.songTitle = self.window.SongTitle
         self.songArtist = self.window.SongArtist
         self.songAlbum = self.window.SongAlbum
@@ -37,6 +38,7 @@ class MainWindow(Ui_MainWindow):
         self.volumeDecr = self.window.VolumeDecr
         self.volumeIncr = self.window.VolumeIncr
         self.mute = self.window.Mute
+        self.volumeText = self.window.VolumeLabel
         # player timeline controls
         self.progressBar = self.window.ProgressBar
         self.currentTime = self.window.CurrentTime
@@ -85,6 +87,7 @@ class MainWindow(Ui_MainWindow):
         self.mediaPlayer.setVolume(self.volume)
         self.mediaPlayer.positionChanged.connect(self.mediaPlayerPositionChangedHandler)
         self.mediaPlayer.durationChanged.connect(self.durationChangedHandler)
+        self.mediaPlayer.volumeChanged.connect(self.volumeChangedHandler)
         # print(dir(self.mediaPlayer))
         self.progressBar.sliderMoved.connect(self.seekPosition)
         self.progressBar.setTracking(True)
@@ -194,17 +197,18 @@ class MainWindow(Ui_MainWindow):
     def volumeIncrHandler(self):
         self.volume = min(int(self.volume) + 5, 100)
         self.mediaPlayer.setVolume(int(self.volume))
-        print(self.volume)
+        # print(self.volume)
 
     def VolumeDecrHandler(self):
         self.volume = max(int(self.volume) - 5, 0)
         self.mediaPlayer.setVolume(int(self.volume))
-        print(self.volume)
+        # print(self.volume)
 
     def muteHandler(self):
         # don't set  volume to 0 because we want to continue from
         # same volume on volumeDecr or volumeIncr button click
         self.mediaPlayer.setVolume(0)
+        self.volumeText.setText("Mute")
 
     def mediaPlayerPositionChangedHandler(self, position, senderType=False):
         # print("mediaplayer position changed")
@@ -219,15 +223,21 @@ class MainWindow(Ui_MainWindow):
         # print(self.durationTotal_ms)
         self.progressBar.setRange(0, self.durationTotal_ms)
         self.totalTime.setText('%d:%02d' % (int(self.durationTotal_ms / 60000), int((self.durationTotal_ms / 1000) % 60)))
+
         # update song info in ui
-        metadataList = self.mediaPlayer.availableMetaData()
-        for key in metadataList:
-            print(self.mediaPlayer.metaData(key))
+        if self.mediaPlayer.metaData('ThumbnailImage') is not None:
+            pixmap = QtGui.QPixmap.fromImage(self.mediaPlayer.metaData('ThumbnailImage'))
+            self.posterView.setPixmap(pixmap)
+        else:
+            img = QtGui.QImage("icons\ina.png")
+            pixmap = QtGui.QPixmap.fromImage(img)
+            self.posterView.setPixmap(pixmap)
+            # self.posterView.setText("Image Not Available")
 
-        self.songArtist.setText("test Artist")
-        self.songAlbum.setText("test album")
-        self.songTitle.setText("test song")
-
+        self.songArtist.setText(self.mediaPlayer.metaData('AlbumArtist'))
+        self.songAlbum.setText(self.mediaPlayer.metaData('AlbumTitle'))
+        self.songTitle.setText(self.mediaPlayer.metaData('Title'))
+        self.volumeText.setText(str(self.volume))
 
     def seekPosition(self, position):
         # print("seek position called")
@@ -241,10 +251,8 @@ class MainWindow(Ui_MainWindow):
             self.mediaPlayer.setPosition(position)
             # print("seek")
 
-    def qmp_volumeChanged(self):
-        msg = self.statusBar().currentMessage()
-        msg = msg[:-2] + str(self.player.volume())
-        self.statusBar().showMessage(msg)
+    def volumeChangedHandler(self):
+        self.volumeText.setText(str(self.volume))
 
     def increaseVolume(self):
         vol = self.player.volume()
