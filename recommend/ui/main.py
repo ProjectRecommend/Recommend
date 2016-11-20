@@ -110,23 +110,20 @@ class MainWindow(Ui_MainWindow):
         self.saveSettings()
 
     def browseHandler(self):
-        self.songsFolder = QtWidgets.QFileDialog.getExistingDirectory(None, "Open a folder", os.getenv('HOME'), QtWidgets.QFileDialog.ShowDirsOnly)
-        # print(self.songsFolder)
-        self.crawlFolder()
-        # save folder to settings
-        return True
+        folder = QtWidgets.QFileDialog.getExistingDirectory(None, "Open a folder", os.getenv('HOME'), QtWidgets.QFileDialog.ShowDirsOnly)
+        if folder:
+            self.songsFolder = folder
+            self.crawlFolder()
+        print(self.songsFolder)
 
     def openAboutUrl(self):
         QtGui.QDesktopServices.openUrl(QtCore.QUrl("https://projectrecommend.github.io/"))
-        return True
 
     def openGitHubUrl(self):
         QtGui.QDesktopServices.openUrl(QtCore.QUrl("https://github.com/ProjectRecommend/Recommend"))
-        return True
 
     def openIssuesUrl(self):
         QtGui.QDesktopServices.openUrl(QtCore.QUrl("https://github.com/ProjectRecommend/Recommend/issues"))
-        return True
 
     def crawlFolder(self):
         # print(self.songsFolder)
@@ -147,7 +144,6 @@ class MainWindow(Ui_MainWindow):
                             self.filePathList.append(fInfo.absoluteFilePath())
             # print(len(self.filePathList))
             self.buildPlayList()
-            return self.filePathList
         else:
             # throw an error saying to add music folder
             print("load a folder for music, from settings it is None")
