@@ -2,6 +2,9 @@
 <ui version="4.0">
  <class>EditMetaDataDialog</class>
  <widget class="QDialog" name="EditMetaDataDialog">
+  <property name="windowModality">
+   <enum>Qt::NonModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -16,6 +19,12 @@
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
+  <property name="font">
+   <font>
+    <family>Open Sans</family>
+    <pointsize>10</pointsize>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>Edit Song MetaData</string>
   </property>
@@ -23,8 +32,52 @@
    <iconset>
     <normaloff>icons/ic_main.png</normaloff>icons/ic_main.png</iconset>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
-   <item>
+  <property name="toolTip">
+   <string/>
+  </property>
+  <property name="statusTip">
+   <string/>
+  </property>
+  <property name="whatsThis">
+   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Edit MetaData(ID3 Tags) of song, we use MetaData to recommend new songs.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Wrong MetaData may result in incorrect or no recommendation of this song&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+  </property>
+  <property name="modal">
+   <bool>false</bool>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="1" column="2">
+    <widget class="QPushButton" name="saveButton">
+     <property name="sizeIncrement">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>Save</string>
+     </property>
+     <property name="icon">
+      <iconset>
+       <normaloff>icons/ic_save.png</normaloff>icons/ic_save.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>25</width>
+       <height>25</height>
+      </size>
+     </property>
+     <property name="autoDefault">
+      <bool>false</bool>
+     </property>
+     <property name="default">
+      <bool>false</bool>
+     </property>
+     <property name="flat">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0" colspan="6">
     <layout class="QFormLayout" name="formLayout">
      <property name="fieldGrowthPolicy">
       <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
@@ -142,60 +195,85 @@
      </item>
     </layout>
    </item>
-   <item>
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
+   <item row="1" column="5">
+    <spacer name="horizontalSpacer_3">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Discard|QDialogButtonBox::Save</set>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
      </property>
-     <property name="centerButtons">
+    </spacer>
+   </item>
+   <item row="1" column="4">
+    <widget class="QPushButton" name="cancelButton">
+     <property name="text">
+      <string>Cancel</string>
+     </property>
+     <property name="icon">
+      <iconset>
+       <normaloff>icons/ic_cancel.png</normaloff>icons/ic_cancel.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>25</width>
+       <height>25</height>
+      </size>
+     </property>
+     <property name="autoDefault">
       <bool>false</bool>
+     </property>
+     <property name="default">
+      <bool>false</bool>
+     </property>
+     <property name="flat">
+      <bool>true</bool>
      </property>
     </widget>
    </item>
+   <item row="1" column="1">
+    <spacer name="horizontalSpacer_1">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="1" column="3">
+    <spacer name="horizontalSpacer_2">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>titleLineEdit</tabstop>
+  <tabstop>artistLineEdit</tabstop>
+  <tabstop>albumLineEdit</tabstop>
+  <tabstop>albumArtistLineEdit</tabstop>
+  <tabstop>genreLineEdit</tabstop>
+  <tabstop>yearLineEdit</tabstop>
+  <tabstop>publisherLineEdit</tabstop>
+  <tabstop>lyricsLineEdit</tabstop>
+  <tabstop>saveButton</tabstop>
+  <tabstop>cancelButton</tabstop>
+ </tabstops>
  <resources/>
- <connections>
-  <connection>
-   <sender>buttonBox</sender>
-   <signal>accepted()</signal>
-   <receiver>EditMetaDataDialog</receiver>
-   <slot>accept()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>157</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>buttonBox</sender>
-   <signal>rejected()</signal>
-   <receiver>EditMetaDataDialog</receiver>
-   <slot>reject()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>286</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>
