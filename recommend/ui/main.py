@@ -3,6 +3,7 @@ import sys
 import os
 import const
 from mainWindow import Ui_MainWindow
+from editMetadata_form import Ui_EditMetaDataDialog
 
 
 class MainWindow(Ui_MainWindow):
@@ -13,8 +14,11 @@ class MainWindow(Ui_MainWindow):
         # print(dir(self.mainWindow))
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self.mainWindow)
+        # bind my self.closeEvent to mainWindow.closeEvent
         self.mainWindow.closeEvent = self.closeEvent
         self.extraSetup()
+        # EditMetaDataDialog setup
+        self.metadataDialog = MetadataDialog()
         # print(mainWindow.centralWidget)
         # self.mainWindow.show()
         # self.app.exec_()
@@ -62,6 +66,7 @@ class MainWindow(Ui_MainWindow):
         all events are triggered from here
         """
         self.openFolder.triggered.connect(self.browseHandler)
+        self.editMetadata.triggered.connect(self.editMetadataHandler)
         # media control handlers
         self.playPauseBtn.clicked.connect(self.playPauseHandler)
         self.stopBtn.clicked.connect(self.stopHandler)
@@ -114,7 +119,7 @@ class MainWindow(Ui_MainWindow):
         if folder:
             self.songsFolder = folder
             self.crawlFolder()
-        print(self.songsFolder)
+        # print(self.songsFolder)
 
     def openAboutUrl(self):
         QtGui.QDesktopServices.openUrl(QtCore.QUrl("https://projectrecommend.github.io/"))
@@ -295,13 +300,44 @@ class MainWindow(Ui_MainWindow):
         vol = max(vol - 5, 0)
         self.player.setVolume(vol)
 
+    def editMetadataHandler(self):
+        print("open edit metadata dialog")
+        self.metadataDialog.editMetadataDialog.exec_()
+
+
+class MetadataDialog(Ui_EditMetaDataDialog):
+    def __init__(self):
+        super().__init__()
+        # setup editMetadataDialog
+        self.editMetadataDialog = QtWidgets.QDialog()
+        self.ui = Ui_EditMetaDataDialog()
+        self.ui.setupUi(self.editMetadataDialog)
+        self.buttonSave = self.ui.saveButton
+        self.buttonCancel = self.ui.cancelButton
+        # self.editMetadataDialog.accept = self.accept
+        # self.editMetadataDialog.reject = self.reject
+        self.wireButtons()
+
+    def wireButtons(self):
+        # self.buttonBox.accepted.connect(self.editMetadataDialog.accept)
+        # self.buttonBox.rejected.connect(self.editMetadataDialog.reject)
+        self.buttonSave.clicked.connect(self.saveButtonHandler)
+        self.buttonCancel.clicked.connect(self.cancelButtonHandler)
+
+    def saveButtonHandler(self):
+        print("save stuff")
+        self.editMetadataDialog.accept()
+
+    def cancelButtonHandler(self):
+        print("cancel stuff")
+        self.editMetadataDialog.reject()
+
 
 def main():
     app = QtWidgets.QApplication(sys.argv)
     win = MainWindow()
     win.mainWindow.show()
     sys.exit(app.exec_())
-
 
 
 if __name__ == '__main__':
