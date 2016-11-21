@@ -1,5 +1,6 @@
-from ReadMetaDataMod import tags 
-from UpdateMetadataMod import main
+import tags 
+from main import (EditLyrics,EditMetaData)
+import tagsReadMetaData
 
 class ManageMetaData(object):
     def __init__(self):
