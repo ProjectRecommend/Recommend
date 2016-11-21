@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>EditMetaData</class>
- <widget class="QDialog" name="EditMetaData">
+ <class>EditMetaDataDialog</class>
+ <widget class="QDialog" name="EditMetaDataDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>434</width>
-    <height>371</height>
+    <width>384</width>
+    <height>408</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -18,6 +18,10 @@
   </property>
   <property name="windowTitle">
    <string>Edit Song MetaData</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>icons/ic_main.png</normaloff>icons/ic_main.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -164,7 +168,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>EditMetaData</receiver>
+   <receiver>EditMetaDataDialog</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -180,7 +184,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>EditMetaData</receiver>
+   <receiver>EditMetaDataDialog</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
