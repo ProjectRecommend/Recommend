@@ -1,8 +1,6 @@
 from ReadMetaDataMod import tags 
 from UpdateMetadataMod import main
 
-# from SongMetadataObject import SongMetadata
-
 class ManageMetaData(object):
     def __init__(self):
         # don init stuff
@@ -66,7 +64,7 @@ class ManageMetaData(object):
 
     def WriteMetaData(self, SongPath, SongMetaData):
         # this function writes metadata into the song.
-        
+
         return False
 
     def FetchMetaDataFromMusicBrainz(self, SongMetaData):

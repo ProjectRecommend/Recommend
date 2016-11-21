@@ -14,7 +14,6 @@ from tags import (getLyricsMetadata, getArtistMetadata, getTitleMetadata, getAlb
 
 from mutagen.id3 import USLT
 from mutagen.id3 import ID3
-from songMetadataObject import SongMetadata
 
 # FIXED_VARIABLES FOR TESTING PURPOSES
 # ROOT_DIR = '/home/raghav/nu/ProjectRecommand/experiments/AddLyrics'
