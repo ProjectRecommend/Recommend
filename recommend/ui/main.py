@@ -100,6 +100,7 @@ class MainWindow(Ui_MainWindow):
         self.mediaPlayer.positionChanged.connect(self.mediaPlayerPositionChangedHandler)
         self.mediaPlayer.durationChanged.connect(self.durationChangedHandler)
         self.mediaPlayer.volumeChanged.connect(self.volumeChangedHandler)
+        self.mediaPlayer.currentMediaChanged.connect(self.currentMediaChangedHandler)
         # print(dir(self.mediaPlayer))
         self.progressBar.sliderMoved.connect(self.seekPosition)
         self.progressBar.setTracking(True)
@@ -277,6 +278,16 @@ class MainWindow(Ui_MainWindow):
             self.songAlbum.setText(self.mediaPlayer.metaData('AlbumTitle'))
             self.songTitle.setText(self.mediaPlayer.metaData('Title'))
             self.volumeText.setText(str(self.volume))
+
+    def currentMediaChangedHandler(self):
+        print("current Media changed Handler triggered")
+        # print(self.mediaPlayer.currentMedia())
+        # print(dir(self.mediaPlayer.currentMedia()))
+        if self.mediaPlayer.currentMedia():
+            fileUrl = self.mediaPlayer.currentMedia().canonicalUrl().toString()
+            print(fileUrl)
+
+        # pass
 
     def seekPosition(self, position):
         # print("seek position called")
