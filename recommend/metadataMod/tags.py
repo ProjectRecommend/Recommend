@@ -117,7 +117,7 @@ def metaDataDictToUnicode(metaDataDict):
         dammit = UnicodeDammit(metaDataDict[text])
         uniText[text]=dammit.unicode_markup
 
-
+    #uniText is obviously now a dictionary...
     return uniText
 
 # print (getMetadataDict("D://Songs(english)//naked//Bony_M_Jingle_Bells.mp3"))
