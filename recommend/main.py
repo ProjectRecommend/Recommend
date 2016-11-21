@@ -4,7 +4,8 @@ import os
 import const
 from mainWindow import Ui_MainWindow
 from editMetadata_form import Ui_EditMetaDataDialog
-
+from bs4 import UnicodeDammit
+from localstorage import
 
 class MainWindow(Ui_MainWindow):
     def __init__(self):
@@ -149,6 +150,9 @@ class MainWindow(Ui_MainWindow):
                             # print(fInfo.absoluteFilePath())
                             self.filePathList.append(fInfo.absoluteFilePath())
             # print(len(self.filePathList))
+            # add stuff into LocalStorage
+
+            # build playlist with all the songs
             self.buildPlayList()
         else:
             # throw an error saying to add music folder
@@ -284,9 +288,16 @@ class MainWindow(Ui_MainWindow):
         # print(self.mediaPlayer.currentMedia())
         # print(dir(self.mediaPlayer.currentMedia()))
         if self.mediaPlayer.currentMedia():
-            fileUrl = self.mediaPlayer.currentMedia().canonicalUrl().toString()
-            print(fileUrl)
-
+            self.currentPlayingMediaUrl = self.mediaPlayer.currentMedia().canonicalUrl().toString()
+            # print(currentPlayingMediaUrl)
+            # convert file:///C:/Users/Electron/Music/filename.mp3
+            # to C:/Users/Electron/Music/filename.mp3
+            self.currentPlayingMediaUrl = self.currentPlayingMediaUrl[8:]
+            # convert it to Unicode
+            # print(currentPlayingMediaUrl)
+            dammit = UnicodeDammit(self.currentPlayingMediaUrl)
+            self.currentPlayingMediaUrl = dammit.unicode_markup
+            print(self.currentPlayingMediaUrl)
         # pass
 
     def seekPosition(self, position):
