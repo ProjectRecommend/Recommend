@@ -25,7 +25,7 @@ class AccessLocalStorage:
     value that tells us whether the connection is open or not, if the connection is not already open, it is opened now.
     """
 
-    def Read(self,SongID):
+    def read(self,SongID):
 
 
         if self.db.isOpen():
@@ -80,7 +80,7 @@ class AccessLocalStorage:
     pairs of the songMetadata
     """ 
 
-    def Write(self, SongPath):
+    def write(self, SongPath):
         
         if self.db.isOpen():
             songDet={}
@@ -122,7 +122,7 @@ class AccessLocalStorage:
             return False
         return True
     
-    def Delete(self, SongID):
+    def delete(self, SongID):
     
         if self.db.isOpen():
 

@@ -16,8 +16,9 @@ from bs4 import UnicodeDammit
 def __init__(self):
     metaDataDict={}
     metaText = []
-
 """
+
+
 def getMetadata(mp3file):
     
     metaText=[]
