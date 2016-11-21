@@ -1,7 +1,7 @@
 
 from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtSql import QSqlDatabase, QSqlQuery
-from MetaData import ManageMetaData
+from Metadata import ManageMetaDataModule
 from ManageLocalStorageModule import ManageLocalStorage
 
 """
@@ -9,7 +9,7 @@ WARNING: Do not initialize 2 separate instances of QSqlDatabase class while hand
 """
 
 
-class AccessLocalStorage:
+class AccessLocalStorage(object):
     def __init__(self, connectionName):
         # the second parameter also opens the connection if the connection is not already open
         self.db = QSqlDatabase.database(connectionName, True)

@@ -1,13 +1,14 @@
-import tags 
-from main import (EditLyrics,EditMetaData)
+from LyricsAndMetaData import EditLyrics, EditMetadata
 import tagsReadMetaData
+import tags
+
 
 class ManageMetaData(object):
     def __init__(self):
         # don init stuff
         # self.SongMetaData = None
         # impliment member var stuff
-        
+
         self.artistTPE1 = None
         self.artistTPE2 = None
         self.albumTALB = None
@@ -21,8 +22,8 @@ class ManageMetaData(object):
 
     def ReadMetaData(self, SongPath):
         #this function simply trys to get the metadata from the song and return it if it is found.
-        
-        #the tags python file contains the necessary functions to read metadata from the song and return it in the form of both 
+
+        #the tags python file contains the necessary functions to read metadata from the song and return it in the form of both
         #a dictionary and a list
 
         metadataDict=getMetadataDict(SongPath)
@@ -30,10 +31,10 @@ class ManageMetaData(object):
         #SongPath is the absolute song path.
         # for example: "D://Songs(english)//naked//Bony_M_Jingle_Bells.mp3", the // are necessary here
 
-        metadataDict=metaDataDictToUnicode(metadataDict)        
+        metadataDict=metaDataDictToUnicode(metadataDict)
 
         #here metadataDict returns the following parameters: TIT2,TALB,TPE1,TPE2,TSOP,TDRC,TCON,USLT
-        
+
 
         # populating SongMetadata object
 
@@ -64,7 +65,7 @@ class ManageMetaData(object):
         return metadataDict
 
     def WriteMetaData(self, SongPath):
-        # WriteMetaData is called when  
+        # WriteMetaData is called when
         # this function writes metadata into the song.
 
         rootDir=""

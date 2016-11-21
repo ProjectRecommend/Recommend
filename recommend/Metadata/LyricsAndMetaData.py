@@ -1,11 +1,7 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Nov 16 16:17:21 2016
-"""
 import os
 
-#this module provides a portable way of using operating system dependent functionality, file manipulations for example.
-
+# this module provides a portable way of using operating system dependent
+# functionality, file manipulations for example.
 # import loloLyrics module
 import loloLyrics
 
@@ -20,27 +16,27 @@ from mutagen.id3 import ID3
 # FILE_NAME = 'xxx.mp3'
 
 
-"""-------------------------------------------------------Parameter: Lyrics------------------------------------------------------- """
+"""--------Parameter: Lyrics-------- """
 
 # For Lyrics the user does not add any metadata, it can be fetched from lololyrics.
 
-class EditLyrics:
 
+class EditLyrics(object):
     def __init__(self):
-        
+
     # Function to check if file contains lyrics or not
     # Returns 0 if it contains less than 15 words in Lyrics else returns 1
     def ifLyrics(self,filePath):
         # filePath = os.path.join(root_dir, fileName)
-        lyrics = getLyricsMetadata(filePath) # list of elements    
+        lyrics = getLyricsMetadata(filePath) # list of elements
         # Assuming that a song can't have lyrics lesses than 15 words
         if(len(lyrics)<15):
             print(0)
             return(0)
-        else: 
+        else:
             print(1)
             return(1)
-        
+
     # remove lyrics form corresponding ID3 tag from file
     def removeLyrics(self,filePath):
         # filePath = os.path.join(root_dir, file_name)
@@ -48,7 +44,7 @@ class EditLyrics:
         audio.delall('USLT')
         audio.add(USLT(encoding=3, text=u" "))
         return audio.save()
-        
+
     # fetch lyrics and add to corresponding ID3 tag from file
     def addLyrics(self,filePath):
         # filePath = os.path.join(root_dir, file_name)
@@ -61,7 +57,7 @@ class EditLyrics:
         artist = getArtistMetadata(file_path)
         title = getTitleMetadata(file_path)
         return(loloLyrics.getLyrics(artist, title))
-        
+
 
     def writeLyrics(self,filePath):
         if(ifLyrics(filePath) == 0):
@@ -80,8 +76,8 @@ class EditLyrics:
 
 # TIT2 is Title of the song.
 
-class EditMetadata:
-    
+
+class EditMetadata(object):
     def __init__(self):
         self.metaDict={}
 
@@ -148,7 +144,7 @@ class EditMetadata:
 
     # TIT2,TALB,TPE1,TPE2,TSOP,TDRC,TCON,USLT
     # tag names: title, album, lead, band, performerSortOrder, year, contentType
-        
+
     # remove lyrics form corresponding ID3 tag from file
     def removeTag(self,filePath,tag):
         # filePath = os.path.join(root_dir, file_name)
@@ -156,31 +152,31 @@ class EditMetadata:
         if tag=="title":
             audio.delall('TIT2')
             audio.add(TIT2(encoding=3, text=u" "))
-            
+
         elif tag=="album":
             audio.delall('TALB')
             audio.add(TALB(encoding=3, text=u" "))
-            
+
         elif tag=="lead":
             audio.delall('TPE1')
             audio.add(TPE1(encoding=3, text=u" "))
-            
+
         elif tag=="band":
             audio.delall('TPE2')
             audio.add(TPE2(encoding=3, text=u" "))
-            
+
         elif tag=="performerSortOrder":
             audio.delall('TSOP')
             audio.add(TSOP(encoding=3, text=u" "))
-            
+
         elif tag=="year":
             audio.delall('TDRC')
             audio.add(TDRC(encoding=3, text=u" "))
-            
+
         elif tag=="contentType":
             audio.delall('TCON')
             audio.add(TCON(encoding=3, text=u" "))
-            
+
         else:
             print ("error: tag unidentified")
             return "error"
@@ -212,7 +208,7 @@ class EditMetadata:
         else:
             print ("error: tag not recognised")
             return "error"
-        
+
         return audio.save()
     # fetches lyrics from lololyrics.com
     # def fetchLyrics(self,file_path):
@@ -243,17 +239,17 @@ class EditMetadata:
             print ("error: tag unidentified")
             return "error"
 
-        
+
 #   songMetadata is an object of ManageMetaData  class
     def writeTag(self,filePath,tag):
-        
+
         # deferencing the songMetadata object and storing it in a dictionary
 
-        
+
     # TIT2,TALB,TPE1,TPE2,TSOP,TDRC,TCON,USLT
     # tag names: title, album, lead, band, performerSortOrder, year, contentType
 
-    
+
         #     def __init__(self):
         #     self.artistTPE1 = None
         # self.artistTPE2 = None
@@ -266,8 +262,6 @@ class EditMetadata:
         # self.titleTIT2 = None
         # self.genreTCON = None
 
-
-
         if(ifTag(filePath,tag) == 0):
             removeTag(filePath,tag)
             print("** removeTag function done **")
@@ -275,10 +269,8 @@ class EditMetadata:
             print("** addTag function done **")
         elif(ifTag(filePath,tag) == 1):
             print("***ALL OK ***")
-    
+
     def populateMetadict(self,songMetadata):
-        
-        
         self.metaDict["TPE1"]=songMetadata.artistTPE1
         self.metaDict["TPE2"]=songMetadata.artistTPE2
         self.metaDict["TIT2"]=songMetadata.titleTIT2

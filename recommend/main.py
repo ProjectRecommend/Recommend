@@ -5,7 +5,9 @@ import const
 from mainWindow import Ui_MainWindow
 from editMetadata_form import Ui_EditMetaDataDialog
 from bs4 import UnicodeDammit
-from localstorage import
+from LocalStorage import AccessLocalStorageModule
+from LocalStorage import ManageLocalStorageModule
+
 
 class MainWindow(Ui_MainWindow):
     def __init__(self):
@@ -151,6 +153,20 @@ class MainWindow(Ui_MainWindow):
                             self.filePathList.append(fInfo.absoluteFilePath())
             # print(len(self.filePathList))
             # add stuff into LocalStorage
+            self.localStorage = AccessLocalStorageModule.AccessLocalStorage()
+            # now connection stuff is hard coded, later on we have to build it via ManageLocalStorage
+            # object
+            self.manageLocalStorage = ManageLocalStorageModule.ManageLocalStorage()
+
+            lsStatus = self.manageLocalStorage.build()
+            if lsStatus:
+                print("built LS")
+            else:
+                print("LS is already there")
+
+            for path in self.filePathList:
+                print(path)
+                self.localStorage.write(path)
 
             # build playlist with all the songs
             self.buildPlayList()
@@ -249,7 +265,7 @@ class MainWindow(Ui_MainWindow):
         self.volumeText.setText("Mute")
 
     def mediaPlayerPositionChangedHandler(self, position, senderType=False):
-        # print("mediaplayer position changed")
+        # print("mediaPlayer position changed")
         if senderType is False:
             self.progressBar.setValue(position)
             self.currentTime.setText('%d:%02d' % (int(position / 60000), int((position / 1000) % 60)))

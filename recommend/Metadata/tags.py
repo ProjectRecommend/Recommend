@@ -45,7 +45,7 @@ def getTitleMetadata(mp3file):
             metaText.append(str(tag[1]).encode(encoding='utf_8'))
 
     return metaTextToUnicode(metaText)
-    
+
 # from tags import (getLyricsMetadata, getArtistMetadata, getTitleMetadata, getAlbumMetadata, getLeadMetadata, getBandMetadata, getPSOMetadata, getYearMetadata, getCTypeMetadata)
 # TIT2,TALB,TPE1,TPE2,TSOP,TDRC,TCON,USLT
 
@@ -120,7 +120,7 @@ def getCTypeMetadata(mp3file):
             metaText.append(str(tag[1]).encode(encoding='utf_8'))
 
     return metaTextToUnicode(metaText)
-   
+
 # returns a string converted from metaText to Unicode
 def metaTextToUnicode(metaText):
     # print(metaText)
@@ -134,7 +134,7 @@ def metaTextToUnicode(metaText):
     for text in final:
         dammit = UnicodeDammit(text)
         uniText.append(dammit.unicode_markup)
-        
+
     final_text= ' '.join(uniText)
  #   print('*metaTextToUnicode DONE*')
     return final_text
