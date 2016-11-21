@@ -152,6 +152,7 @@ class MainWindow(Ui_MainWindow):
         else:
             # throw an error saying to add music folder
             print("load a folder for music, from settings it is None")
+            self.buildMessageBox("No Music Folder Found, Select a Music Folder")
 
     def saveSettings(self):
         # print("save settings in")
@@ -173,6 +174,7 @@ class MainWindow(Ui_MainWindow):
             self.songsFolder = self.settings.value(const.musicFolderLocationKey)
         else:
             print("can't load music folder from settings")
+            # self.buildMessageBox("Failed to Load location from Settings, select a Music Folder")
             # print(self.settings.value(const.musicFolderLocationKey))
         # print(self.settings)
         # print(self.volume)
@@ -195,6 +197,7 @@ class MainWindow(Ui_MainWindow):
             if self.mediaPlayer.state() == QtMultimedia.QMediaPlayer.StoppedState:
                 if self.mediaPlayer.mediaStatus() == QtMultimedia.QMediaPlayer.NoMedia:
                     print("no media in playlist")
+                    self.buildMessageBox("Playlist is empty, select a folder that have music(.mp3 files) in it")
                     # print(self.mediaPlaylist.mediaCount())
                 elif self.mediaPlayer.mediaStatus() == QtMultimedia.QMediaPlayer.LoadedMedia:
                     self.mediaPlayer.play()
@@ -303,6 +306,13 @@ class MainWindow(Ui_MainWindow):
     def editMetadataHandler(self):
         print("open edit metadata dialog")
         self.metadataDialog.editMetadataDialog.exec_()
+
+    def buildMessageBox(self, message):
+        messageBox = QtWidgets.QMessageBox()
+        messageBox.setText(message)
+        messageBox.setIcon(messageBox.Warning)
+        messageBox.setWindowTitle("Message")
+        messageBox.exec()
 
 
 class MetadataDialog(Ui_EditMetaDataDialog):
