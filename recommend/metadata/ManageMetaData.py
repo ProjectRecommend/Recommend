@@ -4,7 +4,7 @@ from UpdateMetadataMod import main
 class ManageMetaData(object):
     def __init__(self):
         # don init stuff
-        self.SongMetaData = None
+        # self.SongMetaData = None
         # impliment member var stuff
         
         self.artistTPE1 = None
@@ -65,6 +65,8 @@ class ManageMetaData(object):
     def WriteMetaData(self, SongPath, SongMetaData):
         # this function writes metadata into the song.
 
+        
+
         return False
 
     def FetchMetaDataFromMusicBrainz(self, SongMetaData):
@@ -73,10 +75,3 @@ class ManageMetaData(object):
     def EditMetaData(self, SongPath):
         return False
 
-    def getSongMetaData(self):
-        return self.SongMetaData
-
-    def setSongMetaData(self, SongMetaData):
-        
-        self.SongMetaData=SongMetaData
-        return True
