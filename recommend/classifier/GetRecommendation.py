@@ -46,7 +46,6 @@ class GetRecommendation(object):
             RelevantSongDict['songs'][i]={}
             RelevantSongDict['songs'][i]['title'] = result[i].title
             RelevantSongDict['songs'][i]['videos'] = result[i].videos
-            RelevantSongDict['songs'][i]['url'] = result[i].u
             i = i+1
         
         return {RelevantSongDict}
