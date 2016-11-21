@@ -2,6 +2,9 @@
 import sys
 from PyQt5.QtSql import QSqlDatabase, QSqlQuery
 
+# SQLITE version: 3.11.0
+# checking the version: select sqlite_version();//sql 
+
 class ManageLocalStorage:
 
     def __init__(self,isConnected,connectionName):
@@ -42,7 +45,7 @@ class ManageLocalStorage:
         self.isConnected = isConnected
 
 
-    def Build(self):
+    def build(self):
         db = QSqlDatabase.addDatabase('QSQLITE',self.connectionName)
         
         db.setDatabaseName('PRLocalStorage')
@@ -115,7 +118,7 @@ class ManageLocalStorage:
     returns false if the database does not exists 
     """
 
-    def Dump(self):
+    def dump(self):
         
         """
         seems we cannot remove the database efficiently here so we need to essentially delete tables in the instance of the database already created
@@ -180,7 +183,7 @@ class ManageLocalStorage:
         return songDet
 
 
-    def Connect(self):
+    def connect(self):
         db=QSqlDatabase.database(self.connectionName,True)
         print ("database name being connected and the connection names are as follows: ")
         print (db.databaseName())
@@ -190,7 +193,7 @@ class ManageLocalStorage:
 
         return True
 
-    def Disconnect(self):
+    def disconnect(self):
         db=QSqlDatabase.database(self.connectionName,False)
         print ("database name being disconnected and the connection names are as follows: ")
         print (db.databaseName())
@@ -211,22 +214,22 @@ while True:
     x=str(input('input:')) # this is some python 3 stuff.
     
     if x=="build":
-        if obj.Build():
+        if obj.build():
             print ("---------------------------------Success------------------------------")
         else:
             print ("---------------------------------Fail----------------------------------")
     elif x=="dump":
-        if obj.Dump():
+        if obj.dump():
             print ("---------------------------------Success------------------------------")
         else:
             print ("---------------------------------Fail------------------------------")
     elif x=="connect":
-        if obj.Connect():
+        if obj.connect():
             print ("---------------------------------Success------------------------------")
         else:
             print ("---------------------------------Fail------------------------------")
     elif x=="disconnect":
-        if obj.Disconnect():
+        if obj.disconnect():
             print ("---------------------------------Success------------------------------")
         else:
             print ("---------------------------------Fail------------------------------")

@@ -10,7 +10,7 @@ import os
 import loloLyrics
 
 # metadata module
-from tags import (getLyricsMetadata, getArtistMetadata, getTitleMetadata)
+from tags import (getLyricsMetadata, getArtistMetadata, getTitleMetadata, getAlbumMetadata)
 
 from mutagen.id3 import USLT
 from mutagen.id3 import ID3
@@ -81,7 +81,7 @@ class EditTIT2:
     
     def __init__(self):
         
-    def ifTIT2(self,root_dir, fileName):
+    def ifTitle(self,root_dir, fileName):
         filePath = os.path.join(root_dir, fileName)
         title = getTitleMetadata(filePath) # list of elements    
         # Assuming that a song can't have lyrics lesses than 15 words
@@ -96,15 +96,15 @@ class EditTIT2:
     def removeTitle(self,root_dir, file_name):
         filePath = os.path.join(root_dir, file_name)
         audio = ID3(filePath)
-        audio.delall('USLT')
-        audio.add(USLT(encoding=3, text=u" "))
+        audio.delall('TIT2')
+        audio.add(TIT2(encoding=3, text=u" "))
         return audio.save()
         
     # fetch lyrics and add to corresponding ID3 tag from file
-    def addLyrics(self,root_dir, file_name):
+    def addTitle(self,root_dir, file_name,songMetadata):
         filePath = os.path.join(root_dir, file_name)
         audio = ID3(filePath)
-        audio.add(USLT(encoding=3, text=fetchLyrics(filePath)))
+        audio.add(TIT2(encoding=3, text=fetchTitle(songMetadata)))
         return audio.save()
 
     # fetches lyrics from lololyrics.com
@@ -112,15 +112,66 @@ class EditTIT2:
     #     artist = getArtistMetadata(file_path)
     #     title = getTitleMetadata(file_path)
     #     return(loloLyrics.getLyrics(artist, title))
+
+    def fetchTitle(self,songMetadata):
+        return songMetadata["TIT2"]
+        
    
-    def writeLyrics(self,ROOT_DIR,FILE_NAME):
-        if(ifLyrics(ROOT_DIR, FILE_NAME) == 0):
-            removeLyrics(ROOT_DIR, FILE_NAME)
+    def writeTitle(self,ROOT_DIR,FILE_NAME,songMetadata):
+        if(ifTitle(ROOT_DIR, FILE_NAME) == 0):
+            removeTitle(ROOT_DIR, FILE_NAME)
             print("** removeLyrics function done **")
-            addLyrics(ROOT_DIR, FILE_NAME)
+            addTitle(ROOT_DIR, FILE_NAME,songMetadata)
             print("** addLyrics function done **")
-        elif(ifLyrics(ROOT_DIR, FILE_NAME) == 1):
+        elif(ifTitle(ROOT_DIR, FILE_NAME) == 1):
             print("***ALL OK ***")
 
+""" ------------------------------------------------Parameter: TALB (Album)------------------------------------------------------"""
 
-    
+class EditTALB:
+    def __init__(self):
+
+    def ifAlbum(self,root_dir, fileName):
+        filePath = os.path.join(root_dir, fileName)
+        album = getAlbumMetadata(filePath) # list of elements    
+        # Assuming that a song can't have lyrics lesses than 15 words
+        if(len(album)==0):
+            print(0)
+            return(0)
+        else: 
+            print(1)
+            return(1)
+        
+    # remove lyrics form corresponding ID3 tag from file
+    def removeAlbum(self,root_dir, file_name):
+        filePath = os.path.join(root_dir, file_name)
+        audio = ID3(filePath)
+        audio.delall('TALB')
+        audio.add(TIT2(encoding=3, text=u" "))
+        return audio.save()
+        
+    # fetch lyrics and add to corresponding ID3 tag from file
+    def addAlbum(self,root_dir, file_name,songMetadata):
+        filePath = os.path.join(root_dir, file_name)
+        audio = ID3(filePath)
+        audio.add(TIT2(encoding=3, text=fetchTitle(songMetadata)))
+        return audio.save()
+
+    # fetches lyrics from lololyrics.com
+    # def fetchLyrics(self,file_path):
+    #     artist = getArtistMetadata(file_path)
+    #     title = getTitleMetadata(file_path)
+    #     return(loloLyrics.getLyrics(artist, title))
+
+    def fetchTitle(self,songMetadata):
+        return songMetadata["TIT2"]
+        
+   
+    def writeTitle(self,ROOT_DIR,FILE_NAME,songMetadata):
+        if(ifTitle(ROOT_DIR, FILE_NAME) == 0):
+            removeTitle(ROOT_DIR, FILE_NAME)
+            print("** removeLyrics function done **")
+            addTitle(ROOT_DIR, FILE_NAME,songMetadata)
+            print("** addLyrics function done **")
+        elif(ifTitle(ROOT_DIR, FILE_NAME) == 1):
+            print("***ALL OK ***")
