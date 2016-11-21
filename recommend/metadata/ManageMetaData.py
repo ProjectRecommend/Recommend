@@ -62,16 +62,35 @@ class ManageMetaData(object):
         # self.SongMetaData=metadataDict
         return metadataDict
 
-    def WriteMetaData(self, SongPath, SongMetaData):
+    def WriteMetaData(self, SongPath):
+        # WriteMetaData is called when  
         # this function writes metadata into the song.
 
-        
+        rootDir=""
+        fileName=""
+
+        # TIT2,TALB,TPE1,TPE2,TSOP,TDRC,TCON
+
+        obj=EditMetaData()
+        obj.populateMetadict(self)
+        obj.writeTag(SongPath,"TIT2")
+        obj.writeTag(SongPath,"TALB")
+        obj.writeTag(SongPath,"TPE1")
+        obj.writeTag(SongPath,"TPE2")
+        obj.writeTag(SongPath,"TSOP")
+        obj.writeTag(SongPath,"TDRC")
+        obj.writeTag(SongPath,"TCON")
+
+        obj=EditLyrics()
+        obj.writeLyrics(SongPath)
 
         return False
 
     def FetchMetaDataFromMusicBrainz(self, SongMetaData):
+        # this function temporarily remains un implemented.
         return {}
 
     def EditMetaData(self, SongPath):
+        # function already implemented in WriteMetaData
         return False
 

@@ -30,8 +30,8 @@ class EditLyrics:
         
     # Function to check if file contains lyrics or not
     # Returns 0 if it contains less than 15 words in Lyrics else returns 1
-    def ifLyrics(self,root_dir, fileName):
-        filePath = os.path.join(root_dir, fileName)
+    def ifLyrics(self,filePath):
+        # filePath = os.path.join(root_dir, fileName)
         lyrics = getLyricsMetadata(filePath) # list of elements    
         # Assuming that a song can't have lyrics lesses than 15 words
         if(len(lyrics)<15):
@@ -42,16 +42,16 @@ class EditLyrics:
             return(1)
         
     # remove lyrics form corresponding ID3 tag from file
-    def removeLyrics(self,root_dir, file_name):
-        filePath = os.path.join(root_dir, file_name)
+    def removeLyrics(self,filePath):
+        # filePath = os.path.join(root_dir, file_name)
         audio = ID3(filePath)
         audio.delall('USLT')
         audio.add(USLT(encoding=3, text=u" "))
         return audio.save()
         
     # fetch lyrics and add to corresponding ID3 tag from file
-    def addLyrics(self,root_dir, file_name):
-        filePath = os.path.join(root_dir, file_name)
+    def addLyrics(self,filePath):
+        # filePath = os.path.join(root_dir, file_name)
         audio = ID3(filePath)
         audio.add(USLT(encoding=3, text=fetchLyrics(filePath)))
         return audio.save()
@@ -63,16 +63,16 @@ class EditLyrics:
         return(loloLyrics.getLyrics(artist, title))
         
 
-    def writeLyrics(self,ROOT_DIR,FILE_NAME):
-        if(ifLyrics(ROOT_DIR, FILE_NAME) == 0):
-            removeLyrics(ROOT_DIR, FILE_NAME)
+    def writeLyrics(self,filePath):
+        if(ifLyrics(filePath) == 0):
+            removeLyrics(filePath)
             print("** removeLyrics function done **")
-            addLyrics(ROOT_DIR, FILE_NAME)
+            addLyrics(filePath)
             print("** addLyrics function done **")
-        elif(ifLyrics(ROOT_DIR, FILE_NAME) == 1):
+        elif(ifLyrics(filePath) == 1):
             print("***ALL OK ***")
 
-"""-------------------------------------------------Parameter: TIT2--------------------------------------------------------------- """
+"""-------------------------------------------------Edit rest of the tags--------------------------------------------------------------- """
 # TIT2,TALB,TPE1,TPE2,TSOP,TDRC,TCON,USLT
 
 # title, album, Lead performer, band, performer sort order, year, content type, lyrics
@@ -83,9 +83,10 @@ class EditLyrics:
 class EditMetadata:
     
     def __init__(self):
-        
-    def ifTag(self,root_dir, fileName,tag):
-        filePath = os.path.join(root_dir, fileName)
+        self.metaDict={}
+
+    def ifTag(self,filePath,tag):
+        # filePath = os.path.join(root_dir, fileName)
         if tag=="title":
             title=getTitleMetadata(filePath)
             if (len(title)==0):
@@ -149,8 +150,8 @@ class EditMetadata:
     # tag names: title, album, lead, band, performerSortOrder, year, contentType
         
     # remove lyrics form corresponding ID3 tag from file
-    def removeTag(self,root_dir, file_name,tag):
-        filePath = os.path.join(root_dir, file_name)
+    def removeTag(self,filePath,tag):
+        # filePath = os.path.join(root_dir, file_name)
         audio = ID3(filePath)
         if tag=="title":
             audio.delall('TIT2')
@@ -190,8 +191,8 @@ class EditMetadata:
     # tag names: title, album, lead, band, performerSortOrder, year, contentType
 
     # fetch lyrics and add to corresponding ID3 tag from file
-    def addTag(self,root_dir, file_name,songMetadata,tag):
-        filePath = os.path.join(root_dir, file_name)
+    def addTag(self,filePath,songMetadata,tag):
+        # filePath = os.path.join(root_dir, file_name)
         audio = ID3(filePath)
 
         if tag=="title":
@@ -244,11 +245,10 @@ class EditMetadata:
 
         
 #   songMetadata is an object of ManageMetaData  class
-    def writeTag(self,ROOT_DIR,FILE_NAME,songMetadata,tag):
+    def writeTag(self,filePath,tag):
         
         # deferencing the songMetadata object and storing it in a dictionary
 
-        metaDict={}
         
     # TIT2,TALB,TPE1,TPE2,TSOP,TDRC,TCON,USLT
     # tag names: title, album, lead, band, performerSortOrder, year, contentType
@@ -267,18 +267,23 @@ class EditMetadata:
         # self.genreTCON = None
 
 
-        metaDict["TPE1"]=songMetadata.artistTPE1
-        metaDict["TPE2"]=songMetadata.artistTPE2
-        metaDict["TIT2"]=songMetadata.titleTIT2
-        metaDict["TALB"]=songMetadata.albumTALB
-        metaDict["TSOP"]=songMetadata.artistTSOP
-        metaDict["TDRC"]=songMetadata.recDateTDRC
-        metaDict["TCON"]=songMetadata.genreTCON
 
-        if(ifTag(ROOT_DIR, FILE_NAME,tag) == 0):
-            removeTag(ROOT_DIR, FILE_NAME,tag)
+        if(ifTag(filePath,tag) == 0):
+            removeTag(filePath,tag)
             print("** removeTag function done **")
-            addTag(ROOT_DIR, FILE_NAME,metaDict,tag)
+            addTag(filePath,self.metaDict,tag)
             print("** addTag function done **")
-        elif(ifTag(ROOT_DIR, FILE_NAME,tag) == 1):
+        elif(ifTag(filePath,tag) == 1):
             print("***ALL OK ***")
+    
+    def populateMetadict(self,songMetadata):
+        
+        
+        self.metaDict["TPE1"]=songMetadata.artistTPE1
+        self.metaDict["TPE2"]=songMetadata.artistTPE2
+        self.metaDict["TIT2"]=songMetadata.titleTIT2
+        self.metaDict["TALB"]=songMetadata.albumTALB
+        self.metaDict["TSOP"]=songMetadata.artistTSOP
+        self.metaDict["TDRC"]=songMetadata.recDateTDRC
+        self.metaDict["TCON"]=songMetadata.genreTCON
+

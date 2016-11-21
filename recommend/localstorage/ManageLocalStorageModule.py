@@ -207,36 +207,36 @@ class ManageLocalStorage:
 error correction code follows, do not use during final implementation
 """
 
-print ("Welcome to ManageLocalStorage, here are the following sets of commands: build, dump, connect, disconnect,-1 exiting")
-obj=ManageLocalStorage(False,'sqLiteConProjectRecommendConnection') 
-while True:
+# print ("Welcome to ManageLocalStorage, here are the following sets of commands: build, dump, connect, disconnect,-1 exiting")
+# obj=ManageLocalStorage(False,'sqLiteConProjectRecommendConnection') 
+# while True:
     
-    x=str(input('input:')) # this is some python 3 stuff.
+#     x=str(input('input:')) # this is some python 3 stuff.
     
-    if x=="build":
-        if obj.build():
-            print ("---------------------------------Success------------------------------")
-        else:
-            print ("---------------------------------Fail----------------------------------")
-    elif x=="dump":
-        if obj.dump():
-            print ("---------------------------------Success------------------------------")
-        else:
-            print ("---------------------------------Fail------------------------------")
-    elif x=="connect":
-        if obj.connect():
-            print ("---------------------------------Success------------------------------")
-        else:
-            print ("---------------------------------Fail------------------------------")
-    elif x=="disconnect":
-        if obj.disconnect():
-            print ("---------------------------------Success------------------------------")
-        else:
-            print ("---------------------------------Fail------------------------------")
-    elif x=="-1":
-        break
-    else:
-        print ("incorrect command")
+#     if x=="build":
+#         if obj.build():
+#             print ("---------------------------------Success------------------------------")
+#         else:
+#             print ("---------------------------------Fail----------------------------------")
+#     elif x=="dump":
+#         if obj.dump():
+#             print ("---------------------------------Success------------------------------")
+#         else:
+#             print ("---------------------------------Fail------------------------------")
+#     elif x=="connect":
+#         if obj.connect():
+#             print ("---------------------------------Success------------------------------")
+#         else:
+#             print ("---------------------------------Fail------------------------------")
+#     elif x=="disconnect":
+#         if obj.disconnect():
+#             print ("---------------------------------Success------------------------------")
+#         else:
+#             print ("---------------------------------Fail------------------------------")
+#     elif x=="-1":
+#         break
+#     else:
+#         print ("incorrect command")
         
 
         
