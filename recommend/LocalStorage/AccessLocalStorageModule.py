@@ -1,8 +1,7 @@
-
 from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtSql import QSqlDatabase, QSqlQuery
-from Metadata import ManageMetaDataModule
-from ManageLocalStorageModule import ManageLocalStorage
+from Metadata.ManageMetaDataModule import ManageMetaData
+from LocalStorage.ManageLocalStorageModule import ManageLocalStorage
 
 """
 WARNING: Do not initialize 2 separate instances of QSqlDatabase class while handling the database actions

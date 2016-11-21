@@ -20,7 +20,7 @@ def __init__(self):
 
 
 def getMetadata(mp3file):
-    
+
     metaText=[]
 
     audio = ID3(mp3file)
@@ -53,7 +53,7 @@ def getMetadata(mp3file):
 
 
 def getMetadataDict(mp3file):
-    
+
     metaDataDict={}
     audio = ID3(mp3file)
     tags = audio.items()
@@ -107,7 +107,7 @@ def metaDataDictToUnicode(metaDataDict):
     #metaText not contains all the values as a list
 
     # dictKeys=metaDataDict.keys()
-    
+
     # for data in metaDataDict:
     #     split = data.split()
     #     #split is now a list of all the individual words.
@@ -122,7 +122,7 @@ def metaDataDictToUnicode(metaDataDict):
     return uniText
 
 # print (getMetadataDict("D://Songs(english)//naked//Bony_M_Jingle_Bells.mp3"))
-metaText=getMetadata("D://Songs(english)//naked//Bony_M_Jingle_Bells.mp3")
-print (metaTextToUnicode(metaText))
-metaDataDict=getMetadataDict("D://Songs(english)//naked//Bony_M_Jingle_Bells.mp3")
-print (metaDataDictToUnicode(metaDataDict))
+# metaText=getMetadata("D://Songs(english)//naked//Bony_M_Jingle_Bells.mp3")
+# print (metaTextToUnicode(metaText))
+# metaDataDict=getMetadataDict("D://Songs(english)//naked//Bony_M_Jingle_Bells.mp3")
+# print (metaDataDictToUnicode(metaDataDict))

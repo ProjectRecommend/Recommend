@@ -1,6 +1,6 @@
-from LyricsAndMetaData import EditLyrics, EditMetadata
-import tagsReadMetaData
-import tags
+from Metadata.LyricsAndMetaData import EditLyrics, EditMetadata
+from Metadata import tagsReadMetadata
+from Metadata import tags
 
 
 class ManageMetaData(object):

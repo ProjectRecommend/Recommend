@@ -5,8 +5,8 @@ import const
 from mainWindow import Ui_MainWindow
 from editMetadata_form import Ui_EditMetaDataDialog
 from bs4 import UnicodeDammit
-from LocalStorage import AccessLocalStorageModule
-from LocalStorage import ManageLocalStorageModule
+from LocalStorage.AccessLocalStorageModule import AccessLocalStorage
+from LocalStorage.ManageLocalStorageModule import ManageLocalStorage
 
 
 class MainWindow(Ui_MainWindow):
@@ -153,10 +153,10 @@ class MainWindow(Ui_MainWindow):
                             self.filePathList.append(fInfo.absoluteFilePath())
             # print(len(self.filePathList))
             # add stuff into LocalStorage
-            self.localStorage = AccessLocalStorageModule.AccessLocalStorage()
+            self.localStorage = AccessLocalStorage(const.C_connectionName)
             # now connection stuff is hard coded, later on we have to build it via ManageLocalStorage
             # object
-            self.manageLocalStorage = ManageLocalStorageModule.ManageLocalStorage()
+            self.manageLocalStorage = ManageLocalStorage()
 
             lsStatus = self.manageLocalStorage.build()
             if lsStatus:

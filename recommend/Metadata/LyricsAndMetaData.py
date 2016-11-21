@@ -3,10 +3,10 @@ import os
 # this module provides a portable way of using operating system dependent
 # functionality, file manipulations for example.
 # import loloLyrics module
-import loloLyrics
+from Metadata import loloLyrics
 
 # metadata module
-from tags import (getLyricsMetadata, getArtistMetadata, getTitleMetadata, getAlbumMetadata, getLeadMetadata, getBandMetadata, getPSOMetadata, getYearMetadata, getCTypeMetadata)
+from Metadata.tags import (getLyricsMetadata, getArtistMetadata, getTitleMetadata, getAlbumMetadata, getLeadMetadata, getBandMetadata, getPSOMetadata, getYearMetadata, getCTypeMetadata)
 
 from mutagen.id3 import USLT
 from mutagen.id3 import ID3
@@ -23,6 +23,7 @@ from mutagen.id3 import ID3
 
 class EditLyrics(object):
     def __init__(self):
+        pass
 
     # Function to check if file contains lyrics or not
     # Returns 0 if it contains less than 15 words in Lyrics else returns 1
