@@ -1,4 +1,3 @@
-
 import sys
 from PyQt5.QtSql import QSqlDatabase, QSqlQuery
 
@@ -55,21 +54,20 @@ class ManageLocalStorage:
 
         if not db.open():
             # db.open() returns true if the connection is open obviously
-            print ("----------------------------------------------")
-            print ("could not open the database")
-            self.isConnected=False
+            print("----------------------------------------------")
+            print("could not open the database")
+            self.isConnected = False
             return False
         else:
-            print ("----------------------------------------------")
-            print ("opened the database successfully")
-            self.isConnected=True
+            print("----------------------------------------------")
+            print("opened the database successfully")
+            self.isConnected = True
 
-            #db=QSqlDatabase.database(self.connectionName)
+            # db = QSqlDatabase.database(self.connectionName)
 
             query = QSqlQuery(db)
 
-            isQuerySuccessful=query.exec_("create table songs(SID int, SPath varchar(255), isUpdated int, TIT2 varchar(255), TALB varchar(255), TPE1 varchar(255), TPE2 varchar(255), TSOP varchar(255), TDRC date, TCON varchar(255),primary key(SID))")
-
+            isQuerySuccessful = query.exec_("create table songs(SID int, SPath varchar(255), isUpdated int, TIT2 varchar(255), TALB varchar(255), TPE1 varchar(255), TPE2 varchar(255), TSOP varchar(255), TDRC date, TCON varchar(255),primary key(SID))")
 
             """
             isDeleteSuccessful=query.exec_("drop table if exists test")
@@ -82,7 +80,7 @@ class ManageLocalStorage:
             """
 
             # the fieldnames used here in the query are described in dbFields.md file in the same directory
-            #know that this is how error information is grabbed in pyqt: QSqlDatabase
+            # know that this is how error information is grabbed in pyqt: QSqlDatabase
 
             """
             Error testing: whether the creation of the table is successful or not
@@ -90,7 +88,7 @@ class ManageLocalStorage:
 
             if isQuerySuccessful:
                 print("----------------------------------------------")
-                print ("creation of table successful")
+                print("creation of table successful")
 
                 #now that we have acatually created a table let us try inserting entries into that table
             else:
