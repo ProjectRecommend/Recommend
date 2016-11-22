@@ -110,6 +110,8 @@ class MainWindow(Ui_MainWindow):
         self.sliderEventSender = QtWidgets.QSlider.sender(self.progressBar)
         # load music from songsFolder
         self.crawlFolder()
+        # populate UI
+
 
     """
     Event handlers
@@ -157,29 +159,42 @@ class MainWindow(Ui_MainWindow):
             lsStatus = self.manageLocalStorage.build()
             print(lsStatus)
             if lsStatus:
-                print("built LS")
+                print("built LS/Already there")
             else:
-                print("LS is already there")
-
+                print("Failed to Build LS, Exit")
+                self.buildMessageBox("Building LocalStorage Storage Failed")
             self.localStorage = AccessLocalStorage(const.LS_connectionName)
             for path in self.filePathList:
-                # print(path)
-                # path = os.path.abspath(path)
-                # print(path)
-                # path = os.fsencode(path)
-                # print(path)
-                # path = '"' + path + '"'
-                # print(path)
                 self.localStorage.write(path)
-                # ls = self.localStorage
-                # ls.write(self)
-            
+
             # build playlist with all the songs
+            model = self.manageLocalStorage.query()
+            #s et header title
+            model.setHeaderData(2, QtCore.Qt.Horizontal, 'Track Title')
+            model.setHeaderData(3, QtCore.Qt.Horizontal, 'Artist')
+            self.playlistView.setSelectionBehavior(QtWidgets.QTableView.SelectRows)
+            # self.playlistView.setColumnWidth(1000, 2000)
+            # Query db and hide all the not required fields
+            self.playlistView.setModel(model)
+            # hide column 0 (SID) and 1 (SPath), which we will use to other purposes
+            self.playlistView.setColumnHidden(0, True)
+            self.playlistView.setColumnHidden(1, True)
+            self.playlistView.setColumnWidth(2, 200)
+            self.playlistView.setColumnWidth(3, 100)
+            self.playlistView.setTabKeyNavigation(False)
+            self.playlistView.setCornerButtonEnabled(False)
+            self.playlistView.selectRow(5)
+            self.playlistView.doubleClicked.connect(self.playlistViewDoubleClickHandler)
+
             self.buildPlayList()
         else:
             # throw an error saying to add music folder
             print("load a folder for music, from settings it is None")
             self.buildMessageBox("No Music Folder Found, Select a Music Folder")
+
+    def playlistViewDoubleClickHandler(self):
+        print("playList View item double clicked")
+        print(self.playlistView.doubleClicked)
 
     def saveSettings(self):
         # print("save settings in")
@@ -306,7 +321,7 @@ class MainWindow(Ui_MainWindow):
             self.volumeText.setText(str(self.volume))
 
     def currentMediaChangedHandler(self):
-        print("current Media changed Handler triggered")
+        # print("current Media changed Handler triggered")
         # print(self.mediaPlayer.currentMedia())
         # print(dir(self.mediaPlayer.currentMedia()))
         if self.mediaPlayer.currentMedia():
@@ -319,7 +334,7 @@ class MainWindow(Ui_MainWindow):
             # print(currentPlayingMediaUrl)
             dammit = UnicodeDammit(self.currentPlayingMediaUrl)
             self.currentPlayingMediaUrl = dammit.unicode_markup
-            print(self.currentPlayingMediaUrl)
+            # print(self.currentPlayingMediaUrl)
         # pass
 
     def seekPosition(self, position):

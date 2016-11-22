@@ -1,51 +1,46 @@
 import sys
-from PyQt5.QtSql import QSqlDatabase, QSqlQuery
+from PyQt5.QtSql import QSqlDatabase, QSqlQuery, QSqlQueryModel
 
 # SQLite version: 3.11.0
 # check the SQLite version by running "select sqlite_version();" in SQLite
 
 
-class ManageLocalStorage:
-
+class ManageLocalStorage(object):
     def __init__(self, connectionName):
         self.isConnected = False
         self.connectionName = connectionName
+        self.db = QSqlDatabase.addDatabase('QSQLITE', self.connectionName)
 
-    def getConnectionName(self):
-        return self.connectionName
-
-    def setConnectionName(self, connectionName):
-        self.connectionName = connectionName
-        return True
-
+    # def getConnectionName(self):
+    #     return self.connectionName
+    # def setConnectionName(self, connectionName):
+    #     self.connectionName = connectionName
+    #     return True
     # def getIsConnected(self):
     #     return self.isConnected
     # def setIsConnected(self, isConnected):
     #     self.isConnected = isConnected
 
     def build(self):
-        db = QSqlDatabase.addDatabase('QSQLITE', self.connectionName)
-        db.setDatabaseName('PRLocalStorage.sqlite3')
-        db.setUserName('ProjectRecommend')
-        db.setPassword('elite1337')
-        db.setPort(1337)
+        self.db.setDatabaseName('PRLocalStorage.sqlite3')
+        self.db.setUserName('ProjectRecommend')
+        self.db.setPassword('elite1337')
+        self.db.setPort(1337)
 
         """
         Error testing : whether the creation of database and opening of connection is successful or not
         """
 
-        if not db.open():
+        if not self.db.open():
             # db.open() returns true if the connection is open obviously
-            print("----------------------------------------------")
             print("could not open the database")
             self.isConnected = False
             return False
         else:
-            print("----------------------------------------------")
             print("opened the database successfully")
             self.isConnected = True
             # db = QSqlDatabase.database(self.connectionName)
-            query = QSqlQuery(db)
+            query = QSqlQuery(self.db)
             isQuerySuccessful = query.exec_("create table songs(SID INTEGER PRIMARY KEY AUTOINCREMENT, SPath varchar(255) UNIQUE, isUpdated INTEGER, TIT2 varchar(255), TALB varchar(255), TPE1 varchar(255), TPE2 varchar(255), TSOP varchar(255), TDRC date, TCON varchar(255))")
 
             """
@@ -85,41 +80,50 @@ class ManageLocalStorage:
         return True
 
     def query(self):
+        projectModel = QSqlQueryModel()
+        if self.db.open():
+            projectModel.setQuery("select SID, SPath, TIT2, TSOP from songs", self.db)
+            # print(dir(projectModel))
+        else:
+            print("Query failed")
+        return projectModel
+
+    # def query(self):
         # sid, title, path, artist to be returned
-        songDet = {}
-        db = QSqlDatabase.database(self.connectionName, True)
+        # songDet = {}
+        # db = QSqlDatabase.database(self.connectionName, True)
         # opening the connection
-        query = QSqlQuery(db)
-        SIDList = []
-        TitleList = []
-        SPathList = []
-        ArtistList = []
+        # query = QSqlQuery(self.db)
+        # SIDList = []
+        # TitleList = []
+        # SPathList = []
+        # ArtistList = []
 
         # SID, Title: TIT2, path:SPath , artist: TPE1
-        isQuerySuccessful = query.exec_("select SID, SPath, TIT2, TPE1 from songs where 1=1")
-        if isQuerySuccessful:
-            print("query is successful")
-            while query.next():
-                SIDList.append(query.value(0))
-                TitleList.append(query.value(1))
-                SPathList.append(query.value(2))
-                ArtistList.append(query.value(3))
+        # isQuerySuccessful = query.exec_("select SID, SPath, TIT2, TPE1 from songs where 1=1")
+        # if isQuerySuccessful:
+        #     print("query is successful")
+        #     while query.next():
+        #         SIDList.append(query.value(0))
+        #         TitleList.append(query.value(1))
+        #         SPathList.append(query.value(2))
+        #         ArtistList.append(query.value(3))
 
-            songDet["SID"] = SIDList
-            songDet["Title"] = TitleList
-            songDet["SPath"] = SPathList
-            songDet["Artist"] = ArtistList
-            """
-                songDet["SID"]=query.value(0)
-                songDet["SPath"]=query.value(1)
-                songDet["Title"]=query.value(2)
-                songDet["Artist"]=query.value(3)
-            """
-        else:
-            print("query not successful")
-            return {}
+        #     songDet["SID"] = SIDList
+        #     songDet["Title"] = TitleList
+        #     songDet["SPath"] = SPathList
+        #     songDet["Artist"] = ArtistList
+        #     """
+        #         songDet["SID"]=query.value(0)
+        #         songDet["SPath"]=query.value(1)
+        #         songDet["Title"]=query.value(2)
+        #         songDet["Artist"]=query.value(3)
+        #     """
+        # else:
+        #     print("query not successful")
+        #     return {}
 
-        return songDet
+        # return songDet
 
     def connect(self):
         db = QSqlDatabase.database(self.connectionName,True)
