@@ -70,7 +70,7 @@ class AccessLocalStorage(object):
     def write(self, SongPath):
         # print(SongPath)
         if self.db.isOpen():
-            print("trying to write in DB")
+            # print("trying to write in DB")
             metadataDict = {}
             metadataDict = ManageMetaData.ReadMetaData(self, SongPath)
             """
@@ -91,14 +91,18 @@ class AccessLocalStorage(object):
             self.query.bindValue(":TDRC", metadataDict.get("TDRC", "NULL"))
             self.query.bindValue(":TCON", metadataDict.get("TCON", "NULL"))
             isQuerySuccessful = self.query.exec_()
-            
+
             if isQuerySuccessful:
                 print("insertion successful")
-                print("no of rows affected: " + str(self.query.numRowsAffected()))
+                # print("no of rows affected: " + str(self.query.numRowsAffected()))
+            elif self.query.lastError().number() is 19:
+                pass
+                # print("unique Construct failed")
+                # print(self.query.lastError().number().text())
             else:
                 print("insertion not successful")
-                print("error:")
-                print(self.query.lastError().text())
+                # print("error:")
+                print(self.query.lastError().number())
                 return False
         else:
             print("connection could not be established")

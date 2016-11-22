@@ -157,7 +157,7 @@ class MainWindow(Ui_MainWindow):
             # add stuff into LocalStorage
             self.manageLocalStorage = ManageLocalStorage(const.LS_connectionName)
             lsStatus = self.manageLocalStorage.build()
-            print(lsStatus)
+            # print(lsStatus)
             if lsStatus:
                 print("built LS/Already there")
             else:
@@ -200,13 +200,13 @@ class MainWindow(Ui_MainWindow):
             index = model.index(row, 1)
                 # We suppose data are strings
             self.mediaPlaylistPathList.append(str(model.data(index)))
-        print(len(self.mediaPlaylistPathList))
+        # print(len(self.mediaPlaylistPathList))
         # print(mediaPlaylistPathList)
 
     def playlistViewDoubleClickHandler(self, index):
-        print("playList View item double clicked")
+        # print("playList View item double clicked")
         row = index.row()
-        print(row)
+        # print(row)
         self.mediaPlaylist.setCurrentIndex(row)
 
     def saveSettings(self):
@@ -240,7 +240,7 @@ class MainWindow(Ui_MainWindow):
         self.mediaPlaylist.clear()
         # self.mediaPlayer = QMediaPlayer()
         for filepath in self.mediaPlaylistPathList:
-            print(filepath)
+            # print(filepath)
             self.mediaPlaylist.addMedia(QtMultimedia.QMediaContent(QtCore.QUrl.fromLocalFile(filepath)))
             # print(self.mediaPlaylist.mediaCount())
         self.mediaPlayer.setPlaylist(self.mediaPlaylist)
