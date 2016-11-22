@@ -73,40 +73,29 @@ class AccessLocalStorage(object):
             print("trying to write in DB")
             metadataDict = {}
             metadataDict = ManageMetaData.ReadMetaData(self, SongPath)
-            # print("inside AccessLocalStorage ")
-            # print(metadataDict)
-            # this will read metadata songPath.
             """
             songDict come in undefined order always,we make a ordered list out of it.
             so we can iterate and insert it in db as it in db schema
             order of elements in db table/schema
             SID, SPath, isUpdated, TIT2, TALB, TPE1, TPE2, TSOP, TDRC, TCON
             """
-
-            valuesList = self.makeMetadataOrderedList(metadataDict)
-            # print(valuesList)
-            valuesString = "null, " + str(SongPath) + ", 0, "
-            for i in range(len(valuesList)):
-                if not i == (len(valuesList) - 1):
-                    valuesString = valuesString + valuesList[i] + ","
-                    # print(valuesString)
-                else:
-                    valuesString = valuesString + valuesList[i]
-            print(valuesString)
-            queryString = "select * from songs"
-            record = self.query.exec_(queryString)
-            size = 0
-            while self.query.next():
-                size = size + 1
-            valuesString = str(size+1) + "," + valuesString
-            queryString = "insert into songs (SID,SPath,isUpdated,TIT2,TALB,TPE1,TPE2,TSOP,TDRC,TCON) values (" + valuesString + ")"
-            isQuerySuccessful = self.query.exec_(queryString)
+            self.query.prepare("insert into songs(SPath, isUpdated, TIT2, TALB, TPE1, TPE2, TSOP, TDRC, TCON ) values(:SPath, :isUpdated, :TIT2, :TALB, :TPE1, :TPE2, :TSOP, :TDRC, :TCON)")
+            # SPath, isUpdated, TIT2, TALB, TPE1, TPE2, TSOP, TDRC, TCON, these are required, SID is auto incrimented
+            self.query.bindValue(":SPath", SongPath)
+            self.query.bindValue(":isUpdated", 0)
+            self.query.bindValue(":TIT2", metadataDict.get("TIT2", "NULL"))
+            self.query.bindValue(":TALB", metadataDict.get("TALB", "NULL"))
+            self.query.bindValue(":TPE1", metadataDict.get("TPE1", "NULL"))
+            self.query.bindValue(":TPE2", metadataDict.get("TPE2", "NULL"))
+            self.query.bindValue(":TSOP", metadataDict.get("TSOP", "NULL"))
+            self.query.bindValue(":TDRC", metadataDict.get("TDRC", "NULL"))
+            self.query.bindValue(":TCON", metadataDict.get("TCON", "NULL"))
+            isQuerySuccessful = self.query.exec_()
+            
             if isQuerySuccessful:
-                print("----------------------------------------------")
                 print("insertion successful")
                 print("no of rows affected: " + str(self.query.numRowsAffected()))
             else:
-                print("----------------------------------------------")
                 print("insertion not successful")
                 print("error:")
                 print(self.query.lastError().text())
@@ -131,35 +120,3 @@ class AccessLocalStorage(object):
             print("could not establish a connection")
             return False
         return True
-
-    def getSongPath(self):
-        return SongPath
-
-    def setSongPath(self, SongPath):
-        self.songPath = songPath
-    """
-    the following function is only for the purpose of testing purpose, delete this function for release
-    """
-
-    def testQueries(self, queryInstance, query):
-        queryInstance.exec_(query)
-
-    def makeMetadataOrderedList(self, metadataDict):
-        # order of elements in db table
-        # SID, SPath, isUpdated, TIT2, TALB, TPE1, TPE2, TSOP, TDRC, TCON
-        metaList = []
-
-        metaList.append(metadataDict.get("TIT2", "NULL"))
-        metaList.append(metadataDict.get("TALB", "NULL"))
-        metaList.append(metadataDict.get("TPE1", "NULL"))
-        metaList.append(metadataDict.get("TPE2", "NULL"))
-        metaList.append(metadataDict.get("TSOP", "NULL"))
-        metaList.append(metadataDict.get("TDRC", "NULL"))
-        metaList.append(metadataDict.get("TCON", "NULL"))
-
-        return metaList
-
-
-# print ("Welcome to AccessLocalStorage terminal, this terminal lets you build a database with song table and read and write data to it")
-# print ("commands: build, dump, disconnect, connect, read, write, delete")
-

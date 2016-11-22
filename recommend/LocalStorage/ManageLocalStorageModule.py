@@ -46,23 +46,19 @@ class ManageLocalStorage:
             self.isConnected = True
             # db = QSqlDatabase.database(self.connectionName)
             query = QSqlQuery(db)
-            isQuerySuccessful = query.exec_("create table songs(SID INTEGER PRIMARY KEY AUTOINCREMENT, SPath varchar(255), isUpdated INTEGER, TIT2 varchar(255), TALB varchar(255), TPE1 varchar(255), TPE2 varchar(255), TSOP varchar(255), TDRC date, TCON varchar(255))")
+            isQuerySuccessful = query.exec_("create table songs(SID INTEGER PRIMARY KEY AUTOINCREMENT, SPath varchar(255) UNIQUE, isUpdated INTEGER, TIT2 varchar(255), TALB varchar(255), TPE1 varchar(255), TPE2 varchar(255), TSOP varchar(255), TDRC date, TCON varchar(255))")
 
             """
             Error testing: whether the creation of the table is successful or not
             """
-
             if isQuerySuccessful:
                 print("creation of table successful")
             else:
-                print("----------------------------------------------")
                 print("creation of table unsuccessful")
                 error = query.lastError().text()
                 print(error)
-
             # del query
             # del db
-
             return True
 
     """

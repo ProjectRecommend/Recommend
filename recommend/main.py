@@ -169,11 +169,11 @@ class MainWindow(Ui_MainWindow):
                 # path = os.fsencode(path)
                 # print(path)
                 # path = '"' + path + '"'
-                print(path)
+                # print(path)
                 self.localStorage.write(path)
                 # ls = self.localStorage
                 # ls.write(self)
-
+            
             # build playlist with all the songs
             self.buildPlayList()
         else:
