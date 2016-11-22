@@ -185,6 +185,7 @@ class MainWindow(Ui_MainWindow):
             self.playlistView.setCornerButtonEnabled(False)
             self.playlistView.selectRow(0)
             self.playlistView.doubleClicked.connect(self.playlistViewDoubleClickHandler)
+            self.buildMediaPlaylistPathList()
 
             self.buildPlayList()
         else:
@@ -192,17 +193,21 @@ class MainWindow(Ui_MainWindow):
             print("load a folder for music, from settings it is None")
             self.buildMessageBox("No Music Folder Found, Select a Music Folder")
 
-    def playlistViewDoubleClickHandler(self, mi):
+    def buildMediaPlaylistPathList(self):
+        self.mediaPlaylistPathList = []
+        model = self.playlistView.model()
+        for row in range(model.rowCount()):
+            index = model.index(row, 1)
+                # We suppose data are strings
+            self.mediaPlaylistPathList.append(str(model.data(index)))
+        print(len(self.mediaPlaylistPathList))
+        # print(mediaPlaylistPathList)
+
+    def playlistViewDoubleClickHandler(self, index):
         print("playList View item double clicked")
-        row = mi.row()
-        # print(row)
-        # column = mi.column()
-        # print("Row %d and Column %d was clicked" % (row, column))
-        name = mi.sibling(row, 1).data()
-        print(name)
-        # print(dir(self.playlistView))
-        # print(self.playlistView.AboveItem)
-        # print(self.playlistView.BelowItem)
+        row = index.row()
+        print(row)
+        self.mediaPlaylist.setCurrentIndex(row)
 
     def saveSettings(self):
         # print("save settings in")
@@ -234,8 +239,8 @@ class MainWindow(Ui_MainWindow):
     def buildPlayList(self):
         self.mediaPlaylist.clear()
         # self.mediaPlayer = QMediaPlayer()
-        for filepath in self.filePathList:
-            # print(filepath)
+        for filepath in self.mediaPlaylistPathList:
+            print(filepath)
             self.mediaPlaylist.addMedia(QtMultimedia.QMediaContent(QtCore.QUrl.fromLocalFile(filepath)))
             # print(self.mediaPlaylist.mediaCount())
         self.mediaPlayer.setPlaylist(self.mediaPlaylist)
