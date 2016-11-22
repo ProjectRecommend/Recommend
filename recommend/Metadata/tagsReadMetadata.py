@@ -1,14 +1,12 @@
 '''
 this module contains functions that extracts metadata from
 mp3 file and returns a python list of UniCode Characters
-NOTE : Windows Does't support unicode in powershell and console by default
+NOTE : Windows Doesn't support unicode in powershell and console by default
 
-run `chcp 65001` if you getting erros releted to unicode in windows
-
+run `chcp 65001` if you getting errors related to unicode in windows
 '''
-
-#pip install mutagen
-#pip install BeautifulSoup4
+# pip install mutagen
+# pip install BeautifulSoup4
 
 from mutagen.id3 import ID3
 from bs4 import UnicodeDammit
@@ -21,7 +19,7 @@ def __init__(self):
 
 def getMetadata(mp3file):
 
-    metaText=[]
+    metaText = []
 
     audio = ID3(mp3file)
     tags = audio.items()
@@ -54,7 +52,7 @@ def getMetadata(mp3file):
 
 def getMetadataDict(mp3file):
 
-    metaDataDict={}
+    metaDataDict = {}
     audio = ID3(mp3file)
     tags = audio.items()
     """
@@ -66,21 +64,21 @@ def getMetadataDict(mp3file):
     """
     for tag in tags:
         if (tag[0] == 'USLT::eng'):
-            metaDataDict["USLT::eng"]=(str(tag[1]).encode(encoding='utf_8'))
+            metaDataDict["USLT::eng"] = (str(tag[1]).encode(encoding='utf_8'))
         if (tag[0] == 'TALB'):
-            metaDataDict["TALB"]=(str(tag[1]).encode(encoding='utf_8'))
+            metaDataDict["TALB"] = (str(tag[1]).encode(encoding='utf_8'))
         if (tag[0] == 'TPE1'):
-            metaDataDict["TPE1"]=(str(tag[1]).encode(encoding='utf_8'))
+            metaDataDict["TPE1"] = (str(tag[1]).encode(encoding='utf_8'))
         if (tag[0] == 'TPE2'):
-            metaDataDict["TPE2"]=(str(tag[1]).encode(encoding='utf_8'))
+            metaDataDict["TPE2"] = (str(tag[1]).encode(encoding='utf_8'))
         if (tag[0] == 'TSOP'):
-            metaDataDict["TSOP"]=(str(tag[1]).encode(encoding='utf_8'))
+            metaDataDict["TSOP"] = (str(tag[1]).encode(encoding='utf_8'))
         if (tag[0] == 'TIT2'):
-            metaDataDict["TIT2"]=(str(tag[1]).encode(encoding='utf_8'))
+            metaDataDict["TIT2"] = (str(tag[1]).encode(encoding='utf_8'))
         if (tag[0] == 'TCON'):
             metaDataDict["TCON"] = (str(tag[1]).encode(encoding='utf_8'))
         if (tag[0] == 'TDRC'):
-            metaDataDict["TDRC"]=(str(tag[1]).encode(encoding='utf_8'))
+            metaDataDict["TDRC"] = (str(tag[1]).encode(encoding='utf_8'))
     return metaDataDict
 
 
@@ -100,14 +98,12 @@ def metaTextToUnicode(metaText):
         uniText.append(dammit.unicode_markup)
     return uniText
 
+
 def metaDataDictToUnicode(metaDataDict):
     final = {}
     uniText = {}
-
-    #metaText not contains all the values as a list
-
+    # metaText not contains all the values as a list
     # dictKeys=metaDataDict.keys()
-
     # for data in metaDataDict:
     #     split = data.split()
     #     #split is now a list of all the individual words.
@@ -116,9 +112,8 @@ def metaDataDictToUnicode(metaDataDict):
 
     for text in metaDataDict:
         dammit = UnicodeDammit(metaDataDict[text])
-        uniText[text]=dammit.unicode_markup
+        uniText[text] = dammit.unicode_markup
 
-    #uniText is obviously now a dictionary...
     return uniText
 
 # print (getMetadataDict("D://Songs(english)//naked//Bony_M_Jingle_Bells.mp3"))

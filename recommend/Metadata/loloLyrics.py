@@ -11,11 +11,11 @@ def getLyrics(artist, track):
         payload = {'artist': artist, 'track': track}
         print(payload)
         r = requests.get(apiurl, params=payload)
-#        print(r)
+        # print(r)
         result = objectify.fromstring(r.text.encode("utf-8"))
-#        print(result)
+        # print(result)
         if result.status == 'OK':
-#            print(result.response)
+            # print(result.response)
             print(result.response)
             print('****OK***')
             return result.response

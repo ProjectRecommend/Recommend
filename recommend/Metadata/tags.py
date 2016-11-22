@@ -76,6 +76,7 @@ def getLeadMetadata(mp3file):
 
     return metaTextToUnicode(metaText)
 
+
 def getBandMetadata(mp3file):
 
     metaText = []
@@ -88,6 +89,7 @@ def getBandMetadata(mp3file):
 
     return metaTextToUnicode(metaText)
 
+
 def getPSOMetadata(mp3file):
     metaText = []
     audio = ID3(mp3file)
@@ -98,6 +100,7 @@ def getPSOMetadata(mp3file):
             metaText.append(str(tag[1]).encode(encoding='utf_8'))
 
     return metaTextToUnicode(metaText)
+
 
 def getYearMetadata(mp3file):
     metaText = []
@@ -110,6 +113,7 @@ def getYearMetadata(mp3file):
 
     return metaTextToUnicode(metaText)
 
+
 def getCTypeMetadata(mp3file):
     metaText = []
     audio = ID3(mp3file)
@@ -120,6 +124,7 @@ def getCTypeMetadata(mp3file):
             metaText.append(str(tag[1]).encode(encoding='utf_8'))
 
     return metaTextToUnicode(metaText)
+
 
 # returns a string converted from metaText to Unicode
 def metaTextToUnicode(metaText):
@@ -135,6 +140,6 @@ def metaTextToUnicode(metaText):
         dammit = UnicodeDammit(text)
         uniText.append(dammit.unicode_markup)
 
-    final_text= ' '.join(uniText)
- #   print('*metaTextToUnicode DONE*')
+    final_text = ' '.join(uniText)
+    # print('*metaTextToUnicode DONE*')
     return final_text
