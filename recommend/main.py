@@ -153,20 +153,26 @@ class MainWindow(Ui_MainWindow):
                             self.filePathList.append(fInfo.absoluteFilePath())
             # print(len(self.filePathList))
             # add stuff into LocalStorage
-            self.localStorage = AccessLocalStorage(const.C_connectionName)
-            # now connection stuff is hard coded, later on we have to build it via ManageLocalStorage
-            # object
-            self.manageLocalStorage = ManageLocalStorage()
-
+            self.manageLocalStorage = ManageLocalStorage(const.LS_connectionName)
             lsStatus = self.manageLocalStorage.build()
+            print(lsStatus)
             if lsStatus:
                 print("built LS")
             else:
                 print("LS is already there")
 
+            self.localStorage = AccessLocalStorage(const.LS_connectionName)
             for path in self.filePathList:
+                # print(path)
+                # path = os.path.abspath(path)
+                # print(path)
+                # path = os.fsencode(path)
+                # print(path)
+                # path = '"' + path + '"'
                 print(path)
                 self.localStorage.write(path)
+                # ls = self.localStorage
+                # ls.write(self)
 
             # build playlist with all the songs
             self.buildPlayList()

@@ -3,6 +3,7 @@ from PyQt5.QtSql import QSqlDatabase, QSqlQuery
 from Metadata.ManageMetaDataModule import ManageMetaData
 from LocalStorage.ManageLocalStorageModule import ManageLocalStorage
 
+
 """
 WARNING: Do not initialize 2 separate instances of QSqlDatabase class while handling the database actions
 """
@@ -68,18 +69,24 @@ class AccessLocalStorage(object):
     """
 
     def write(self, SongPath):
+        # print(SongPath)
         if self.db.isOpen():
+            print("trying to write in DB")
             songDict = {}
-            songDict = ManageMetaData.ReadMetaData(SongPath)
+            songDict = ManageMetaData.ReadMetaData(self, SongPath)
+            print("inside AccessLocalStorage ")
+            print(songDict)
             # this will read metadata songPath.
             """
             the songDict format is always the same
             """
             valuesList = songDict.values()
+            print(valuesList)
             valuesString = ""
             for i in range(9):
                 if not i == 8:
                     valuesString = valuesString + valuesList[i] + ","
+                    print(valuesString)
                 else:
                     valuesString = valuesString+valuesList[i]
             queryString = "select * from songs"

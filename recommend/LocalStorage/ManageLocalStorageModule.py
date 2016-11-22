@@ -7,8 +7,8 @@ from PyQt5.QtSql import QSqlDatabase, QSqlQuery
 
 class ManageLocalStorage:
 
-    def __init__(self, isConnected, connectionName):
-        self.isConnected = isConnected
+    def __init__(self, connectionName):
+        self.isConnected = False
         self.connectionName = connectionName
     """
         QSqlDatabase is a class that has a static public member function called addDatabase that simply adds a database given the
@@ -33,13 +33,13 @@ class ManageLocalStorage:
         self.connectionName = connectionName
         return True
 
-    def getIsConnected(self):
+    # def getIsConnected(self):
 
-        return self.isConnected
+    #     return self.isConnected
 
-    def setIsConnected(self, isConnected):
+    # def setIsConnected(self, isConnected):
 
-        self.isConnected = isConnected
+    #     self.isConnected = isConnected
 
     def build(self):
         db = QSqlDatabase.addDatabase('QSQLITE', self.connectionName)
@@ -90,7 +90,7 @@ class ManageLocalStorage:
                 print("----------------------------------------------")
                 print("creation of table successful")
 
-                #now that we have acatually created a table let us try inserting entries into that table
+                # now that we have acatually created a table let us try inserting entries into that table
             else:
                 print ("----------------------------------------------")
                 print ("creation of table unsuccessful")
@@ -183,7 +183,7 @@ class ManageLocalStorage:
         print (db.databaseName())
         print (db.connectionName())
         del db
-        self.isConnected=True
+        self.isConnected = True
 
         return True
 
@@ -193,7 +193,7 @@ class ManageLocalStorage:
         print (db.databaseName())
         print (db.connectionName())
         del db
-        self.isConnected=False
+        self.isConnected = False
 
         return True
 

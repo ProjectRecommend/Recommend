@@ -26,12 +26,14 @@ class ManageMetaData(object):
         #the tags python file contains the necessary functions to read metadata from the song and return it in the form of both
         #a dictionary and a list
 
-        metadataDict=getMetadataDict(SongPath)
+        metadataDict = {}
+
+        metadataDict = tagsReadMetadata.getMetadataDict(SongPath)
 
         #SongPath is the absolute song path.
         # for example: "D://Songs(english)//naked//Bony_M_Jingle_Bells.mp3", the // are necessary here
 
-        metadataDict=metaDataDictToUnicode(metadataDict)
+        metadataDict = tagsReadMetadata.metaDataDictToUnicode(metadataDict)
 
         #here metadataDict returns the following parameters: TIT2,TALB,TPE1,TPE2,TSOP,TDRC,TCON,USLT
 
@@ -49,17 +51,18 @@ class ManageMetaData(object):
         # self.publisherTPUB = None
         # self.titleTIT2 = None
         # self.genreTCON = None
+        print(metadataDict)
 
-        self.artistTPE1=metadataDict["TPE1"]
-        self.artistTPE2=metadataDict["TPE2"]
-        self.albumTALB=metadataDict["TALB"]
-        self.artistTSOP=metadataDict["TSOP"]
-        self.lyricsUSLT=None
-        self.recDateTDRC=metadataDict["TDRC"]
-        self.releaseTDOR=None
-        self.publisherTPUB=metadataDict["TPUB"]
-        self.titleTIT2=metadataDict["TIT2"]
-        self.genreTCON=metadataDict["TCON"]
+            self.artistTPE2=metadataDict["TPE2"]
+            self.albumTALB=metadataDict["TALB"]
+            self.artistTSOP=metadataDict["TSOP"]
+            self.lyricsUSLT=None
+            self.recDateTDRC=metadataDict["TDRC"]
+            self.releaseTDOR=None
+            self.publisherTPUB=metadataDict["TPUB"]
+            self.titleTIT2=metadataDict["TIT2"]
+            self.genreTCON=metadataDict["TCON"]
+
 
         # self.SongMetaData=metadataDict
         return metadataDict

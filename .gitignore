@@ -87,3 +87,4 @@ ENV/
 .idea/tasks.xml
 .idea
 recommend/localstorage/startCmd.bat
+recommend/PRLocalStorage

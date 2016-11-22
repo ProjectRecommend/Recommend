@@ -78,7 +78,7 @@ def getMetadataDict(mp3file):
         if (tag[0] == 'TIT2'):
             metaDataDict["TIT2"]=(str(tag[1]).encode(encoding='utf_8'))
         if (tag[0] == 'TCON'):
-            metaDataDict["TCON"]=(str(tag[1]).encode(encoding='utf_8'))
+            metaDataDict["TCON"] = (str(tag[1]).encode(encoding='utf_8'))
         if (tag[0] == 'TDRC'):
             metaDataDict["TDRC"]=(str(tag[1]).encode(encoding='utf_8'))
     return metaDataDict
