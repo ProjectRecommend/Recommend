@@ -11,18 +11,17 @@ WARNING: Do not initialize 2 separate instances of QSqlDatabase class while hand
 
 class AccessLocalStorage(object):
     def __init__(self, connectionName):
-        # the second parameter also opens the connection if the connection is not already open
+        """
+        The QSqlDatabase.database function simply returns an instance of the connection given the connection name. The second parameter is a boolean
+        value that tells us whether the connection is open or not, if the connection is not already open, it is opened now.
+        the second parameter also opens the connection if the connection is not already open
+        """
         self.db = QSqlDatabase.database(connectionName, True)
         # print("current connectionName:")
         # print(self.db.connectionName())
         self.query = QSqlQuery(self.db)
         self.songDict = {}
         # so basically querying on the instance of the database mentioned earlier
-
-    """
-    The database function simply returns an instance of the connection given the connection name. The second parameter is a boolean
-    value that tells us whether the connection is open or not, if the connection is not already open, it is opened now.
-    """
 
     def read(self, SongID):
         if self.db.isOpen():
@@ -33,7 +32,7 @@ class AccessLocalStorage(object):
             """
             # queryString="SELECT SID, SPath, isUpdated FROM songs WHERE SID=" + str(songID)
             # record=self.query.exec_(queryString)
-            queryString = "SELECT SID, SPath, isUpdated, TIT2, TALB, TPE1, TPE2, TSOP, TDRC, TCON FROM songs WHERE SongID=" + str(SongID)
+            queryString = "SELECT SID, SPath, isUpdated, TIT2, TALB, TPE1, TPE2, TSOP, TDRC, TCON FROM songs WHERE SongID = " + str(SongID)
             record = self.query.exec_(queryString)
             # now we can use record object (which is an QSqlQuery object) to navigate the record
             if record:
@@ -72,34 +71,36 @@ class AccessLocalStorage(object):
         # print(SongPath)
         if self.db.isOpen():
             print("trying to write in DB")
-            songDict = {}
-            songDict = ManageMetaData.ReadMetaData(self, SongPath)
-            print("inside AccessLocalStorage ")
-            print(songDict)
+            metadataDict = {}
+            metadataDict = ManageMetaData.ReadMetaData(self, SongPath)
+            # print("inside AccessLocalStorage ")
+            # print(metadataDict)
             # this will read metadata songPath.
             """
-            the songDict format is always the same
+            songDict come in undefined order always,we make a ordered list out of it.
+            so we can iterate and insert it in db as it in db schema
+            order of elements in db table/schema
+            SID, SPath, isUpdated, TIT2, TALB, TPE1, TPE2, TSOP, TDRC, TCON
             """
-            valuesList = songDict.values()
-            print(valuesList)
-            valuesString = ""
-            for i in range(9):
-                if not i == 8:
+
+            valuesList = self.makeMetadataOrderedList(metadataDict)
+            # print(valuesList)
+            valuesString = "null, " + str(SongPath) + ", 0, "
+            for i in range(len(valuesList)):
+                if not i == (len(valuesList) - 1):
                     valuesString = valuesString + valuesList[i] + ","
-                    print(valuesString)
+                    # print(valuesString)
                 else:
-                    valuesString = valuesString+valuesList[i]
+                    valuesString = valuesString + valuesList[i]
+            print(valuesString)
             queryString = "select * from songs"
             record = self.query.exec_(queryString)
             size = 0
-
             while self.query.next():
                 size = size + 1
-
             valuesString = str(size+1) + "," + valuesString
-
             queryString = "insert into songs (SID,SPath,isUpdated,TIT2,TALB,TPE1,TPE2,TSOP,TDRC,TCON) values (" + valuesString + ")"
-            isQuerySuccessful = query.exec_(queryString)
+            isQuerySuccessful = self.query.exec_(queryString)
             if isQuerySuccessful:
                 print("----------------------------------------------")
                 print("insertion successful")
@@ -142,6 +143,22 @@ class AccessLocalStorage(object):
 
     def testQueries(self, queryInstance, query):
         queryInstance.exec_(query)
+
+    def makeMetadataOrderedList(self, metadataDict):
+        # order of elements in db table
+        # SID, SPath, isUpdated, TIT2, TALB, TPE1, TPE2, TSOP, TDRC, TCON
+        metaList = []
+
+        metaList.append(metadataDict.get("TIT2", "NULL"))
+        metaList.append(metadataDict.get("TALB", "NULL"))
+        metaList.append(metadataDict.get("TPE1", "NULL"))
+        metaList.append(metadataDict.get("TPE2", "NULL"))
+        metaList.append(metadataDict.get("TSOP", "NULL"))
+        metaList.append(metadataDict.get("TDRC", "NULL"))
+        metaList.append(metadataDict.get("TCON", "NULL"))
+
+        return metaList
+
 
 # print ("Welcome to AccessLocalStorage terminal, this terminal lets you build a database with song table and read and write data to it")
 # print ("commands: build, dump, disconnect, connect, read, write, delete")

@@ -88,3 +88,4 @@ ENV/
 .idea
 recommend/localstorage/startCmd.bat
 recommend/PRLocalStorage
+*.sqlite3

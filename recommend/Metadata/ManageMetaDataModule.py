@@ -42,17 +42,20 @@ class ManageMetaData(object):
         # self.publisherTPUB = None
         # self.titleTIT2 = None
         # self.genreTCON = None
-        print(metadataDict)
-        self.artistTPE2 = metadataDict["TPE2"]
-        self.albumTALB = metadataDict["TALB"]
-        self.artistTSOP = metadataDict["TSOP"]
-        self.lyricsUSLT = None
-        self.recDateTDRC = metadataDict["TDRC"]
-        self.releaseTDOR = None
-        self.publisherTPUB = metadataDict["TPUB"]
-        self.titleTIT2 = metadataDict["TIT2"]
-        self.genreTCON = metadataDict["TCON"]
-        # self.SongMetaData=metadataDict
+        # print(metadataDict)
+        # always prefer dict.get(key) over dict[key], it won't raise KeyError
+        # and can set default if value not found, if no default supplied it's None
+        self.artistTPE1 = metadataDict.get("TPE1")
+        self.artistTPE2 = metadataDict.get("TPE2")
+        self.albumTALB = metadataDict.get("TALB")
+        self.artistTSOP = metadataDict.get("TSOP")
+        self.lyricsUSLT = metadataDict.get("USLT")
+        self.recDateTDRC = metadataDict.get("TDRC")
+        self.releaseTDOR = metadataDict.get("TDOR")
+        self.publisherTPUB = metadataDict.get("TPUB")
+        self.titleTIT2 = metadataDict.get("TIT2")
+        self.genreTCON = metadataDict.get("TCON")
+
         return metadataDict
 
     def WriteMetaData(self, SongPath):
