@@ -169,7 +169,7 @@ class MainWindow(Ui_MainWindow):
 
             # build playlist with all the songs
             model = self.manageLocalStorage.query()
-            #s et header title
+            # set header title
             model.setHeaderData(2, QtCore.Qt.Horizontal, 'Track Title')
             model.setHeaderData(3, QtCore.Qt.Horizontal, 'Artist')
             self.playlistView.setSelectionBehavior(QtWidgets.QTableView.SelectRows)
@@ -183,7 +183,7 @@ class MainWindow(Ui_MainWindow):
             self.playlistView.setColumnWidth(3, 100)
             self.playlistView.setTabKeyNavigation(False)
             self.playlistView.setCornerButtonEnabled(False)
-            self.playlistView.selectRow(5)
+            self.playlistView.selectRow(0)
             self.playlistView.doubleClicked.connect(self.playlistViewDoubleClickHandler)
 
             self.buildPlayList()
@@ -192,9 +192,17 @@ class MainWindow(Ui_MainWindow):
             print("load a folder for music, from settings it is None")
             self.buildMessageBox("No Music Folder Found, Select a Music Folder")
 
-    def playlistViewDoubleClickHandler(self):
+    def playlistViewDoubleClickHandler(self, mi):
         print("playList View item double clicked")
-        print(self.playlistView.doubleClicked)
+        row = mi.row()
+        # print(row)
+        # column = mi.column()
+        # print("Row %d and Column %d was clicked" % (row, column))
+        name = mi.sibling(row, 1).data()
+        print(name)
+        # print(dir(self.playlistView))
+        # print(self.playlistView.AboveItem)
+        # print(self.playlistView.BelowItem)
 
     def saveSettings(self):
         # print("save settings in")
