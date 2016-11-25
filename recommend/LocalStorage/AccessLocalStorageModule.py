@@ -8,7 +8,6 @@ from LocalStorage.ManageLocalStorageModule import ManageLocalStorage
 WARNING: Do not initialize 2 separate instances of QSqlDatabase class while handling the database actions
 """
 
-
 class AccessLocalStorage(object):
     def __init__(self, connectionName):
         """

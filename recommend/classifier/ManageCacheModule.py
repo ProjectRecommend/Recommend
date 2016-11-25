@@ -94,37 +94,35 @@ class ManageCache:
         # predictedSong is a dictionary of lists having elements in the following order:
         # 1. Title, Artist, URI, Type
         # writing is only possible if connection is open
+        
         if self.db.isOpen():
-            valuesString = ""
-            valuesList = predictedSong.values()
-            # valuesList now stores a list of lists of songData
-            queryString = "select * from songs"
-            record = self.query.exec_(queryString)
-            size = 0
+            # print("trying to write in DB")
+            metadataDict=predictedSong
+            self.query.prepare("insert into songs(SID, Title, Artist, URI, Type ) values(:SID, :Title, :Artist, :URI, :Type)")
+            # SPath, isUpdated, TIT2, TALB, TPE1, TPE2, TSOP, TDRC, TCON, these are required, SID is auto incrimented
+            self.query.bindValue(":SID",songID)
+            self.query.bindValue(":Title", metadataDict.get("Title", "NULL"))
+            self.query.bindValue(":Artist", metadataDict.get("Artist", "NULL"))
+            self.query.bindValue(":URI", metadataDict.get("URI", "NULL"))
+            self.query.bindValue(":Type", metadataDict.get("Type", "NULL"))
 
-            while self.query.next():
-                size = size+1
-
-            for val in valuesList:
-                valuesString = ""
-                valuesString = str(songID)+","+str(size)+","+valuesString
-                size = size+1
-                for i in range(4):
-                    if not i == 3:
-                        valuesString = valuesString+val[i]+","
-                    else:
-                        valuesString = valuesString+valuesList[i]
-                queryString = "insert into songs values(" + valuesString + ")"
-                isQuerySuccessful = self.query.exec_(queryString)
-                if isQuerySuccessful:
-                    print("query success")
-                else:
-                    print("error")
-                    print(self.query.lastError().text())
+            if isQuerySuccessful:
+                print("insertion successful")
+                # print("no of rows affected: " + str(self.query.numRowsAffected()))
+            elif self.query.lastError().number() is 19:
+                pass
+                # print("unique Construct failed")
+                # print(self.query.lastError().number().text())
+            else:
+                print("insertion not successful")
+                # print("error:")
+                print(self.query.lastError().number())
+                return False
         else:
             print("connection could not be established")
             return False
         return True
+
 
     def InvalidateCache(self):
         return False
