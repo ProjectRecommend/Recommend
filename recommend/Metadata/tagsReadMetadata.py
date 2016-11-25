@@ -10,45 +10,38 @@ run `chcp 65001` if you getting errors related to unicode in windows
 
 from mutagen.id3 import ID3
 from bs4 import UnicodeDammit
-"""
-def __init__(self):
-    metaDataDict={}
-    metaText = []
-"""
 
+# def getMetadata(mp3file):
 
-def getMetadata(mp3file):
+#     metaText = []
 
-    metaText = []
+#     audio = ID3(mp3file)
+#     tags = audio.items()
+#     """
+#     print ("type of tags is:")
+#     print (type(tags))
 
-    audio = ID3(mp3file)
-    tags = audio.items()
-    """
-    print ("type of tags is:")
-    print (type(tags))
-
-    print ("tags are:")
-    print (tags)
-    """
-    for tag in tags:
-        if (tag[0] == 'USLT::eng'):
-            metaText.append(str(tag[1]).encode(encoding='utf_8'))
-        if (tag[0] == 'TALB'):
-            metaText.append(str(tag[1]).encode(encoding='utf_8'))
-        if (tag[0] == 'TPE1'):
-            metaText.append(str(tag[1]).encode(encoding='utf_8'))
-        if (tag[0] == 'TPE2'):
-            metaText.append(str(tag[1]).encode(encoding='utf_8'))
-        if (tag[0] == 'TSOP'):
-            metaText.append(str(tag[1]).encode(encoding='utf_8'))
-        if (tag[0] == 'TIT2'):
-            metaText.append(str(tag[1]).encode(encoding='utf_8'))
-        if (tag[0] == 'TCON'):
-            metaText.append(str(tag[1]).encode(encoding='utf_8'))
-        if (tag[0] == 'TDRC'):
-            metaText.append(str(tag[1]).encode(encoding='utf_8'))
-    return metaText
-
+#     print ("tags are:")
+#     print (tags)
+#     """
+#     for tag in tags:
+#         if (tag[0] == 'USLT::eng'):
+#             metaText.append(str(tag[1]).encode(encoding='utf_8'))
+#         if (tag[0] == 'TALB'):
+#             metaText.append(str(tag[1]).encode(encoding='utf_8'))
+#         if (tag[0] == 'TPE1'):
+#             metaText.append(str(tag[1]).encode(encoding='utf_8'))
+#         if (tag[0] == 'TPE2'):
+#             metaText.append(str(tag[1]).encode(encoding='utf_8'))
+#         if (tag[0] == 'TSOP'):
+#             metaText.append(str(tag[1]).encode(encoding='utf_8'))
+#         if (tag[0] == 'TIT2'):
+#             metaText.append(str(tag[1]).encode(encoding='utf_8'))
+#         if (tag[0] == 'TCON'):
+#             metaText.append(str(tag[1]).encode(encoding='utf_8'))
+#         if (tag[0] == 'TDRC'):
+#             metaText.append(str(tag[1]).encode(encoding='utf_8'))
+#     return metaText
 
 def getMetadataDict(mp3file):
 
@@ -79,24 +72,24 @@ def getMetadataDict(mp3file):
             metaDataDict["TCON"] = (str(tag[1]).encode(encoding='utf_8'))
         if (tag[0] == 'TDRC'):
             metaDataDict["TDRC"] = (str(tag[1]).encode(encoding='utf_8'))
-    return metaDataDict
+    
+    return metaDataDictToUnicode(metaDataDict)
 
+# def metaTextToUnicode(metaText):
+#     # print(metaText)
+#     final = []
+#     uniText = []
+#     """
+#     for data in metaText:
+#         split = data.split()
+#         for text in split:
+#             final.append(text)
+#             """
 
-def metaTextToUnicode(metaText):
-    # print(metaText)
-    final = []
-    uniText = []
-    """
-    for data in metaText:
-        split = data.split()
-        for text in split:
-            final.append(text)
-            """
-
-    for text in metaText:
-        dammit = UnicodeDammit(text)
-        uniText.append(dammit.unicode_markup)
-    return uniText
+#     for text in metaText:
+#         dammit = UnicodeDammit(text)
+#         uniText.append(dammit.unicode_markup)
+#     return uniText
 
 
 def metaDataDictToUnicode(metaDataDict):
@@ -115,6 +108,7 @@ def metaDataDictToUnicode(metaDataDict):
         uniText[text] = dammit.unicode_markup
 
     return uniText
+
 
 # print (getMetadataDict("D://Songs(english)//naked//Bony_M_Jingle_Bells.mp3"))
 # metaText=getMetadata("D://Songs(english)//naked//Bony_M_Jingle_Bells.mp3")

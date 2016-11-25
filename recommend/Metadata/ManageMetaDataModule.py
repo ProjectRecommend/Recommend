@@ -5,6 +5,7 @@ from Metadata import tags
 
 class ManageMetaData(object):
     def __init__(self):
+        
         # don init stuff
         # self.SongMetaData = None
         # implement member var stuff
@@ -28,23 +29,11 @@ class ManageMetaData(object):
         metadataDict = tagsReadMetadata.getMetadataDict(SongPath)
         # SongPath is the absolute song path.
         # for example: "D://Songs(english)//naked//Bony_M_Jingle_Bells.mp3", the // are necessary here
-        metadataDict = tagsReadMetadata.metaDataDictToUnicode(metadataDict)
-        # here metadataDict returns the following parameters: TIT2,TALB,TPE1,TPE2,TSOP,TDRC,TCON,USLT
-        # populating SongMetadata object
-        #     def __init__(self):
-        #     self.artistTPE1 = None
-        # self.artistTPE2 = None
-        # self.albumTALB = None
-        # self.artistTSOP = None
-        # self.lyricsUSLT = None
-        # self.recDateTDRC = None
-        # self.releaseTDOR = None
-        # self.publisherTPUB = None
-        # self.titleTIT2 = None
-        # self.genreTCON = None
-        # print(metadataDict)
+        # metadataDict = tagsReadMetadata.metaDataDictToUnicode(metadataDict)
+
         # always prefer dict.get(key) over dict[key], it won't raise KeyError
         # and can set default if value not found, if no default supplied it's None
+
         self.artistTPE1 = metadataDict.get("TPE1")
         self.artistTPE2 = metadataDict.get("TPE2")
         self.albumTALB = metadataDict.get("TALB")
@@ -61,27 +50,28 @@ class ManageMetaData(object):
     def WriteMetaData(self, SongPath):
         # WriteMetaData is called when
         # this function writes metadata into the song.
-        rootDir = ""
-        fileName = ""
         # TIT2,TALB,TPE1,TPE2,TSOP,TDRC,TCON
-        obj = EditMetaData()
-        obj.populateMetadict(self)
-        obj.writeTag(SongPath, "TIT2")
-        obj.writeTag(SongPath, "TALB")
-        obj.writeTag(SongPath, "TPE1")
-        obj.writeTag(SongPath, "TPE2")
-        obj.writeTag(SongPath, "TSOP")
-        obj.writeTag(SongPath, "TDRC")
-        obj.writeTag(SongPath, "TCON")
-        obj = EditLyrics()
-        obj.writeLyrics(SongPath)
-        return False
+        
+        metaDataobj = EditMetadata(SongPath)
+        metaDataobj.populateMetadict(self)
 
-    def FetchMetaDataFromMusicBrainz(self, SongMetaData):
-        # this function temporarily remains un implemented.
-        return {}
+        metaDataobj.writeTag(SongPath, "TIT2")
+        print ("TIT2 done\n")
+        metaDataobj.writeTag(SongPath, "TALB")
+        print ("TALB done\n")
+        metaDataobj.writeTag(SongPath, "TPE1")
+        print ("TPE1 done\n")
+        metaDataobj.writeTag(SongPath, "TPE2")
+        print ("TPE2 done\n")
+        metaDataobj.writeTag(SongPath, "TSOP")
+        print ("TSOP done\n")
+        metaDataobj.writeTag(SongPath, "TDRC")
+        print ("TDRC done\n")
+        metaDataobj.writeTag(SongPath, "TCON")
+        print ("TCON done\n")
+        print ("All tags except USLT done")
+        # lyricsObj = EditLyrics(SongPath)
+        # lyricsObj.writeLyrics(SongPath)
+        return True
 
-    def EditMetaData(self, SongPath):
-        # function already implemented in WriteMetaData
-        return False
 

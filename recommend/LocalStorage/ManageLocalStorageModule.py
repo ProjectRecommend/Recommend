@@ -88,43 +88,6 @@ class ManageLocalStorage(object):
             print("Query failed")
         return projectModel
 
-    # def query(self):
-        # sid, title, path, artist to be returned
-        # songDet = {}
-        # db = QSqlDatabase.database(self.connectionName, True)
-        # opening the connection
-        # query = QSqlQuery(self.db)
-        # SIDList = []
-        # TitleList = []
-        # SPathList = []
-        # ArtistList = []
-
-        # SID, Title: TIT2, path:SPath , artist: TPE1
-        # isQuerySuccessful = query.exec_("select SID, SPath, TIT2, TPE1 from songs where 1=1")
-        # if isQuerySuccessful:
-        #     print("query is successful")
-        #     while query.next():
-        #         SIDList.append(query.value(0))
-        #         TitleList.append(query.value(1))
-        #         SPathList.append(query.value(2))
-        #         ArtistList.append(query.value(3))
-
-        #     songDet["SID"] = SIDList
-        #     songDet["Title"] = TitleList
-        #     songDet["SPath"] = SPathList
-        #     songDet["Artist"] = ArtistList
-        #     """
-        #         songDet["SID"]=query.value(0)
-        #         songDet["SPath"]=query.value(1)
-        #         songDet["Title"]=query.value(2)
-        #         songDet["Artist"]=query.value(3)
-        #     """
-        # else:
-        #     print("query not successful")
-        #     return {}
-
-        # return songDet
-
     def connect(self):
         db = QSqlDatabase.database(self.connectionName,True)
         print("database name being connected and the connection names are as follows: ")

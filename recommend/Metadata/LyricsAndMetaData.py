@@ -6,9 +6,13 @@ import os
 from Metadata import loloLyrics
 
 # metadata module
-from Metadata.tags import (getLyricsMetadata, getArtistMetadata, getTitleMetadata, getAlbumMetadata, getLeadMetadata, getBandMetadata, getPSOMetadata, getYearMetadata, getCTypeMetadata)
+from Metadata.tags import getTags 
+from Metadata.tagsReadMetadata import getMetadataDict
+from Metadata.loloLyrics import getLyrics
 
-from mutagen.id3 import USLT
+# TIT2,TALB,TPE1,TPE2,TSOP,TDRC,TCON,USLT
+
+from mutagen.id3 import (USLT, TIT2, TPE1, TPE2, TALB, TSOP, TCON, TDRC)
 from mutagen.id3 import ID3
 
 # FIXED_VARIABLES FOR TESTING PURPOSES
@@ -22,14 +26,16 @@ from mutagen.id3 import ID3
 
 
 class EditLyrics(object):
-    def __init__(self):
+    def __init__(self, filePath):
+        self.obj=getTags(filePath)
         pass
 
     # Function to check if file contains lyrics or not
     # Returns 0 if it contains less than 15 words in Lyrics else returns 1
     def ifLyrics(self, filePath):
         # filePath = os.path.join(root_dir, fileName)
-        lyrics = getLyricsMetadata(filePath) # list of elements
+
+        lyrics = self.obj.getLyricsMetadata() # list of elements
         # Assuming that a song can't have lyrics lesses than 15 words
         if(len(lyrics)<15):
             print(0)
@@ -50,22 +56,22 @@ class EditLyrics(object):
     def addLyrics(self, filePath):
         # filePath = os.path.join(root_dir, file_name)
         audio = ID3(filePath)
-        audio.add(USLT(encoding=3, text=fetchLyrics(filePath)))
+        audio.add(USLT(encoding=3, text=self.fetchLyrics(filePath)))
         return audio.save()
 
     # fetches lyrics from lololyrics.com
     def fetchLyrics(self, file_path):
-        artist = getArtistMetadata(file_path)
-        title = getTitleMetadata(file_path)
+        artist = self.obj.getArtistMetadata()
+        title = self.obj.getTitleMetadata()
         return(loloLyrics.getLyrics(artist, title))
 
     def writeLyrics(self, filePath):
-        if(ifLyrics(filePath) == 0):
-            removeLyrics(filePath)
+        if(self.ifLyrics(filePath) == 0):
+            self.removeLyrics(filePath)
             print("** removeLyrics function done **")
-            addLyrics(filePath)
+            self.addLyrics(filePath)
             print("** addLyrics function done **")
-        elif(ifLyrics(filePath) == 1):
+        elif(self.ifLyrics(filePath) == 1):
             print("***ALL OK ***")
 
 """----------Edit rest of the tags-----------------"""
@@ -78,61 +84,70 @@ class EditLyrics(object):
 
 
 class EditMetadata(object):
-    def __init__(self):
+    def __init__(self, filePath):
         self.metaDict = {}
+        self.obj=getTags(filePath)
 
-    def ifTag(self, filePath,tag):
+    def ifTag(self, tag):
         # filePath = os.path.join(root_dir, fileName)
-        if tag == "title":
-            title = getTitleMetadata(filePath)
+        
+        if tag == "TIT2":
+            # TIT2:title
+            title = self.obj.getTitleMetadata()
             if (len(title) == 0):
                 print(0)
                 return 0
             else:
                 print(1)
                 return 1
-        elif tag == "album":
-            album = getAlbumMetadata(filePath)
+        elif tag == "TALB":
+            # TALB:album
+            album = self.obj.getAlbumMetadata()
             if(len(album) == 0):
                 print(0)
                 return 0
             else:
                 print(1)
                 return 1
-        elif tag == "lead":
-            lead = getLeadMetadata(filePath)
+        elif tag == "TPE1":
+            # TPE1:Lead
+            lead = self.obj.getLeadMetadata()
             if (len(lead)):
                 print(0)
                 return 0
             else:
                 print(1)
                 return 1
-        elif tag == "band":
-            band = getBandMetadata(filePath)
+        elif tag == "TPE2":
+            # TPE2:band
+            band = self.obj.getBandMetadata()
             if (len(band)):
                 print(0)
                 return 0
             else:
                 print(1)
                 return 1
-        elif tag == "performerSortOrder":
-            pso = getPSOMetadata(filePath)
+        elif tag == "TSOP":
+            # TSOP:performer sort order.
+            pso = self.obj.getPSOMetadata()
             if (len(pso)):
                 print(0)
                 return 0
             else:
                 print(1)
                 return 1
-        elif tag == "year":
-            year = getYearMetadata(filePath)
+        elif tag == "TDRC":
+            # TDRC: year
+            year = self.obj.getYearMetadata()
             if (len(year)):
                 print(0)
                 return 0
             else:
                 print(1)
                 return 1
-        elif tag == "contentType":
-            cType = getCTypeMetadata(filePath)
+        elif tag == "TCON":
+            # TCON: Content type
+            cType = self.obj.getCTypeMetadata()
             if (len(cType)):
                 print(0)
                 return 0
@@ -149,31 +164,31 @@ class EditMetadata(object):
     def removeTag(self, filePath, tag):
         # filePath = os.path.join(root_dir, file_name)
         audio = ID3(filePath)
-        if tag == "title":
+        if tag == "TIT2":
             audio.delall('TIT2')
             audio.add(TIT2(encoding=3, text=u" "))
 
-        elif tag == "album":
+        elif tag == "TALB":
             audio.delall('TALB')
             audio.add(TALB(encoding=3, text=u" "))
 
-        elif tag == "lead":
+        elif tag == "TPE1":
             audio.delall('TPE1')
             audio.add(TPE1(encoding=3, text=u" "))
 
-        elif tag == "band":
+        elif tag == "TPE2":
             audio.delall('TPE2')
             audio.add(TPE2(encoding=3, text=u" "))
 
-        elif tag == "performerSortOrder":
+        elif tag == "TSOP":
             audio.delall('TSOP')
             audio.add(TSOP(encoding=3, text=u" "))
 
-        elif tag == "year":
+        elif tag == "TDRC":
             audio.delall('TDRC')
             audio.add(TDRC(encoding=3, text=u" "))
 
-        elif tag == "contentType":
+        elif tag == "TCON":
             audio.delall('TCON')
             audio.add(TCON(encoding=3, text=u" "))
 
@@ -191,20 +206,20 @@ class EditMetadata(object):
         # filePath = os.path.join(root_dir, file_name)
         audio = ID3(filePath)
 
-        if tag == "title":
-            audio.add(TIT2(encoding=3, text=fetchTag(songMetadata,tag)))
-        elif tag == "album":
-            audio.add(TALB(encoding=3, text=fetchTag(songMetadata,tag)))
-        elif tag == "lead":
-            audio.add(TPE1(encoding=3, text=fetchTag(songMetadata,tag)))
-        elif tag == "band":
-            audio.add(TPE2(encoding=3, text=fetchTag(songMetadata,tag)))
-        elif tag == "performerSortOrder":
-            audio.add(TSOP(encoding=3, text=fetchTag(songMetadata,tag)))
-        elif tag == "year":
-            audio.add(TDRC(encoding=3, text=fetchTag(songMetadata,tag)))
-        elif tag == "contentType":
-            audio.add(TCON(encoding=3, text=fetchTag(songMetadata,tag)))
+        if tag == "TIT2":
+            audio.add(TIT2(encoding=3, text=self.fetchTag(songMetadata,tag)))
+        elif tag == "TALB":
+            audio.add(TALB(encoding=3, text=self.fetchTag(songMetadata,tag)))
+        elif tag == "TPE1":
+            audio.add(TPE1(encoding=3, text=self.fetchTag(songMetadata,tag)))
+        elif tag == "TPE2":
+            audio.add(TPE2(encoding=3, text=self.fetchTag(songMetadata,tag)))
+        elif tag == "TSOP":
+            audio.add(TSOP(encoding=3, text=self.fetchTag(songMetadata,tag)))
+        elif tag == "TDRC":
+            audio.add(TDRC(encoding=3, text=self.fetchTag(songMetadata,tag)))
+        elif tag == "TCON":
+            audio.add(TCON(encoding=3, text=self.fetchTag(songMetadata,tag)))
         else:
             print("error: tag not recognized")
             return "error"
@@ -220,20 +235,21 @@ class EditMetadata(object):
     # tag names: title, album, lead, band, performerSortOrder, year, contentType
 
     def fetchTag(self, songMetadata, tag):
-        if tag == "title":
-            return songMetadata["TIT2"]
-        elif tag == "album":
-            return songMetadata["TALB"]
-        elif tag == "lead":
-            return songMetadata["TPE1"]
-        elif tag == "band":
-            return songMetadata["TPE2"]
-        elif tag == "performerSortOrder":
-            return songMetadata["TSOP"]
-        elif tag == "year":
-            return songMetadata["TDRC"]
-        elif tag == "contentType":
-            return songMetadata["TCON"]
+        print (songMetadata)
+        if tag == "TIT2":
+            return songMetadata.get("TIT2")
+        elif tag == "TALB":
+            return songMetadata.get("TALB")
+        elif tag == "TPE1":
+            return songMetadata.get("TPE1")
+        elif tag == "TPE2":
+            return songMetadata.get("TPE2")
+        elif tag == "TSOP":
+            return songMetadata.get("TSOP")
+        elif tag == "TDRC":
+            return songMetadata.get("TDRC")
+        elif tag == "TCON":
+            return songMetadata.get("TCON")
         else:
             print("error: tag unidentified")
             return "error"
@@ -254,19 +270,23 @@ class EditMetadata(object):
         # self.publisherTPUB = None
         # self.titleTIT2 = None
         # self.genreTCON = None
-
-        if(ifTag(filePath, tag) == 0):
-            removeTag(filePath, tag)
+        print ("metaDict currently:\n")
+        print (self.metaDict)
+        isTagPresent=self.ifTag(tag)
+        if( isTagPresent == 0):
+            self.removeTag(filePath, tag)
             print("** removeTag function done **")
-            addTag(filePath, self.metaDict, tag)
+            self.addTag(filePath, self.metaDict, tag)
             print("** addTag function done **")
-        elif(ifTag(filePath, tag) == 1):
+        elif( isTagPresent == 1):
             print("***ALL OK ***")
 
     def populateMetadict(self, songMetadata):
         self.metaDict["TPE1"] = songMetadata.artistTPE1
         self.metaDict["TPE2"] = songMetadata.artistTPE2
         self.metaDict["TIT2"] = songMetadata.titleTIT2
+        print("populate function")
+        print(songMetadata.titleTIT2)
         self.metaDict["TALB"] = songMetadata.albumTALB
         self.metaDict["TSOP"] = songMetadata.artistTSOP
         self.metaDict["TDRC"] = songMetadata.recDateTDRC
