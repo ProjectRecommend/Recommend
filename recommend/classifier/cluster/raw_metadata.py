@@ -1,6 +1,6 @@
 from mutagen.id3 import ID3
 
-    
+
 def getRawMetadata(mp3file):
     metaText = []
 

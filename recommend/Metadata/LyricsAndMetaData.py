@@ -27,7 +27,7 @@ class EditLyrics(object):
 
     # Function to check if file contains lyrics or not
     # Returns 0 if it contains less than 15 words in Lyrics else returns 1
-    def ifLyrics(self,filePath):
+    def ifLyrics(self, filePath):
         # filePath = os.path.join(root_dir, fileName)
         lyrics = getLyricsMetadata(filePath) # list of elements
         # Assuming that a song can't have lyrics lesses than 15 words

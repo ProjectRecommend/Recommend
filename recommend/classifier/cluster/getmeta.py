@@ -36,7 +36,7 @@ for i in range(len(metadata_list)):
 
 print("-------------KMeans-------------")
 
-# Magic happnes here
+# Magic happens here
 
 clusters = kMeansClustering(metadata_list)
 clusters.find_clusters(5)
