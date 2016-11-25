@@ -48,6 +48,9 @@ class ManageMetaData(object):
         return metadataDict
 
     def WriteMetaData(self, songMetadata, SongPath):
+        
+        # songMetadata is a dictionary containing all the users' metadata received from the ui.
+        
         # WriteMetaData is called when
         # this function writes metadata into the song.
         # TIT2,TALB,TPE1,TPE2,TSOP,TDRC,TCON
