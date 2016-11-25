@@ -112,7 +112,6 @@ class MainWindow(Ui_MainWindow):
         self.crawlFolder()
         # populate UI
 
-
     """
     Event handlers
     """
