@@ -6,7 +6,7 @@ import os
 from Metadata import loloLyrics
 
 # metadata module
-from Metadata.tags import getTags 
+# from Metadata.tags import getTags 
 from Metadata.tagsReadMetadata import getMetadataDict
 from Metadata.loloLyrics import getLyrics
 
@@ -27,7 +27,7 @@ from mutagen.id3 import ID3
 
 class EditLyrics(object):
     def __init__(self, filePath):
-        self.obj=getTags(filePath)
+        # self.obj=getTags(filePath)
         pass
 
     # Function to check if file contains lyrics or not
@@ -86,7 +86,7 @@ class EditLyrics(object):
 class EditMetadata(object):
     def __init__(self, filePath):
         self.metaDict = {}
-        self.obj=getTags(filePath)
+        # self.obj=getTags(filePath)
 
     # def ifTag(self, tag):
     #     # filePath = os.path.join(root_dir, fileName)
@@ -166,6 +166,7 @@ class EditMetadata(object):
         audio = ID3(filePath)
         if tag == "TIT2":
             audio.delall('TIT2')
+            # TODO: to be tested later, test after removing the following line. 
             audio.add(TIT2(encoding=3, text=u" "))
 
         elif tag == "TALB":
@@ -274,11 +275,11 @@ class EditMetadata(object):
         # self.publisherTPUB = None
         # self.titleTIT2 = None
         # self.genreTCON = None
-        print ("metaDict currently:\n")
-        print (self.metaDict)
+        # print ("metaDict currently:\n")
+        # print (self.metaDict)
         # isTagPresent=self.ifTag(tag)
         # if( isTagPresent == 0):
-        if self.metaDict.get(tag)!=None:
+        if self.metaDict.get(tag) is not None:
             self.removeTag(filePath, tag)
             print("** removeTag function done **")
             self.addTag(filePath, self.metaDict, tag)
@@ -294,12 +295,12 @@ class EditMetadata(object):
         # self.metaDict["TSOP"] = songMetadata.artistTSOP
         # self.metaDict["TDRC"] = songMetadata.recDateTDRC
         # self.metaDict["TCON"] = songMetadata.genreTCON
-        self.metaDict["TPE1"] = songMetadata.artistTPE1
-        self.metaDict["TPE2"] = songMetadata.artistTPE2
-        self.metaDict["TIT2"] = songMetadata.titleTIT2
-        self.metaDict["TALB"] = songMetadata.albumTALB
-        self.metaDict["TSOP"] = songMetadata.artistTSOP
-        self.metaDict["TDRC"] = songMetadata.recDateTDRC
-        self.metaDict["TCON"] = songMetadata.genreTCON
+        self.metaDict["TPE1"] = songMetadata.get("TPE1")
+        self.metaDict["TPE2"] = songMetadata.get("TPE2")
+        self.metaDict["TIT2"] = songMetadata.get("TIT2")
+        self.metaDict["TALB"] = songMetadata.get("TALB")
+        self.metaDict["TSOP"] = songMetadata.get("TSOP")
+        self.metaDict["TDRC"] = songMetadata.get("TDRC")
+        self.metaDict["TCON"] = songMetadata.get("TCON")
         
 

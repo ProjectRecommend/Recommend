@@ -1,6 +1,6 @@
 from Metadata.LyricsAndMetaData import EditLyrics, EditMetadata
 from Metadata import tagsReadMetadata
-from Metadata import tags
+# from Metadata import tags
 
 
 class ManageMetaData(object):
@@ -47,7 +47,7 @@ class ManageMetaData(object):
 
         return metadataDict
 
-    def WriteMetaData(self, SongPath):
+    def WriteMetaData(self, songMetadata, SongPath):
         # WriteMetaData is called when
         # this function writes metadata into the song.
         # TIT2,TALB,TPE1,TPE2,TSOP,TDRC,TCON
@@ -55,7 +55,7 @@ class ManageMetaData(object):
         # self.populate(songMetadata)
 
         metaDataobj = EditMetadata(SongPath)
-        metaDataobj.populateMetadict(self)
+        metaDataobj.populateMetadict(songMetadata)
 
         metaDataobj.writeTag(SongPath, "TIT2")
         print ("TIT2 done\n")

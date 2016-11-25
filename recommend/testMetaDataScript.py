@@ -1,6 +1,8 @@
 # D:\\Songs(english)\\naked\\13 Hey There Delilah.mp3
 # All Of Me - John Legend.mp3
 
+# For manually testing ManageMetadata module.
+
 from Metadata.ManageMetaDataModule import ManageMetaData
 
 print ("starting test...")
@@ -11,7 +13,7 @@ print(obj.titleTIT2)
 print ("printing metadata read:\n")
 print(a)
 print ("read metadata done")
-obj.WriteMetaData("D:\\Songs(english)\\naked\\BabyRap.mp3")
+obj.WriteMetaData(a,"D:\\Songs(english)\\naked\\BabyRap.mp3")
 print ("write metadata done")
 
 print("lets now see if it has worked!!!\n")
