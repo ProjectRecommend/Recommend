@@ -38,7 +38,8 @@ class getTags(object):
         for tag in self.tags:
             if (tag[0] == 'TIT2'):
                 metaText=(str(tag[1]).encode(encoding='utf_8'))
-
+        print ("getTitleMetadata :")
+        print (metaText)
         return self.metaTextToUnicode(metaText)
 
     # from tags import (getLyricsMetadata, getArtistMetadata, getTitleMetadata, getAlbumMetadata, getLeadMetadata, getBandMetadata, getPSOMetadata, getYearMetadata, getCTypeMetadata)

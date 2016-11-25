@@ -51,7 +51,9 @@ class ManageMetaData(object):
         # WriteMetaData is called when
         # this function writes metadata into the song.
         # TIT2,TALB,TPE1,TPE2,TSOP,TDRC,TCON
-        
+
+        # self.populate(songMetadata)
+
         metaDataobj = EditMetadata(SongPath)
         metaDataobj.populateMetadict(self)
 
@@ -74,4 +76,5 @@ class ManageMetaData(object):
         # lyricsObj.writeLyrics(SongPath)
         return True
 
+        
 

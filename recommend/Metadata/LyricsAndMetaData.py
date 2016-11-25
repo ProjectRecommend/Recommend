@@ -88,74 +88,74 @@ class EditMetadata(object):
         self.metaDict = {}
         self.obj=getTags(filePath)
 
-    def ifTag(self, tag):
-        # filePath = os.path.join(root_dir, fileName)
+    # def ifTag(self, tag):
+    #     # filePath = os.path.join(root_dir, fileName)
         
-        if tag == "TIT2":
-            # TIT2:title
-            title = self.obj.getTitleMetadata()
-            if (len(title) == 0):
-                print(0)
-                return 0
-            else:
-                print(1)
-                return 1
-        elif tag == "TALB":
-            # TALB:album
-            album = self.obj.getAlbumMetadata()
-            if(len(album) == 0):
-                print(0)
-                return 0
-            else:
-                print(1)
-                return 1
-        elif tag == "TPE1":
-            # TPE1:Lead
-            lead = self.obj.getLeadMetadata()
-            if (len(lead)):
-                print(0)
-                return 0
-            else:
-                print(1)
-                return 1
-        elif tag == "TPE2":
-            # TPE2:band
-            band = self.obj.getBandMetadata()
-            if (len(band)):
-                print(0)
-                return 0
-            else:
-                print(1)
-                return 1
-        elif tag == "TSOP":
-            # TSOP:performer sort order.
-            pso = self.obj.getPSOMetadata()
-            if (len(pso)):
-                print(0)
-                return 0
-            else:
-                print(1)
-                return 1
-        elif tag == "TDRC":
-            # TDRC: year
-            year = self.obj.getYearMetadata()
-            if (len(year)):
-                print(0)
-                return 0
-            else:
-                print(1)
-                return 1
-        elif tag == "TCON":
-            # TCON: Content type
-            cType = self.obj.getCTypeMetadata()
-            if (len(cType)):
-                print(0)
-                return 0
-            else:
-                print(1)
-                return 1
-        else:
-            print("error")
+    #     if tag == "TIT2":
+    #         # TIT2:title
+    #         title = self.obj.getTitleMetadata()
+    #         if (len(title) == 0):
+    #             print(0)
+    #             return 0
+    #         else:
+    #             print(1)
+    #             return 1
+    #     elif tag == "TALB":
+    #         # TALB:album
+    #         album = self.obj.getAlbumMetadata()
+    #         if(len(album) == 0):
+    #             print(0)
+    #             return 0
+    #         else:
+    #             print(1)
+    #             return 1
+    #     elif tag == "TPE1":
+    #         # TPE1:Lead
+    #         lead = self.obj.getLeadMetadata()
+    #         if (len(lead)):
+    #             print(0)
+    #             return 0
+    #         else:
+    #             print(1)
+    #             return 1
+    #     elif tag == "TPE2":
+    #         # TPE2:band
+    #         band = self.obj.getBandMetadata()
+    #         if (len(band)):
+    #             print(0)
+    #             return 0
+    #         else:
+    #             print(1)
+    #             return 1
+    #     elif tag == "TSOP":
+    #         # TSOP:performer sort order.
+    #         pso = self.obj.getPSOMetadata()
+    #         if (len(pso)):
+    #             print(0)
+    #             return 0
+    #         else:
+    #             print(1)
+    #             return 1
+    #     elif tag == "TDRC":
+    #         # TDRC: year
+    #         year = self.obj.getYearMetadata()
+    #         if (len(year)):
+    #             print(0)
+    #             return 0
+    #         else:
+    #             print(1)
+    #             return 1
+    #     elif tag == "TCON":
+    #         # TCON: Content type
+    #         cType = self.obj.getCTypeMetadata()
+    #         if (len(cType)):
+    #             print(0)
+    #             return 0
+    #         else:
+    #             print(1)
+    #             return 1
+    #     else:
+    #         print("error")
 
     # TIT2,TALB,TPE1,TPE2,TSOP,TDRC,TCON,USLT
     # tag names: title, album, lead, band, performerSortOrder, year, contentType
@@ -234,22 +234,26 @@ class EditMetadata(object):
     # TIT2,TALB,TPE1,TPE2,TSOP,TDRC,TCON,USLT
     # tag names: title, album, lead, band, performerSortOrder, year, contentType
 
+    # get function of dictionary: get(arg1,arg2), arg1 is the key to get and arg2 is returned if None is found corresponding
+    # to arg1
+
     def fetchTag(self, songMetadata, tag):
+        print ("inside fetchTag:\n")
         print (songMetadata)
         if tag == "TIT2":
-            return songMetadata.get("TIT2")
+            return songMetadata.get("TIT2"," ")
         elif tag == "TALB":
-            return songMetadata.get("TALB")
+            return songMetadata.get("TALB"," ")
         elif tag == "TPE1":
-            return songMetadata.get("TPE1")
+            return songMetadata.get("TPE1"," ")
         elif tag == "TPE2":
-            return songMetadata.get("TPE2")
+            return songMetadata.get("TPE2"," ")
         elif tag == "TSOP":
-            return songMetadata.get("TSOP")
+            return songMetadata.get("TSOP"," ")
         elif tag == "TDRC":
-            return songMetadata.get("TDRC")
+            return songMetadata.get("TDRC"," ")
         elif tag == "TCON":
-            return songMetadata.get("TCON")
+            return songMetadata.get("TCON"," ")
         else:
             print("error: tag unidentified")
             return "error"
@@ -272,23 +276,30 @@ class EditMetadata(object):
         # self.genreTCON = None
         print ("metaDict currently:\n")
         print (self.metaDict)
-        isTagPresent=self.ifTag(tag)
-        if( isTagPresent == 0):
+        # isTagPresent=self.ifTag(tag)
+        # if( isTagPresent == 0):
+        if self.metaDict.get(tag)!=None:
             self.removeTag(filePath, tag)
             print("** removeTag function done **")
             self.addTag(filePath, self.metaDict, tag)
             print("** addTag function done **")
-        elif( isTagPresent == 1):
-            print("***ALL OK ***")
+        # elif( isTagPresent == 1):
+        #     print("***ALL OK ***")
 
     def populateMetadict(self, songMetadata):
+        # self.metaDict["TPE1"] = songMetadata.artistTPE1
+        # self.metaDict["TPE2"] = songMetadata.artistTPE2
+        # self.metaDict["TIT2"] = songMetadata.titleTIT2
+        # self.metaDict["TALB"] = songMetadata.albumTALB
+        # self.metaDict["TSOP"] = songMetadata.artistTSOP
+        # self.metaDict["TDRC"] = songMetadata.recDateTDRC
+        # self.metaDict["TCON"] = songMetadata.genreTCON
         self.metaDict["TPE1"] = songMetadata.artistTPE1
         self.metaDict["TPE2"] = songMetadata.artistTPE2
         self.metaDict["TIT2"] = songMetadata.titleTIT2
-        print("populate function")
-        print(songMetadata.titleTIT2)
         self.metaDict["TALB"] = songMetadata.albumTALB
         self.metaDict["TSOP"] = songMetadata.artistTSOP
         self.metaDict["TDRC"] = songMetadata.recDateTDRC
         self.metaDict["TCON"] = songMetadata.genreTCON
+        
 
