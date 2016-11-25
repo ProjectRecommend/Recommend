@@ -61,6 +61,7 @@ class AccessLocalStorage(object):
             print("could not read from the database, connection not found")
             return False
         return self.songDict
+
     """
     the following function writes song details, like its metadata and so on into the database, it is
     passed the songPath only, it calls the function ReadMetaData which returns a dictionary containing key value
@@ -124,3 +125,45 @@ class AccessLocalStorage(object):
             print("could not establish a connection")
             return False
         return True
+    
+    def update(self, SongPath):
+        if self.db.isOpen():
+            # print("trying to write in DB")
+            metadataDict = {}
+            metadataDict = ManageMetaData.ReadMetaData(self, SongPath)
+            """
+            songDict come in undefined order always,we make a ordered list out of it.
+            so we can iterate and insert it in db as it in db schema
+            order of elements in db table/schema
+            SID, SPath, isUpdated, TIT2, TALB, TPE1, TPE2, TSOP, TDRC, TCON
+            """
+            self.query.prepare("update songs SET isUpdated=:isUpdated, TIT2=:TIT2, TALB=:TALB, TPE1=:TPE1, TPE2=:TPE2, TSOP=:TSOP, TDRC=:TDRC, TCON=:TCON WHERE SPath=:SPath")
+            # SPath, isUpdated, TIT2, TALB, TPE1, TPE2, TSOP, TDRC, TCON, these are required, SID is auto incrimented
+            self.query.bindValue(":SPath", SongPath)
+            self.query.bindValue(":isUpdated", 0)
+            self.query.bindValue(":TIT2", metadataDict.get("TIT2", "NULL"))
+            self.query.bindValue(":TALB", metadataDict.get("TALB", "NULL"))
+            self.query.bindValue(":TPE1", metadataDict.get("TPE1", "NULL"))
+            self.query.bindValue(":TPE2", metadataDict.get("TPE2", "NULL"))
+            self.query.bindValue(":TSOP", metadataDict.get("TSOP", "NULL"))
+            self.query.bindValue(":TDRC", metadataDict.get("TDRC", "NULL"))
+            self.query.bindValue(":TCON", metadataDict.get("TCON", "NULL"))
+            isQuerySuccessful = self.query.exec_()
+
+            if isQuerySuccessful:
+                print("update successful")
+                # print("no of rows affected: " + str(self.query.numRowsAffected()))
+            elif self.query.lastError().number() is 19:
+                pass
+                # print("unique Construct failed")
+                # print(self.query.lastError().number().text())
+            else:
+                print("update not successful")
+                # print("error:")
+                print(self.query.lastError().number())
+                return False
+        else:
+            print("connection could not be established")
+            return False
+        return True
+
