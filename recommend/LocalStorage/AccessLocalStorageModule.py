@@ -22,7 +22,7 @@ class AccessLocalStorage(object):
         self.songDict = {}
         # so basically querying on the instance of the database mentioned earlier
 
-    def read(self, SongID):
+    def read(self, SongPath):
         if self.db.isOpen():
             """
             QSqlQuery(const QString &query = QString(), QSqlDatabase db = QSqlDatabase())
@@ -31,7 +31,7 @@ class AccessLocalStorage(object):
             """
             # queryString="SELECT SID, SPath, isUpdated FROM songs WHERE SID=" + str(songID)
             # record=self.query.exec_(queryString)
-            queryString = "SELECT SID, SPath, isUpdated, TIT2, TALB, TPE1, TPE2, TSOP, TDRC, TCON FROM songs WHERE SongID = " + str(SongID)
+            queryString = "SELECT SID, SPath, isUpdated, TIT2, TALB, TPE1, TPE2, TSOP, TDRC, TCON FROM songs WHERE SPATH = " + str(SongPath)
             record = self.query.exec_(queryString)
             # now we can use record object (which is an QSqlQuery object) to navigate the record
             if record:
