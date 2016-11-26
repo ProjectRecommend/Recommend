@@ -385,9 +385,9 @@ class MainWindow(Ui_MainWindow):
         print("populate Edit MetadataDialog")
         currentSongPath = self.mediaPlayer.currentMedia().canonicalUrl().toString()
         self.metadataDialog.songPath = currentSongPath[8:]
+        print("current songpath in populateEditMetadataDialog")
         print(self.metadataDialog.songPath)
         metadata = ManageMetaData.ReadMetaData(self, self.metadataDialog.songPath)
-        print(metadata)
         self.metadataDialog.metadataDict["TPE1"] = metadata.get("TPE1")
         self.metadataDialog.metadataDict["TPE2"] = metadata.get("TPE2")
         self.metadataDialog.metadataDict["TALB"] = metadata.get("TALB")
@@ -446,10 +446,14 @@ class MetadataDialog(Ui_EditMetaDataDialog):
         self.metadataDict["TCON"] = self.ui.genreLineEdit.text()
         self.metadataDict["TDRC"] = self.ui.yearLineEdit.text()
         # write this to file
+        print("songPath before writing: "+self.songPath)
         manageMetadata = ManageMetaData()
-        print ("songPath now:")
-        print (self.songPath)
-        manageMetadata.WriteMetaData(self.metadataDict, self.songPath)
+        print(self.metadataDict)
+        # print (self.songPath)
+        
+        # hardcoding songPath for testing purpose.
+
+        manageMetadata.WriteMetaData(self.metadataDict, "D:/Songs(english)/Imagine Dragons/Imagine dragons-demons.mp3")
         print("wrote metadata")
         self.editMetadataDialog.accept()
 

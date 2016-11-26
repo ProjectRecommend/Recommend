@@ -85,6 +85,7 @@ class EditLyrics(object):
 
 class EditMetadata(object):
     def __init__(self, filePath):
+        print("EditMetadata initialization:"+filePath)
         self.metaDict = {}
         # self.obj=getTags(filePath)
 

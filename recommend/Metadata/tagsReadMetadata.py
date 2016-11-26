@@ -72,6 +72,7 @@ def getMetadataDict(mp3file):
             metaDataDict["TCON"] = (str(tag[1]).encode(encoding='utf_8'))
         if (tag[0] == 'TDRC'):
             metaDataDict["TDRC"] = (str(tag[1]).encode(encoding='utf_8'))
+    
 
     return metaDataDictToUnicode(metaDataDict)
 
@@ -107,6 +108,8 @@ def metaDataDictToUnicode(metaDataDict):
         dammit = UnicodeDammit(metaDataDict[text])
         uniText[text] = dammit.unicode_markup
 
+    print("inside metaDataDictToUnicode: metadata now:\n")
+    print(uniText)
     return uniText
 
 
