@@ -98,6 +98,8 @@ class MainWindow(Ui_MainWindow):
         # set songsFolder None so if we don't find it in settings we don't crawlFolder
         self.songsFolder = None
         self.loadSettings()
+        # localStorage init
+        self.manageLocalStorage = ManageLocalStorage(const.LS_connectionName)
         # The playback volume is linear in effect and the value
         # can range from 0 - 100, values outside this range will be clamped.
         self.mediaPlayer.setVolume(int(self.volume))
@@ -124,6 +126,7 @@ class MainWindow(Ui_MainWindow):
         folder = QtWidgets.QFileDialog.getExistingDirectory(None, "Open a folder", os.getenv('HOME'), QtWidgets.QFileDialog.ShowDirsOnly)
         if folder:
             self.songsFolder = folder
+            self.manageLocalStorage.dump()
             self.crawlFolder()
         # print(self.songsFolder)
 
@@ -155,7 +158,6 @@ class MainWindow(Ui_MainWindow):
                             self.filePathList.append(fInfo.absoluteFilePath())
             # print(len(self.filePathList))
             # add stuff into LocalStorage
-            self.manageLocalStorage = ManageLocalStorage(const.LS_connectionName)
             lsStatus = self.manageLocalStorage.build()
             # print(lsStatus)
             if lsStatus:
