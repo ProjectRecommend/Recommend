@@ -48,9 +48,9 @@ class ManageMetaData(object):
         return metadataDict
 
     def WriteMetaData(self, songMetadata, SongPath):
-        
+
         # songMetadata is a dictionary containing all the users' metadata received from the ui.
-        
+
         # WriteMetaData is called when
         # this function writes metadata into the song.
         # TIT2,TALB,TPE1,TPE2,TSOP,TDRC,TCON
@@ -61,20 +61,20 @@ class ManageMetaData(object):
         metaDataobj.populateMetadict(songMetadata)
 
         metaDataobj.writeTag(SongPath, "TIT2")
-        print ("TIT2 done\n")
+        # print("TIT2 done\n")
         metaDataobj.writeTag(SongPath, "TALB")
-        print ("TALB done\n")
+        # print("TALB done\n")
         metaDataobj.writeTag(SongPath, "TPE1")
-        print ("TPE1 done\n")
+        # print("TPE1 done\n")
         metaDataobj.writeTag(SongPath, "TPE2")
-        print ("TPE2 done\n")
+        # print("TPE2 done\n")
         metaDataobj.writeTag(SongPath, "TSOP")
-        print ("TSOP done\n")
+        # print("TSOP done\n")
         metaDataobj.writeTag(SongPath, "TDRC")
-        print ("TDRC done\n")
+        # print("TDRC done\n")
         metaDataobj.writeTag(SongPath, "TCON")
-        print ("TCON done\n")
-        print ("All tags except USLT done")
+        # print("TCON done\n")
+        # print("All tags except USLT done")
         # lyricsObj = EditLyrics(SongPath)
         # lyricsObj.writeLyrics(SongPath)
         return True

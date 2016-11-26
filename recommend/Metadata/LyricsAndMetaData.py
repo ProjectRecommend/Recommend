@@ -240,8 +240,8 @@ class EditMetadata(object):
     # to arg1
 
     def fetchTag(self, songMetadata, tag):
-        print ("inside fetchTag:\n")
-        print (songMetadata)
+        # print("inside fetchTag:\n")
+        # print(songMetadata)
         if tag == "TIT2":
             return songMetadata.get("TIT2"," ")
         elif tag == "TALB":
@@ -282,9 +282,9 @@ class EditMetadata(object):
         # if( isTagPresent == 0):
         if self.metaDict.get(tag) is not None:
             self.removeTag(filePath, tag)
-            print("** removeTag function done **")
+            # print("** removeTag function done **")
             self.addTag(filePath, self.metaDict, tag)
-            print("** addTag function done **")
+            # print("** addTag function done **")
         # elif( isTagPresent == 1):
         #     print("***ALL OK ***")
 
