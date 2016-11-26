@@ -134,7 +134,6 @@ class ManageCache:
             print("the table could not be deleted")
             print("error:")
             print(query.lastError().text())
-        del db
         return True
 
     def deleteCache(self, songID):
