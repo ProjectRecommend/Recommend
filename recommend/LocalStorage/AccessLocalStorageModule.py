@@ -118,7 +118,7 @@ class AccessLocalStorage(object):
     def delete(self, SongPath):
         if self.db.isOpen():
             
-            self.query.prepare("delete from songs WHERE SID=:SongPath")
+            self.query.prepare("delete from songs WHERE SPath=:SongPath")
             self.query.bindValue(":SongPath",SongPath)
             isQuerySuccessful = self.query.exec_()
             if isQuerySuccessful:
