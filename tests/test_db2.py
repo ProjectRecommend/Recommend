@@ -48,8 +48,6 @@ class Test30(unittest.TestCase):
 class Test40(unittest.TestCase):
     def setUp(self):
         print("setting up for read...")
-        # self.obj_als = obj
-        # self.SongID = 100
     def test_read(self):
         print("\n\t\ttest040")
         print("testing read function...")
