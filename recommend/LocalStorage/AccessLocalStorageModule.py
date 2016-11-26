@@ -1,5 +1,9 @@
 from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtSql import QSqlDatabase, QSqlQuery
+import sys,os
+path=os.getcwd()
+path=path[:-12]
+sys.path.insert(1,path)
 from Metadata.ManageMetaDataModule import ManageMetaData
 from LocalStorage.ManageLocalStorageModule import ManageLocalStorage
 
@@ -31,8 +35,10 @@ class AccessLocalStorage(object):
             """
             # queryString="SELECT SID, SPath, isUpdated FROM songs WHERE SID=" + str(songID)
             # record=self.query.exec_(queryString)
-            queryString = "SELECT SID, SPath, isUpdated, TIT2, TALB, TPE1, TPE2, TSOP, TDRC, TCON FROM songs WHERE SPATH = " + str(SongPath)
-            record = self.query.exec_(queryString)
+            queryString = "SELECT SID, SPath, isUpdated, TIT2, TALB, TPE1, TPE2, TSOP, TDRC, TCON FROM songs WHERE SPath = :SongPath" 
+            self.query.prepare(queryString)
+            self.query.bindValue(":SongPath",SongPath)
+            record=self.query.exec_()
             # now we can use record object (which is an QSqlQuery object) to navigate the record
             if record:
                 print("read successful, it seems")

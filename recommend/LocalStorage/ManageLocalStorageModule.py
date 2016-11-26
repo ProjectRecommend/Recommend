@@ -86,20 +86,20 @@ class ManageLocalStorage(object):
             print("Query failed")
         return projectModel
 
-    # def connect(self):
-    #     db = QSqlDatabase.database(self.connectionName,True)
-    #     print("database name being connected and the connection names are as follows: ")
-    #     print(db.databaseName())
-    #     print(db.connectionName())
-    #     # del db
-    #     self.isConnected = True
-    #     return True
+    def connect(self):
+        db = QSqlDatabase.database(self.connectionName,True)
+        print("database name being connected and the connection names are as follows: ")
+        print(db.databaseName())
+        print(db.connectionName())
+        # del db
+        self.isConnected = True
+        return True
 
-    # def disconnect(self):
-    #     db = QSqlDatabase.database(self.connectionName,False)
-    #     print("database name being disconnected and the connection names are as follows: ")
-    #     print(db.databaseName())
-    #     print(db.connectionName())
-    #     # del db
-    #     self.isConnected = False
-    #     return True
+    def disconnect(self):
+        db = QSqlDatabase.database(self.connectionName,False)
+        print("database name being disconnected and the connection names are as follows: ")
+        print(db.databaseName())
+        print(db.connectionName())
+        # del db
+        self.isConnected = False
+        return True
