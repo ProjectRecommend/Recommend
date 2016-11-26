@@ -5,7 +5,7 @@ from Metadata import tagsReadMetadata
 
 class ManageMetaData(object):
     def __init__(self):
-        
+
         # don init stuff
         # self.SongMetaData = None
         # implement member var stuff
@@ -79,5 +79,5 @@ class ManageMetaData(object):
         # lyricsObj.writeLyrics(SongPath)
         return True
 
-        
+
 

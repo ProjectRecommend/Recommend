@@ -7,6 +7,7 @@ from editMetadata_form import Ui_EditMetaDataDialog
 from bs4 import UnicodeDammit
 from LocalStorage.AccessLocalStorageModule import AccessLocalStorage
 from LocalStorage.ManageLocalStorageModule import ManageLocalStorage
+from Metadata.ManageMetaDataModule import ManageMetaData
 
 
 class MainWindow(Ui_MainWindow):
@@ -197,7 +198,7 @@ class MainWindow(Ui_MainWindow):
         model = self.playlistView.model()
         for row in range(model.rowCount()):
             index = model.index(row, 1)
-                # We suppose data are strings
+            # We suppose data are strings
             self.mediaPlaylistPathList.append(str(model.data(index)))
         # print(len(self.mediaPlaylistPathList))
         # print(mediaPlaylistPathList)
@@ -376,7 +377,36 @@ class MainWindow(Ui_MainWindow):
 
     def editMetadataHandler(self):
         print("open edit metadata dialog")
+        self.populateEditMetadataDialog()
         self.metadataDialog.editMetadataDialog.exec_()
+        print("metadata closed ")
+
+    def populateEditMetadataDialog(self):
+        print("populate Edit MetadataDialog")
+        currentSongPath = self.mediaPlayer.currentMedia().canonicalUrl().toString()
+        self.metadataDialog.songPath = currentSongPath[8:]
+        print("current songpath in populateEditMetadataDialog")
+        print(self.metadataDialog.songPath)
+        metadata = ManageMetaData.ReadMetaData(self, self.metadataDialog.songPath)
+        self.metadataDialog.metadataDict["TPE1"] = metadata.get("TPE1")
+        self.metadataDialog.metadataDict["TPE2"] = metadata.get("TPE2")
+        self.metadataDialog.metadataDict["TALB"] = metadata.get("TALB")
+        self.metadataDialog.metadataDict["TSOP"] = metadata.get("TSOP")
+        self.metadataDialog.metadataDict["USLT"] = metadata.get("USLT")
+        self.metadataDialog.metadataDict["TDRC"] = metadata.get("TDRC")
+        self.metadataDialog.metadataDict["TDOR"] = metadata.get("TDOR")
+        self.metadataDialog.metadataDict["TPUB"] = metadata.get("TPUB")
+        self.metadataDialog.metadataDict["TIT2"] = metadata.get("TIT2")
+        self.metadataDialog.metadataDict["TCON"] = metadata.get("TCON")
+        print("printing inside populatEditMetadataDialog")
+        print(self.metadataDialog.metadataDict)
+        self.metadataDialog.ui.titleLineEdit.setText(metadata.get("TIT2"))
+        self.metadataDialog.ui.artistLineEdit.setText(metadata.get("TPE1"))
+        self.metadataDialog.ui.albumLineEdit.setText(metadata.get("TALB"))
+        self.metadataDialog.ui.albumArtistLineEdit.setText(metadata.get("TPE2"))
+        self.metadataDialog.ui.genreLineEdit.setText(metadata.get("TCON"))
+        self.metadataDialog.ui.yearLineEdit.setText(metadata.get("TDRC"))
+        # publisher, lyrics is skipped,fix it in metadata module
 
     def buildMessageBox(self, message):
         messageBox = QtWidgets.QMessageBox()
@@ -395,6 +425,8 @@ class MetadataDialog(Ui_EditMetaDataDialog):
         self.ui.setupUi(self.editMetadataDialog)
         self.buttonSave = self.ui.saveButton
         self.buttonCancel = self.ui.cancelButton
+        self.metadataDict = {}
+        self.songPath = ""
         # self.editMetadataDialog.accept = self.accept
         # self.editMetadataDialog.reject = self.reject
         self.wireButtons()
@@ -407,6 +439,22 @@ class MetadataDialog(Ui_EditMetaDataDialog):
 
     def saveButtonHandler(self):
         print("save stuff")
+        self.metadataDict["TIT2"] = self.ui.titleLineEdit.text()
+        self.metadataDict["TPE1"] = self.ui.artistLineEdit.text()
+        self.metadataDict["TALB"] = self.ui.albumLineEdit.text()
+        self.metadataDict["TPE2"] = self.ui.albumArtistLineEdit.text()
+        self.metadataDict["TCON"] = self.ui.genreLineEdit.text()
+        self.metadataDict["TDRC"] = self.ui.yearLineEdit.text()
+        # write this to file
+        print("songPath before writing: "+self.songPath)
+        manageMetadata = ManageMetaData()
+        print(self.metadataDict)
+        # print (self.songPath)
+        
+        # hardcoding songPath for testing purpose.
+
+        manageMetadata.WriteMetaData(self.metadataDict, "D:/Songs(english)/Imagine Dragons/Imagine dragons-demons.mp3")
+        print("wrote metadata")
         self.editMetadataDialog.accept()
 
     def cancelButtonHandler(self):

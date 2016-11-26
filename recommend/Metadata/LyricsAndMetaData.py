@@ -6,7 +6,7 @@ import os
 from Metadata import loloLyrics
 
 # metadata module
-# from Metadata.tags import getTags 
+# from Metadata.tags import getTags
 from Metadata.tagsReadMetadata import getMetadataDict
 from Metadata.loloLyrics import getLyrics
 
@@ -85,12 +85,13 @@ class EditLyrics(object):
 
 class EditMetadata(object):
     def __init__(self, filePath):
+        print("EditMetadata initialization:"+filePath)
         self.metaDict = {}
         # self.obj=getTags(filePath)
 
     # def ifTag(self, tag):
     #     # filePath = os.path.join(root_dir, fileName)
-        
+
     #     if tag == "TIT2":
     #         # TIT2:title
     #         title = self.obj.getTitleMetadata()
@@ -166,7 +167,7 @@ class EditMetadata(object):
         audio = ID3(filePath)
         if tag == "TIT2":
             audio.delall('TIT2')
-            # TODO: to be tested later, test after removing the following line. 
+            # TODO: to be tested later, test after removing the following line.
             audio.add(TIT2(encoding=3, text=u" "))
 
         elif tag == "TALB":
@@ -302,5 +303,5 @@ class EditMetadata(object):
         self.metaDict["TSOP"] = songMetadata.get("TSOP")
         self.metaDict["TDRC"] = songMetadata.get("TDRC")
         self.metaDict["TCON"] = songMetadata.get("TCON")
-        
+
 
