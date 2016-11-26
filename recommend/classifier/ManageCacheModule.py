@@ -19,7 +19,6 @@ class ManageCache:
     def __init__(self, connectionName):
         self.connectionName = connectionName
         self.db = QSqlDatabase.database(connectionName,True)
-        self.query = QSqlQuery(self.db)
 
     """
     Considering the documentation of the project we have an important function missing which builds the cache, so we are adding it here
@@ -33,19 +32,19 @@ class ManageCache:
 
     def buildCache(self):
         # buildCache is provided with the connectionName of the connection so that it is proper
-        db = QSqlDatabase.addDatabase('QSQLITE', self.connectionName)
-        db.setDatabaseName('PRCache')
-        db.setUserName('ProjectRecommend')
-        db.setPassword('elite1338')
-        db.setPort(1338)
+        self.db.addDatabase('QSQLITE', self.connectionName)
+        self.db.setDatabaseName('PRCache')
+        self.db.setUserName('ProjectRecommend')
+        self.db.setPassword('elite1338')
+        self.db.setPort(1338)
 
-        if not db.isOpen():
+        if not self.db.isOpen():
             print("could not open the Cache database")
             return False
         else:
             print("opened the Cache database successfully")
 
-        query = QSqlQuery(db)
+        query = QSqlQuery(self.db)
         # for now i am not sure what is the data that will be stored in the cache and so i keep on SID and Spath for now
 
         isQuerySuccessful = query.exec_("create table songs(SID int, Title varchar(255),Artist varchar(255),URI varchar(255), Type boolean)")
@@ -58,10 +57,6 @@ class ManageCache:
             print("table could not be created")
             print("error:")
             print(query.lastError().text())
-
-        # deleting these instances is important
-        del db
-        del query
         return True
 
     def ReadCache(self, songID):
@@ -128,9 +123,9 @@ class ManageCache:
         return False
 
     def dumpCache(self):
-        db = QSqlDatabase.database(self.connectionName, False)
+        self.db.database(self.connectionName, False)
         # just to close the connection I use False as the second parameter
-        query = QSqlQuery(db)
+        query = QSqlQuery(self.db)
         isDeleteSuccessful = query.exec_("drop table songs")
 
         if isDeleteSuccessful:

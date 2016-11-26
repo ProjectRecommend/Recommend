@@ -67,8 +67,7 @@ class ManageLocalStorage(object):
         seems we cannot remove the database efficiently here so we need to essentially delete tables in the instance of the database already created
         """
         # just to close the connection I use False as the second parameter
-        db = QSqlDatabase.database(self.connectionName, False)
-        query = QSqlQuery(db)
+        query = QSqlQuery(self.db)
         isDeleteSuccessful = query.exec_("drop table songs")
         if isDeleteSuccessful:
             print("the table has been deleted successfully")
@@ -76,7 +75,6 @@ class ManageLocalStorage(object):
             print("the table could not be deleted")
             print("error:")
             print(query.lastError().text())
-        # del db
         return True
 
     def query(self):
@@ -88,20 +86,20 @@ class ManageLocalStorage(object):
             print("Query failed")
         return projectModel
 
-    def connect(self):
-        db = QSqlDatabase.database(self.connectionName,True)
-        print("database name being connected and the connection names are as follows: ")
-        print(db.databaseName())
-        print(db.connectionName())
-        # del db
-        self.isConnected = True
-        return True
+    # def connect(self):
+    #     db = QSqlDatabase.database(self.connectionName,True)
+    #     print("database name being connected and the connection names are as follows: ")
+    #     print(db.databaseName())
+    #     print(db.connectionName())
+    #     # del db
+    #     self.isConnected = True
+    #     return True
 
-    def disconnect(self):
-        db = QSqlDatabase.database(self.connectionName,False)
-        print("database name being disconnected and the connection names are as follows: ")
-        print(db.databaseName())
-        print(db.connectionName())
-        # del db
-        self.isConnected = False
-        return True
+    # def disconnect(self):
+    #     db = QSqlDatabase.database(self.connectionName,False)
+    #     print("database name being disconnected and the connection names are as follows: ")
+    #     print(db.databaseName())
+    #     print(db.connectionName())
+    #     # del db
+    #     self.isConnected = False
+    #     return True
