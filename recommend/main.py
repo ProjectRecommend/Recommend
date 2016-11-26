@@ -398,6 +398,7 @@ class MainWindow(Ui_MainWindow):
         self.metadataDialog.metadataDict["TPUB"] = metadata.get("TPUB")
         self.metadataDialog.metadataDict["TIT2"] = metadata.get("TIT2")
         self.metadataDialog.metadataDict["TCON"] = metadata.get("TCON")
+        print("printing inside populatEditMetadataDialog")
         print(self.metadataDialog.metadataDict)
         self.metadataDialog.ui.titleLineEdit.setText(metadata.get("TIT2"))
         self.metadataDialog.ui.artistLineEdit.setText(metadata.get("TPE1"))
@@ -446,6 +447,8 @@ class MetadataDialog(Ui_EditMetaDataDialog):
         self.metadataDict["TDRC"] = self.ui.yearLineEdit.text()
         # write this to file
         manageMetadata = ManageMetaData()
+        print ("songPath now:")
+        print (self.songPath)
         manageMetadata.WriteMetaData(self.metadataDict, self.songPath)
         print("wrote metadata")
         self.editMetadataDialog.accept()
