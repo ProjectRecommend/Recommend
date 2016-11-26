@@ -2,80 +2,101 @@ import os
 import sys
 import unittest
 
-sys.path.append('../recommend/LocalStorage/')
-from ManageLocalStorageModule import ManageLocalStorage as mls
+sys.path.append('../recommend/')
+from LocalStorage.ManageLocalStorageModule import ManageLocalStorage as mls
+from LocalStorage.AccessLocalStorageModule import AccessLocalStorage as als
 
-class Test1(unittest.TestCase):
+## test for 'build'
+class Test10(unittest.TestCase):
     ## initiate instance of mls object
-    obj = mls('someConnection123')
-        
-    ## test for build
-    def test010_build(self):
-        self.assertEqual(self.obj.build(), True)
+    #obj_mls = mls('someConnection123')
+
+    def setUp(self):
+        global obj_mls 
+        obj_mls = mls('someConnect123')
+    def test_build(self):
+        print("/t/ttest010")
+        self.assertEqual(obj_mls.build(), True)
 
 # Test for 'query'
-class Test2(unittest.TestCase):
+class Test20(unittest.TestCase):
     def setUp(self):
-        self.obj = Test1.obj
-    ## test for query
-    def test020_query(self):
-        self.assertNotEqual(self.obj.query(), "Query failed")
+        #self.obj_mls = Test10.obj_mls
+        pass
+    def test_query(self):
+        print("/t/ttest020")
+        self.assertNotEqual(obj_mls.query(), "Query failed")
     def tearDown(self):
-        del self.obj
+        pass
+        #del self.obj
+
+# Test for 'write'
+class Test30(unittest.TestCase):
+    def setUp(self):
+        print("setting up")
+        global obj_als
+        obj_als = als('someConnect123')
+        global SongPath
+        SongPath = "saang.mp3"
+        #obj_als = als('someConnection123')
+    def test_write(self):
+        print("\n\t\tttest030")
+        print("testing for write.....")
+        self.assertEqual(obj_als.write(SongPath), True)
+
+# Test for 'read'
+class Test40(unittest.TestCase):
+    def setUp(self):
+        print("setting up for read...")
+        # self.obj_als = obj
+        # self.SongID = 100
+    def test_read(self):
+        print("\n\t\ttest040")
+        print("testing read function...")
+        self.assertNotEqual(obj_als.read(SongPath), False)
+    def tearDown(self):
+        print("tearing down for read...")
+        pass
+
+# Test for 'update'
+class Test41(unittest.TestCase):
+    def setUp(self):
+        pass
+    def test_update(self):
+        print("\n\ttest41...")
+        self.assertEqual(obj_als.update(SongPath), True)
+    def tearDown(self):
+        del globals()['SongPath']
+
+
+# Test for 'delete'
+class Test42(unittest.TestCase):
+    def setUp(self):
+        print("setting up for delete...")
+        self.SongID = 100
+    def test_delete(self):
+        print("\ntest042")
+        print("testing delete function...")
+        self.assertEqual(obj_als.delete(self.SongID), True)
+    def tearDown(self):
+        del self.SongID
 
 # Test for 'dump'
-class Test3(unittest.TestCase):
+class Test50(unittest.TestCase):
     def setUp(self):
-        self.obj = Test1.obj
-    
-    def test030_dump(self):
-        self.assertEqual(self.obj.dump(), True)
-    ## tearDown
+        pass
+        # self.obj_mls = obj
+    def test_dump(self):
+        print("\n\t\ttest050")
+        self.assertEqual(obj_mls.dump(), True)
     def tearDown(self):
         print("tearing down...")
-        del self.obj
-        del Test1.obj
+        del globals()['obj_mls']
+        del globals()['obj_als']
         os.remove("PRLocalStorage.sqlite3")
+
+
+
 
 if __name__ == "__main__":
     unittest.main()
-
-
-
-
-
-
-# class Test01_build(unittest.TestCase):
-    # def setUp(self):
-    #     ## intializing instance of mls
-    #     print("setting up.....................................")
-    #     self.obj = mls('something') # connectionName passed
-
-    # def test_build(self):
-    #     print('testing.........................................')
-    #     self.assertEqual(self.obj.build(), True)
-    
-    # def test_query(self):
-    #     print("testing query........................................")
-    #     self.assertNotEqual(mls.query(mls), 'Query failed')
-
-    # def tearDown(self):
-    #     print("tearing down........................................")
-    #     del self.obj
-    #     os.remove("PRLocalStorage.sqlite3")
-
-    
-    # def test_connect(self):
-    #         print("testing connect........................................")
-    #         self.assertEqual(mls.connect(mls), True)
-    
-    # def test_disconnect(self):
-    #     print("testing disconnect.........................................")
-    #     self.assertEqual(mls.disconnect(mls), True)
-
-    # def test_dump(self):
-    #     mls.isConnected = True
-    #     print('testing........................................')
-    #     self.assertEqual(mls.dump(mls), True)
-
-# Test for 'build'
