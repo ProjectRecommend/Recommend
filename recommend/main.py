@@ -382,7 +382,12 @@ class MainWindow(Ui_MainWindow):
         if self.populateEditMetadataDialog():
             # open MetadataDialog if we can edit metadata otherwise don't
             self.metadataDialog.editMetadataDialog.exec_()
-        print("metadata closed ")
+            self.localStorage.update(self.metadataDialog.songPath)
+            # repopulate UI
+            model = self.manageLocalStorage.query()
+            # self.playlistView.model().clear
+            self.playlistView.setModel(model)
+            print("metadata closed ")
 
     def populateEditMetadataDialog(self):
         print("populate Edit MetadataDialog")
@@ -393,39 +398,45 @@ class MainWindow(Ui_MainWindow):
         model = self.playlistView.model()
         indexes = self.playlistView.selectionModel().selectedRows()
         pathIndex = ""
+        row = None
         for index in sorted(indexes):
             # print('Row %d is selected' % index.row())
             row = index.row()
             pathIndex = model.index(row, 1)
-        self.metadataDialog.songPath = model.data(pathIndex)
-        # print("current songpath in populateEditMetadataDialog")
-        # print(self.metadataDialog.songPath)
-        if self.metadataDialog.songPath == currentPlayingSongPath:
-            # print("don't let user edit metadata")
-            self.buildMessageBox("you can't edit metadata of currently playing song")
-            return False
+        # print(row)
+        if row is None:
+            self.buildMessageBox("Select a Song to edit metadata")
         else:
-            metadata = ManageMetaData.ReadMetaData(self, self.metadataDialog.songPath)
-            self.metadataDialog.metadataDict["TPE1"] = metadata.get("TPE1")
-            self.metadataDialog.metadataDict["TPE2"] = metadata.get("TPE2")
-            self.metadataDialog.metadataDict["TALB"] = metadata.get("TALB")
-            self.metadataDialog.metadataDict["TSOP"] = metadata.get("TSOP")
-            self.metadataDialog.metadataDict["USLT"] = metadata.get("USLT")
-            self.metadataDialog.metadataDict["TDRC"] = metadata.get("TDRC")
-            self.metadataDialog.metadataDict["TDOR"] = metadata.get("TDOR")
-            self.metadataDialog.metadataDict["TPUB"] = metadata.get("TPUB")
-            self.metadataDialog.metadataDict["TIT2"] = metadata.get("TIT2")
-            self.metadataDialog.metadataDict["TCON"] = metadata.get("TCON")
-            # print("printing inside populatEditMetadataDialog")
-            # print(self.metadataDialog.metadataDict)
-            self.metadataDialog.ui.titleLineEdit.setText(metadata.get("TIT2"))
-            self.metadataDialog.ui.artistLineEdit.setText(metadata.get("TPE1"))
-            self.metadataDialog.ui.albumLineEdit.setText(metadata.get("TALB"))
-            self.metadataDialog.ui.albumArtistLineEdit.setText(metadata.get("TPE2"))
-            self.metadataDialog.ui.genreLineEdit.setText(metadata.get("TCON"))
-            self.metadataDialog.ui.yearLineEdit.setText(metadata.get("TDRC"))
-            # publisher, lyrics is skipped,fix it in metadata module
-            return True
+            # print(pathIndex)
+            self.metadataDialog.songPath = model.data(pathIndex)
+            # print("current songpath in populateEditMetadataDialog")
+            # print(self.metadataDialog.songPath)
+            if self.metadataDialog.songPath == currentPlayingSongPath:
+                # print("don't let user edit metadata")
+                self.buildMessageBox("you can't edit metadata of currently playing song")
+                return False
+            else:
+                metadata = ManageMetaData.ReadMetaData(self, self.metadataDialog.songPath)
+                self.metadataDialog.metadataDict["TPE1"] = metadata.get("TPE1")
+                self.metadataDialog.metadataDict["TPE2"] = metadata.get("TPE2")
+                self.metadataDialog.metadataDict["TALB"] = metadata.get("TALB")
+                self.metadataDialog.metadataDict["TSOP"] = metadata.get("TSOP")
+                self.metadataDialog.metadataDict["USLT"] = metadata.get("USLT")
+                self.metadataDialog.metadataDict["TDRC"] = metadata.get("TDRC")
+                self.metadataDialog.metadataDict["TDOR"] = metadata.get("TDOR")
+                self.metadataDialog.metadataDict["TPUB"] = metadata.get("TPUB")
+                self.metadataDialog.metadataDict["TIT2"] = metadata.get("TIT2")
+                self.metadataDialog.metadataDict["TCON"] = metadata.get("TCON")
+                # print("printing inside populatEditMetadataDialog")
+                # print(self.metadataDialog.metadataDict)
+                self.metadataDialog.ui.titleLineEdit.setText(metadata.get("TIT2"))
+                self.metadataDialog.ui.artistLineEdit.setText(metadata.get("TPE1"))
+                self.metadataDialog.ui.albumLineEdit.setText(metadata.get("TALB"))
+                self.metadataDialog.ui.albumArtistLineEdit.setText(metadata.get("TPE2"))
+                self.metadataDialog.ui.genreLineEdit.setText(metadata.get("TCON"))
+                self.metadataDialog.ui.yearLineEdit.setText(metadata.get("TDRC"))
+                # publisher, lyrics is skipped,fix it in metadata module
+                return True
 
     def buildMessageBox(self, message):
         messageBox = QtWidgets.QMessageBox()
@@ -465,12 +476,13 @@ class MetadataDialog(Ui_EditMetaDataDialog):
         self.metadataDict["TCON"] = self.ui.genreLineEdit.text()
         self.metadataDict["TDRC"] = self.ui.yearLineEdit.text()
         # write this to file
-        print("songPath before writing: " + self.songPath)
+        # print("songPath before writing: " + self.songPath)
         manageMetadata = ManageMetaData()
-        print(self.metadataDict)
+        # print(self.metadataDict)
         # print (self.songPath)
         manageMetadata.WriteMetaData(self.metadataDict, self.songPath)
         print("wrote metadata")
+        # update in localStorage
         self.editMetadataDialog.accept()
 
     def cancelButtonHandler(self):

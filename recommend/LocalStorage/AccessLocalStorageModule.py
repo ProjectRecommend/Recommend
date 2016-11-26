@@ -124,7 +124,7 @@ class AccessLocalStorage(object):
             print("could not establish a connection")
             return False
         return True
-    
+
     def update(self, SongPath):
         if self.db.isOpen():
             # print("trying to write in DB")
@@ -139,7 +139,7 @@ class AccessLocalStorage(object):
             self.query.prepare("update songs SET isUpdated=:isUpdated, TIT2=:TIT2, TALB=:TALB, TPE1=:TPE1, TPE2=:TPE2, TSOP=:TSOP, TDRC=:TDRC, TCON=:TCON WHERE SPath=:SPath")
             # SPath, isUpdated, TIT2, TALB, TPE1, TPE2, TSOP, TDRC, TCON, these are required, SID is auto incrimented
             self.query.bindValue(":SPath", SongPath)
-            self.query.bindValue(":isUpdated", 0)
+            self.query.bindValue(":isUpdated", 1)
             self.query.bindValue(":TIT2", metadataDict.get("TIT2", "NULL"))
             self.query.bindValue(":TALB", metadataDict.get("TALB", "NULL"))
             self.query.bindValue(":TPE1", metadataDict.get("TPE1", "NULL"))
@@ -152,10 +152,6 @@ class AccessLocalStorage(object):
             if isQuerySuccessful:
                 print("update successful")
                 # print("no of rows affected: " + str(self.query.numRowsAffected()))
-            elif self.query.lastError().number() is 19:
-                pass
-                # print("unique Construct failed")
-                # print(self.query.lastError().number().text())
             else:
                 print("update not successful")
                 # print("error:")
