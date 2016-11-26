@@ -115,9 +115,12 @@ class AccessLocalStorage(object):
             return False
         return True
 
-    def delete(self, SongID):
+    def delete(self, SongPath):
         if self.db.isOpen():
-            isQuerySuccessful = query.exec_("delete from songs WHERE SID=" + str(SongID))
+            
+            self.query.prepare("delete from songs WHERE SID=:SongPath")
+            self.query.bindValue(":SongPath",SongPath)
+            isQuerySuccessful = self.query.exec_()
             if isQuerySuccessful:
                 print("----------------------------------------------")
                 print("deletion successful")
