@@ -19,7 +19,7 @@ class ManageCache:
     def __init__(self, connectionName):
         self.connectionName = connectionName
         self.db = QSqlDatabase.database(connectionName,True)
-
+        self.query = QSqlQuery(self.db)
     """
     Considering the documentation of the project we have an important function missing which builds the cache, so we are adding it here
     """
@@ -59,11 +59,12 @@ class ManageCache:
             print(query.lastError().text())
         return True
 
-    def ReadCache(self, songID):
+    def ReadCache(self, songPath):
         if self.db.isOpen():
-            queryString = "SELECT SID, Title, Artist, URI, Type FROM songs WHERE SID="+str(songID)
-            record = self.query.exec_(queryString)
-
+            queryString = "SELECT SID, Title, Artist, URI, Type FROM songs WHERE SPath=:SPath"
+            self.query.prepare(queryString)
+            self.query.bindValue(":SPath",songPath)
+            record=self.query.exec_()
             if record:
                 print("read successfull ")
                 a = 0
@@ -138,7 +139,9 @@ class ManageCache:
 
     def deleteCache(self, songID):
         if self.db.isOpen():
-            isQuerySuccessful = query.exec_("delete from songs WHERE SID=" + str(songID))
+            self.query.prepare("delete from songs WHERE SID=:SID") 
+            self.query.bindValue(":SID",songID)
+            isQuerySuccessful = self.query.exec_()
             if isQuerySuccessful:
                 print("----------------------------------------------")
                 print("deletion successful")
