@@ -2,6 +2,7 @@ import re
 from PyQt5.QtSql import QSqlQuery
 from Metadata.ManageMetaDataModule import ManageMetaData
 from LocalStorage.ManageLocalStorageModule import ManageLocalStorage
+from classifier.cluster.algorithms.KMeans import kMeansClustering
 import const
 import discogs_client as dc
 
@@ -61,7 +62,10 @@ class GetRecommendation(object):
         print("in fetchRelevantSongOffline")
         metadataDict = {}
         year = ""
-        relevantSong = []
+        # list of path of all the relevant songs
+        relevantSongPathList = []
+        # dict that contains metadata of songs in paragraph as value and songPath as key
+        relevantSongDict = {}
         metadataDict = ManageMetaData.ReadMetaData(self, SongPath)
         # get year out of metadata TDRC tag
         if metadataDict.get("TDRC"):
@@ -87,7 +91,7 @@ class GetRecommendation(object):
             if record:
                 print("read successful, it seems")
                 while query.next():
-                    relevantSong.append(query.value(0))
+                    relevantSongPathList.append(query.value(0))
             else:
                 print("read not successful")
                 print("error")
@@ -96,13 +100,38 @@ class GetRecommendation(object):
         else:
             print("could not read from the database, connection not found")
             return False
-        for path in relevantSong:
-            print(path)
+        # build relevantSongDict
+        for path in relevantSongPathList:
+            # print(path)
+            relevantSongDict[path] = self.metadataToPara(path)
+        # predict
+        self.predict(SongPath, relevantSongDict)
 
+    def predict(self, SongPath, relevantSongDict):
+        snippetsList = []
+        for item in relevantSongDict:
+            # print(relevantSongDict.get(item))
+            snippetsList.append(relevantSongDict.get(item))
+    print("-------------KMeans-------------")
+    # Magic happens here
+    clusters = kMeansClustering(metadata_list)
+    clusters.find_clusters(5)
+    # print(clusters.get_common_phrases(2))
+    # clusters.print_clusters()
+    clusters_dict = clusters.get_clusters()
+    # print(clusters_dict)
+    # print(len(clusters_dict))
+    for i in range(len(clusters_dict)):
+        print("cluster Number : " + str(i))
+        cluster_items = clusters_dict.get(i+1)
+        for item in cluster_items:
+            print("item number : " + str(item), end=' ')
+            print(music_files[item])
 
-# SELECT column1, column2, columnN
-# FROM table_name
-# WHERE [condition1] OR [condition2]...OR [conditionN]
-
-    def predict(self, SongPath, RelevantSongDict):
-        return {}
+    def metadataToPara(self, SongPath):
+        metadataDict = ManageMetaData.ReadMetaData(self, SongPath)
+        text = ""
+        for item in metadataDict:
+            text = text + metadataDict.get(item) + " "
+        # print(text)
+        return text
