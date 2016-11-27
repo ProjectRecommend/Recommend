@@ -21,12 +21,3 @@ class Test1_extraSetup(unittest.TestCase):
 
     def tearDown(self):
         del globals()['obj']
-
-#class
-
-    '''def test_default(self):
-
-        self.assertEqual(VolumeIncr.setEnabled,True)
-        #self.assertEqual(self.VolumeDecr.setEnabled,True)
-        #self.assertEqual(self.Next.setDefault,False)
-    '''
