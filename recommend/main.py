@@ -8,6 +8,7 @@ from bs4 import UnicodeDammit
 from LocalStorage.AccessLocalStorageModule import AccessLocalStorage
 from LocalStorage.ManageLocalStorageModule import ManageLocalStorage
 from Metadata.ManageMetaDataModule import ManageMetaData
+from classifier.GetRecommendationModule import GetRecommendation
 
 
 class MainWindow(Ui_MainWindow):
@@ -113,7 +114,6 @@ class MainWindow(Ui_MainWindow):
         self.sliderEventSender = QtWidgets.QSlider.sender(self.progressBar)
         # load music from songsFolder
         self.crawlFolder()
-        # populate UI
 
     """
     Event handlers
@@ -188,7 +188,6 @@ class MainWindow(Ui_MainWindow):
             self.playlistView.selectRow(0)
             self.playlistView.doubleClicked.connect(self.playlistViewDoubleClickHandler)
             self.buildMediaPlaylistPathList()
-
             self.buildPlayList()
         else:
             # throw an error saying to add music folder
@@ -350,7 +349,10 @@ class MainWindow(Ui_MainWindow):
             dammit = UnicodeDammit(self.currentPlayingMediaUrl)
             self.currentPlayingMediaUrl = dammit.unicode_markup
             # print(self.currentPlayingMediaUrl)
-        # pass
+        # call recommendation function here
+        # recommend hook
+        getRecom = GetRecommendation(self.manageLocalStorage)
+        getRecom.fetchRelevantSongOffline(self.currentPlayingMediaUrl)
 
     def seekPosition(self, position):
         # print("seek position called")

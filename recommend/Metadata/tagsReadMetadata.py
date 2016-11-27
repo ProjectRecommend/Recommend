@@ -43,38 +43,36 @@ from bs4 import UnicodeDammit
 #             metaText.append(str(tag[1]).encode(encoding='utf_8'))
 #     return metaText
 
+
 def getMetadataDict(mp3file):
 
     metaDataDict = {}
-    audio = ID3(mp3file)
-    tags = audio.items()
-    """
-    print ("type of tags is:")
-    print (type(tags))
+    if mp3file:
+        audio = ID3(mp3file)
+        tags = audio.items()
 
-    print ("tags are:")
-    print (tags)
-    """
-    for tag in tags:
-        if (tag[0] == 'USLT::eng'):
-            metaDataDict["USLT::eng"] = (str(tag[1]).encode(encoding='utf_8'))
-        if (tag[0] == 'TALB'):
-            metaDataDict["TALB"] = (str(tag[1]).encode(encoding='utf_8'))
-        if (tag[0] == 'TPE1'):
-            metaDataDict["TPE1"] = (str(tag[1]).encode(encoding='utf_8'))
-        if (tag[0] == 'TPE2'):
-            metaDataDict["TPE2"] = (str(tag[1]).encode(encoding='utf_8'))
-        if (tag[0] == 'TSOP'):
-            metaDataDict["TSOP"] = (str(tag[1]).encode(encoding='utf_8'))
-        if (tag[0] == 'TIT2'):
-            metaDataDict["TIT2"] = (str(tag[1]).encode(encoding='utf_8'))
-        if (tag[0] == 'TCON'):
-            metaDataDict["TCON"] = (str(tag[1]).encode(encoding='utf_8'))
-        if (tag[0] == 'TDRC'):
-            metaDataDict["TDRC"] = (str(tag[1]).encode(encoding='utf_8'))
-
-
-    return metaDataDictToUnicode(metaDataDict)
+        for tag in tags:
+            if (tag[0] == 'USLT::eng'):
+                metaDataDict["USLT::eng"] = (str(tag[1]).encode(encoding='utf_8'))
+            if (tag[0] == 'TALB'):
+                metaDataDict["TALB"] = (str(tag[1]).encode(encoding='utf_8'))
+            if (tag[0] == 'TPE1'):
+                metaDataDict["TPE1"] = (str(tag[1]).encode(encoding='utf_8'))
+            if (tag[0] == 'TPE2'):
+                metaDataDict["TPE2"] = (str(tag[1]).encode(encoding='utf_8'))
+            if (tag[0] == 'TSOP'):
+                metaDataDict["TSOP"] = (str(tag[1]).encode(encoding='utf_8'))
+            if (tag[0] == 'TIT2'):
+                metaDataDict["TIT2"] = (str(tag[1]).encode(encoding='utf_8'))
+            if (tag[0] == 'TCON'):
+                metaDataDict["TCON"] = (str(tag[1]).encode(encoding='utf_8'))
+            if (tag[0] == 'TDRC'):
+                metaDataDict["TDRC"] = (str(tag[1]).encode(encoding='utf_8'))
+        return metaDataDictToUnicode(metaDataDict)
+    else:
+        print("no mp3file, mp3file is None")
+        # return empty dict because other functions are consuming it
+        return metaDataDictToUnicode(metaDataDict)
 
 # def metaTextToUnicode(metaText):
 #     # print(metaText)
