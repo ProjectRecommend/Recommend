@@ -1,8 +1,28 @@
-C:\Users\riflerRick\Desktop\NiitUniversityCSE_course\3rdyr\semester5\softwareEngineering\project\gitRepos\Recommend\recommend\editMetadata_form.py
+
+Cyclomatic Complexity:
+
+Parameter list:
+
+| CC score	| Rank | Risk |
+| --- | --- | --- |
+| 1 - 5 | A | low - simple block |
+| 6 - 10 | B | low - well structured and stable block |
+| 11 - 20 | C |	moderate - slightly complex block |
+| 21 - 30 | D | more than moderate - more complex block |
+| 31 - 40 | E | high - complex block, alarming |
+| 41+ |	F | very high - error-prone, unstable block |
+
+| Block type | Letter |
+| --- | --- |
+| Function | F |
+| Method | M |
+| Class | C |
+
+### File: Recommend\recommend\editMetadata_form.py
     C 11:0 Ui_EditMetaDataDialog - A (1)
     M 12:4 Ui_EditMetaDataDialog.setupUi - A (1)
     M 138:4 Ui_EditMetaDataDialog.retranslateUi - A (1)
-C:\Users\riflerRick\Desktop\NiitUniversityCSE_course\3rdyr\semester5\softwareEngineering\project\gitRepos\Recommend\recommend\main.py
+### File: Recommend\recommend\main.py
     M 142:4 MainWindow.crawlFolder - B (10)
     M 250:4 MainWindow.playPauseHandler - B (8)
     M 269:4 MainWindow.stopHandler - A (4)
@@ -40,16 +60,16 @@ C:\Users\riflerRick\Desktop\NiitUniversityCSE_course\3rdyr\semester5\softwareEng
     M 453:4 MetadataDialog.wireButtons - A (1)
     M 459:4 MetadataDialog.saveButtonHandler - A (1)
     M 476:4 MetadataDialog.cancelButtonHandler - A (1)
-C:\Users\riflerRick\Desktop\NiitUniversityCSE_course\3rdyr\semester5\softwareEngineering\project\gitRepos\Recommend\recommend\mainWindow.py
+### File: Recommend\recommend\mainWindow.py
     C 11:0 Ui_MainWindow - A (1)
     M 12:4 Ui_MainWindow.setupUi - A (1)
     M 331:4 Ui_MainWindow.retranslateUi - A (1)
-C:\Users\riflerRick\Desktop\NiitUniversityCSE_course\3rdyr\semester5\softwareEngineering\project\gitRepos\Recommend\recommend\classifier\GetRecommendation.py
-    M 32:4 GetRecommendation.FetchRelevantSong - A (2)
-    C 26:0 GetRecommendation - A (1)
-    M 28:4 GetRecommendation.__init__ - A (1)
-    M 55:4 GetRecommendation.Predict - A (1)
-C:\Users\riflerRick\Desktop\NiitUniversityCSE_course\3rdyr\semester5\softwareEngineering\project\gitRepos\Recommend\recommend\classifier\ManageCacheModule.py
+### File: Recommend\recommend\classifier\Get### File: Recommendation.py
+    M 32:4 Get### File: Recommendation.FetchRelevantSong - A (2)
+    C 26:0 Get### File: Recommendation - A (1)
+    M 28:4 Get### File: Recommendation.__init__ - A (1)
+    M 55:4 Get### File: Recommendation.Predict - A (1)
+### File: Recommend\recommend\classifier\ManageCacheModule.py
     M 62:4 ManageCache.ReadCache - A (4)
     M 88:4 ManageCache.WriteCache - A (4)
     M 33:4 ManageCache.buildCache - A (3)
@@ -60,9 +80,9 @@ C:\Users\riflerRick\Desktop\NiitUniversityCSE_course\3rdyr\semester5\softwareEng
     M 27:4 ManageCache.getConnectionName - A (1)
     M 30:4 ManageCache.setConnectionName - A (1)
     M 122:4 ManageCache.InvalidateCache - A (1)
-C:\Users\riflerRick\Desktop\NiitUniversityCSE_course\3rdyr\semester5\softwareEngineering\project\gitRepos\Recommend\recommend\classifier\cluster\raw_metadata.py
+### File: Recommend\recommend\classifier\cluster\raw_metadata.py
     F 4:0 getRawMetadata - A (3)
-C:\Users\riflerRick\Desktop\NiitUniversityCSE_course\3rdyr\semester5\softwareEngineering\project\gitRepos\Recommend\recommend\classifier\cluster\algorithms\KMeans.py
+### File: Recommend\recommend\classifier\cluster\algorithms\KMeans.py
     M 73:4 kMeansClustering.get_common_phrases - B (6)
     M 100:4 kMeansClustering.get_clusters - A (3)
     F 121:0 main - A (2)
@@ -71,24 +91,24 @@ C:\Users\riflerRick\Desktop\NiitUniversityCSE_course\3rdyr\semester5\softwareEng
     M 93:4 kMeansClustering.print_common_phrases - A (2)
     M 115:4 kMeansClustering.print_clusters - A (2)
     M 29:4 kMeansClustering.__init__ - A (1)
-C:\Users\riflerRick\Desktop\NiitUniversityCSE_course\3rdyr\semester5\softwareEngineering\project\gitRepos\Recommend\recommend\classifier\cluster\preprocessing\tokenize_and_stem.py
+### File: Recommend\recommend\classifier\cluster\preprocessing\tokenize_and_stem.py
     F 8:0 tokenize_and_stem - B (10)
-C:\Users\riflerRick\Desktop\NiitUniversityCSE_course\3rdyr\semester5\softwareEngineering\project\gitRepos\Recommend\recommend\LocalStorage\AccessLocalStorageModule.py
+### File: Recommend\recommend\LocalStorage\AccessLocalStorageModule.py
     M 25:4 AccessLocalStorage.read - A (4)
     M 70:4 AccessLocalStorage.write - A (4)
     M 128:4 AccessLocalStorage.update - A (4)
     C 11:0 AccessLocalStorage - A (3)
     M 112:4 AccessLocalStorage.delete - A (3)
     M 12:4 AccessLocalStorage.__init__ - A (1)
-C:\Users\riflerRick\Desktop\NiitUniversityCSE_course\3rdyr\semester5\softwareEngineering\project\gitRepos\Recommend\recommend\LocalStorage\ManageLocalStorageModule.py
+### File: Recommend\recommend\LocalStorage\ManageLocalStorageModule.py
     M 24:4 ManageLocalStorage.build - A (3)
     C 8:0 ManageLocalStorage - A (2)
     M 64:4 ManageLocalStorage.dump - A (2)
     M 80:4 ManageLocalStorage.query - A (2)
     M 9:4 ManageLocalStorage.__init__ - A (1)
-C:\Users\riflerRick\Desktop\NiitUniversityCSE_course\3rdyr\semester5\softwareEngineering\project\gitRepos\Recommend\recommend\Metadata\loloLyrics.py
+### File: Recommend\recommend\Metadata\loloLyrics.py
     F 9:0 getLyrics - A (3)
-C:\Users\riflerRick\Desktop\NiitUniversityCSE_course\3rdyr\semester5\softwareEngineering\project\gitRepos\Recommend\recommend\Metadata\LyricsAndMetaData.py
+### File: Recommend\recommend\Metadata\LyricsAndMetaData.py
     M 165:4 EditMetadata.removeTag - B (8)
     M 207:4 EditMetadata.addTag - B (8)
     M 242:4 EditMetadata.fetchTag - B (8)
@@ -103,23 +123,23 @@ C:\Users\riflerRick\Desktop\NiitUniversityCSE_course\3rdyr\semester5\softwareEng
     M 63:4 EditLyrics.fetchLyrics - A (1)
     M 87:4 EditMetadata.__init__ - A (1)
     M 291:4 EditMetadata.populateMetadict - A (1)
-C:\Users\riflerRick\Desktop\NiitUniversityCSE_course\3rdyr\semester5\softwareEngineering\project\gitRepos\Recommend\recommend\Metadata\ManageMetaDataModule.py
+### File: Recommend\recommend\Metadata\ManageMetaDataModule.py
     C 6:0 ManageMetaData - A (1)
     M 7:4 ManageMetaData.__init__ - A (1)
     M 24:4 ManageMetaData.ReadMetaData - A (1)
     M 50:4 ManageMetaData.WriteMetaData - A (1)
-C:\Users\riflerRick\Desktop\NiitUniversityCSE_course\3rdyr\semester5\softwareEngineering\project\gitRepos\Recommend\recommend\Metadata\tagsReadMetadata.py
+### File: Recommend\recommend\Metadata\tagsReadMetadata.py
     F 46:0 getMetadataDict - B (10)
     F 96:0 metaDataDictToUnicode - A (2)
-C:\Users\riflerRick\Desktop\NiitUniversityCSE_course\3rdyr\semester5\softwareEngineering\project\gitRepos\Recommend\recommend\musicplayer\ControlMusic.py
+### File: Recommend\recommend\musicplayer\ControlMusic.py
     C 1:0 ControlMusic - A (1)
     M 3:4 ControlMusic.__init__ - A (1)
     M 7:4 ControlMusic.add - A (1)
     M 11:4 ControlMusic.remove - A (1)
     M 16:4 ControlMusic.query - A (1)
-    M 20:4 ControlMusic.ManuallyGetRecommendation - A (1)
+    M 20:4 ControlMusic.ManuallyGet### File: Recommendation - A (1)
     M 23:4 ControlMusic.ResetAll - A (1)
-C:\Users\riflerRick\Desktop\NiitUniversityCSE_course\3rdyr\semester5\softwareEngineering\project\gitRepos\Recommend\recommend\musicplayer\ManageSongs.py
+### File: Recommend\recommend\musicplayer\ManageSongs.py
     C 1:0 MangaeSongs - A (1)
     M 3:4 MangaeSongs.__init__ - A (1)
     M 7:4 MangaeSongs.TriggerPlaySequence - A (1)
