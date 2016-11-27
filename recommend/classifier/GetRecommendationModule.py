@@ -110,23 +110,23 @@ class GetRecommendation(object):
     def predict(self, SongPath, relevantSongDict):
         snippetsList = []
         for item in relevantSongDict:
-            # print(relevantSongDict.get(item))
+            print(relevantSongDict.get(item))
             snippetsList.append(relevantSongDict.get(item))
-    print("-------------KMeans-------------")
-    # Magic happens here
-    clusters = kMeansClustering(metadata_list)
-    clusters.find_clusters(5)
-    # print(clusters.get_common_phrases(2))
-    # clusters.print_clusters()
-    clusters_dict = clusters.get_clusters()
-    # print(clusters_dict)
-    # print(len(clusters_dict))
-    for i in range(len(clusters_dict)):
-        print("cluster Number : " + str(i))
-        cluster_items = clusters_dict.get(i+1)
-        for item in cluster_items:
-            print("item number : " + str(item), end=' ')
-            print(music_files[item])
+        # print("-------------KMeans-------------")
+        # # Magic happens here
+        # clusters = kMeansClustering(snippetsList)
+        # clusters.find_clusters(5)
+        # # print(clusters.get_common_phrases(2))
+        # # clusters.print_clusters()
+        # clusters_dict = clusters.get_clusters()
+        # # print(clusters_dict)
+        # # print(len(clusters_dict))
+        # for i in range(len(clusters_dict)):
+        #     print("cluster Number : " + str(i))
+        #     cluster_items = clusters_dict.get(i+1)
+        #     for item in cluster_items:
+        #         print("item number : " + str(item), end=' ')
+        #         print(music_files[item])
 
     def metadataToPara(self, SongPath):
         metadataDict = ManageMetaData.ReadMetaData(self, SongPath)
