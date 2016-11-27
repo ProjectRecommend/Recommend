@@ -29,7 +29,7 @@ class Test30_write(unittest.TestCase):
         global obj_als
         obj_als = als('someConnect123')
         global SongPath
-        SongPath = "saang.mp3"
+        SongPath = "sample_song.mp3"
     def test_write(self):
         self.assertEqual(obj_als.write(SongPath), True)
 

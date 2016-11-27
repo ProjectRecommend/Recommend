@@ -11,7 +11,7 @@ class Test10_ReadMetaData(unittest.TestCase):
         global obj
         obj = mmd()
         global SongPath
-        SongPath = 'saang.mp3'
+        SongPath = 'sample_song.mp3'
     def test(self):
         global songMetaData
         songMetaData = obj.ReadMetaData(SongPath)
