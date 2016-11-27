@@ -48,6 +48,10 @@ Temporary Items
 
 # python
 __pycache__
+*.pyc
+
+# virtualenv
+venv
 
 # VS Code
 .vscode
