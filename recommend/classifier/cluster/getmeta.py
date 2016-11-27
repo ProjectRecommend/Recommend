@@ -1,17 +1,17 @@
 import os
-from metadata.tags import getMetadata, metaTextToUnicode
+from Metadata.ManageMetaDataModule import ManageMetaData
 from raw_metadata import getRawMetadata
 from algorithms.KMeans import kMeansClustering
 
-root_dir = 'C:\\Users\\Electron\\Music\\test_music_mp3'
+# root_dir = 'C:\\Users\\Electron\\Music\\test_music_mp3'
 
-dir_list = os.listdir(root_dir)
+# dir_list = os.listdir(root_dir)
 # print(dir_list)
 music_files = []
 metadata_list = []
 
-for music_file in dir_list:
-    music_files.append(os.path.join(root_dir, music_file))
+# for music_file in dir_list:
+    # music_files.append(os.path.join(root_dir, music_file))
 
 for filepath in music_files:
     # print(filepath)

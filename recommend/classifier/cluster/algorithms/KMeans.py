@@ -37,7 +37,7 @@ class kMeansClustering:
             # print(i)
             # print(snippets[i])
         self.clusters = []
-    
+
     def find_clusters(self, n_clusters = NUM_OF_CLUSTERS):
         """
         Finding clusters.
@@ -46,7 +46,7 @@ class kMeansClustering:
         if len(self.snippets) < n_clusters:
             print("Sorry, but number of snippets should be >= number of clusters")
             return {}
-    
+
         #define vectorizer parameters
         tfidf_vectorizer = TfidfVectorizer(max_df=0.999, max_features=200000,
                                  min_df=0.001, stop_words='english',
@@ -61,13 +61,13 @@ class kMeansClustering:
         km = KMeans(n_clusters = n_clusters)
         # print(km)
         km.fit(tfidf_matrix)
-        
+
         self.clusters = km.labels_.tolist()
         # print(self.clusters)
         self.order_centroids = km.cluster_centers_.argsort()[:, ::-1]
         self.terms = tfidf_vectorizer.get_feature_names()
         # print(terms)
-        
+
         return self.get_clusters()
 
     def get_common_phrases(self, num = 2):
@@ -77,7 +77,7 @@ class kMeansClustering:
                 for sn in tokenized_snippet:
                     if sn.find(word) != -1:
                         return sn
-            return ''       
+            return ''
 
         phrases = {}
         for i in range(len(self.get_clusters().keys())):
@@ -90,19 +90,19 @@ class kMeansClustering:
                         phrases[i + 1].append(restem)
         return phrases
 
-    def print_common_phrases(self, num = 2):         
-        
+    def print_common_phrases(self, num = 2):
+
         result = self.get_common_phrases(num = num)
         for cluster, phrases in result.items():
             print("cluster #%i tags: " % cluster, end = ' ')
             # print(phrases)
-   
+
     def get_clusters(self):
         """
         Return:
             dict of elements-clusters.
                 Keys: clusters
-                Values: news in respective clusters  
+                Values: news in respective clusters
         """
         result = {}
         for i, cluster in enumerate(self.clusters):
@@ -110,8 +110,8 @@ class kMeansClustering:
                 result[cluster + 1] = [i]
             else:
                 result[cluster + 1].append(i)
-        return result    
-    
+        return result
+
     def print_clusters(self):
         result = self.get_clusters()
         for cluster, snippets in result.items():
@@ -121,9 +121,9 @@ class kMeansClustering:
 def main():
 
     query = "obama"
-    
+
     snippets = search_articles(api_urls, api_keys, query)['snippets']
-    
+
     if len(snippets) == 0:
         return
 
@@ -131,6 +131,6 @@ def main():
     km.find_clusters()
     km.print_clusters()
     km.print_common_phrases()
-    
+
 if __name__ == "__main__":
     main()

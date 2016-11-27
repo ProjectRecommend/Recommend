@@ -29,8 +29,7 @@ class GetRecommendation(object):
         # don init stuff
         pass
 
-    def FetchRelevantSong(self, SongMetaData):
-
+    def FetchRelevantSongOnline(self, SongMetaData):
         # This will store dictionary for songs information
         RelevantSongDict = {}
 
@@ -44,13 +43,26 @@ class GetRecommendation(object):
         RelevantSongDict['songs'] = {}
 
         # Building the dictionary
-        while(i<len(result)):
-            RelevantSongDict['songs'][i]={}
+        while(i < len(result)):
+            RelevantSongDict['songs'][i] = {}
             RelevantSongDict['songs'][i]['title'] = result[i].title
             RelevantSongDict['songs'][i]['videos'] = result[i].videos
             i = i+1
 
         return {RelevantSongDict}
+
+    def FetchRelevantSongOffline(self, SongPath):
+        metadataDict = {}
+        year = ""
+        metadataDict = ManageMetaData.ReadMetaData(self, SongPath)
+        # get year out of metadata's TDRC tag
+        if metadataDict.get("TDRC"):
+            match = re.match(r'\d{4}', metadataDict.get("TDRC"))
+            if match is not None:
+                # it found a match!
+                year = match.group(0)
+        # print(year)
+        
 
     def Predict(self, SongMetaData, RelevantSongDict):
         return {}

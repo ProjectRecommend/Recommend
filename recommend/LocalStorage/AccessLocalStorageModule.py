@@ -1,8 +1,10 @@
 from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtSql import QSqlDatabase, QSqlQuery
-import sys,os
-path=os.getcwd()
-path=path[:-12]
+import sys
+import os
+import re
+path = os.getcwd()
+path = path[:-12]
 sys.path.insert(1,path)
 from Metadata.ManageMetaDataModule import ManageMetaData
 from LocalStorage.ManageLocalStorageModule import ManageLocalStorage
@@ -11,6 +13,7 @@ from LocalStorage.ManageLocalStorageModule import ManageLocalStorage
 """
 WARNING: Do not initialize 2 separate instances of QSqlDatabase class while handling the database actions
 """
+
 
 class AccessLocalStorage(object):
     def __init__(self, connectionName):
@@ -35,10 +38,10 @@ class AccessLocalStorage(object):
             """
             # queryString="SELECT SID, SPath, isUpdated FROM songs WHERE SID=" + str(songID)
             # record=self.query.exec_(queryString)
-            queryString = "SELECT SID, SPath, isUpdated, TIT2, TALB, TPE1, TPE2, TSOP, TDRC, TCON FROM songs WHERE SPath = :SongPath" 
+            queryString = "SELECT SID, SPath, isUpdated, TIT2, TALB, TPE1, TPE2, TSOP, TDRC, TCON FROM songs WHERE SPath = :SongPath"
             self.query.prepare(queryString)
-            self.query.bindValue(":SongPath",SongPath)
-            record=self.query.exec_()
+            self.query.bindValue(":SongPath", SongPath)
+            record = self.query.exec_()
             # now we can use record object (which is an QSqlQuery object) to navigate the record
             if record:
                 print("read successful, it seems")
@@ -78,14 +81,22 @@ class AccessLocalStorage(object):
         if self.db.isOpen():
             # print("trying to write in DB")
             metadataDict = {}
+            year = ""
             metadataDict = ManageMetaData.ReadMetaData(self, SongPath)
+            # get year out of metadata's TDRC tag
+            if metadataDict.get("TDRC"):
+                match = re.match(r'\d{4}', metadataDict.get("TDRC"))
+                if match is not None:
+                    # Then it found a match!
+                    year = match.group(0)
+            # print(year)
             """
             songDict come in undefined order always,we make a ordered list out of it.
             so we can iterate and insert it in db as it in db schema
             order of elements in db table/schema
-            SID, SPath, isUpdated, TIT2, TALB, TPE1, TPE2, TSOP, TDRC, TCON
+            SID, SPath, isUpdated, TIT2, TALB, TPE1, TPE2, TSOP, TDRC, TCON, year
             """
-            self.query.prepare("insert into songs(SPath, isUpdated, TIT2, TALB, TPE1, TPE2, TSOP, TDRC, TCON ) values(:SPath, :isUpdated, :TIT2, :TALB, :TPE1, :TPE2, :TSOP, :TDRC, :TCON)")
+            self.query.prepare("insert into songs(SPath, isUpdated, TIT2, TALB, TPE1, TPE2, TSOP, TDRC, TCON, year ) values(:SPath, :isUpdated, :TIT2, :TALB, :TPE1, :TPE2, :TSOP, :TDRC, :TCON, :year)")
             # SPath, isUpdated, TIT2, TALB, TPE1, TPE2, TSOP, TDRC, TCON, these are required, SID is auto incrimented
             self.query.bindValue(":SPath", SongPath)
             self.query.bindValue(":isUpdated", 0)
@@ -96,6 +107,7 @@ class AccessLocalStorage(object):
             self.query.bindValue(":TSOP", metadataDict.get("TSOP", "NULL"))
             self.query.bindValue(":TDRC", metadataDict.get("TDRC", "NULL"))
             self.query.bindValue(":TCON", metadataDict.get("TCON", "NULL"))
+            self.query.bindValue(":year", year)
             isQuerySuccessful = self.query.exec_()
 
             if isQuerySuccessful:
@@ -117,7 +129,7 @@ class AccessLocalStorage(object):
 
     def delete(self, SongPath):
         if self.db.isOpen():
-            
+
             self.query.prepare("delete from songs WHERE SPath=:SongPath")
             self.query.bindValue(":SongPath",SongPath)
             isQuerySuccessful = self.query.exec_()
@@ -138,14 +150,24 @@ class AccessLocalStorage(object):
         if self.db.isOpen():
             # print("trying to write in DB")
             metadataDict = {}
+            year = ""
+            TPE1 = metadataDict.get("TPE1", "NULL")
             metadataDict = ManageMetaData.ReadMetaData(self, SongPath)
+            # get year out of metadata's TDRC tag
+            if metadataDict.get("TDRC"):
+                match = re.match(r'\d{4}', metadataDict.get("TDRC"))
+                if match is not None:
+                    # Then it found a match!
+                    year = match.group(0)
+            # print(year)
+
             """
             songDict come in undefined order always,we make a ordered list out of it.
             so we can iterate and insert it in db as it in db schema
             order of elements in db table/schema
             SID, SPath, isUpdated, TIT2, TALB, TPE1, TPE2, TSOP, TDRC, TCON
             """
-            self.query.prepare("update songs SET isUpdated=:isUpdated, TIT2=:TIT2, TALB=:TALB, TPE1=:TPE1, TPE2=:TPE2, TSOP=:TSOP, TDRC=:TDRC, TCON=:TCON WHERE SPath=:SPath")
+            self.query.prepare("update songs SET isUpdated=:isUpdated, TIT2=:TIT2, TALB=:TALB, TPE1=:TPE1, TPE2=:TPE2, TSOP=:TSOP, TDRC=:TDRC, TCON=:TCON, year=:year WHERE SPath=:SPath")
             # SPath, isUpdated, TIT2, TALB, TPE1, TPE2, TSOP, TDRC, TCON, these are required, SID is auto incrimented
             self.query.bindValue(":SPath", SongPath)
             self.query.bindValue(":isUpdated", 1)
@@ -156,6 +178,7 @@ class AccessLocalStorage(object):
             self.query.bindValue(":TSOP", metadataDict.get("TSOP", "NULL"))
             self.query.bindValue(":TDRC", metadataDict.get("TDRC", "NULL"))
             self.query.bindValue(":TCON", metadataDict.get("TCON", "NULL"))
+            self.query.bindValue(":year", year)
             isQuerySuccessful = self.query.exec_()
 
             if isQuerySuccessful:
