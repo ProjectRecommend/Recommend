@@ -59,7 +59,7 @@ class ManageCache:
             print(query.lastError().text())
         return True
 
-    def ReadCache(self, songPath):
+    def readCache(self, songPath):
         if self.db.isOpen():
             queryString = "SELECT SID, Title, Artist, URI, Type FROM songs WHERE SPath=:SPath"
             self.query.prepare(queryString)
@@ -86,11 +86,11 @@ class ManageCache:
             return False
         return self.songDet
 
-    def WriteCache(self, predictedSong, songID):
+    def writeCache(self, predictedSong, songID):
         # predictedSong is a dictionary of lists having elements in the following order:
         # 1. Title, Artist, URI, Type
         # writing is only possible if connection is open
-        
+
         if self.db.isOpen():
             # print("trying to write in DB")
             metadataDict=predictedSong
@@ -120,7 +120,7 @@ class ManageCache:
         return True
 
 
-    def InvalidateCache(self):
+    def invalidateCache(self):
         return False
 
     def dumpCache(self):
@@ -139,7 +139,7 @@ class ManageCache:
 
     def deleteCache(self, songID):
         if self.db.isOpen():
-            self.query.prepare("delete from songs WHERE SID=:SID") 
+            self.query.prepare("delete from songs WHERE SID=:SID")
             self.query.bindValue(":SID",songID)
             isQuerySuccessful = self.query.exec_()
             if isQuerySuccessful:
