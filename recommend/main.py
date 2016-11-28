@@ -409,6 +409,8 @@ class MainWindow(Ui_MainWindow):
             self.localStorage.update(self.metadataDialog.songPath)
             # repopulate UI
             model = self.manageLocalStorage.query()
+            model.setHeaderData(2, QtCore.Qt.Horizontal, 'Track Title')
+            model.setHeaderData(3, QtCore.Qt.Horizontal, 'Artist')
             # self.playlistView.model().clear
             self.playlistView.setModel(model)
             print("metadata closed ")
