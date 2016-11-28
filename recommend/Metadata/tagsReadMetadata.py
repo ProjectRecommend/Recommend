@@ -45,7 +45,7 @@ from bs4 import UnicodeDammit
 
 
 def getMetadataDict(mp3file):
-
+    # print(mp3file)
     metaDataDict = {}
     if mp3file:
         audio = ID3(mp3file)

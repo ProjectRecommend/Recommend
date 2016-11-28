@@ -1,4 +1,5 @@
 import re
+import collections
 from PyQt5.QtSql import QSqlQuery
 from Metadata.ManageMetaDataModule import ManageMetaData
 from LocalStorage.ManageLocalStorageModule import ManageLocalStorage
@@ -67,21 +68,22 @@ class GetRecommendation(object):
         # dict that contains metadata of songs in paragraph as value and songPath as key
         relevantSongDict = {}
         metadataDict = ManageMetaData.ReadMetaData(self, SongPath)
+        # print(metadataDict)
         # get year out of metadata TDRC tag
         if metadataDict.get("TDRC"):
             match = re.match(r'\d{4}', metadataDict.get("TDRC"))
             if match is not None:
                 # it found a match!
                 year = match.group(0)
-        print(year)
+        # print(year)
         TPE1 = metadataDict.get("TPE1")
-        print(metadataDict.get("TPE1"))
+        # print(metadataDict.get("TPE1"))
         # print(self.mls)
         # print(self.mls.db.databaseName())
         query = QSqlQuery(self.mls.db)
         queryString = "SELECT SPath FROM songs WHERE TPE1 = :TPE1 OR year = :year"
         if self.mls.db.open():
-            print("db is open")
+            # print("db is open")
             query.prepare(queryString)
             query.bindValue(":TPE1", TPE1)
             query.bindValue(":year", year)
@@ -89,11 +91,11 @@ class GetRecommendation(object):
             record = query.exec_()
             # print(record)
             if record:
-                print("read successful, it seems")
+                # print("read successful, it seems")
                 while query.next():
                     relevantSongPathList.append(query.value(0))
             else:
-                print("read not successful")
+                # print("read not successful")
                 print("error")
                 print(query.lastError().text())
                 return False
@@ -105,30 +107,75 @@ class GetRecommendation(object):
             # print(path)
             relevantSongDict[path] = self.metadataToPara(path)
         # predict
-        self.predict(SongPath, relevantSongDict)
+        if SongPath:
+            self.predict(SongPath, relevantSongDict)
+        else:
+            print("problem with SongPath so can't call predict")
 
     def predict(self, SongPath, relevantSongDict):
+        # convert relevantSongDict to an OrderedDict
+        # print(SongPath)
+        # print("test")
+        # print(relevantSongDict)
+        relevantSongDict = collections.OrderedDict(relevantSongDict.items())
+        # get index of song on which we are getting recommendations
+        indexOfPlayingSong = list(relevantSongDict.keys()).index(SongPath)
+        print("----- index of current song ----")
+        print(indexOfPlayingSong)
+        # make a list of metadata
         snippetsList = []
         for item in relevantSongDict:
-            print(relevantSongDict.get(item))
+            # print(relevantSongDict.get(item))
             snippetsList.append(relevantSongDict.get(item))
+        # print("--------- predict data ------")
+        # print("--------relevantSongDict-----------")
+        # for item in relevantSongDict:
+            # print(relevantSongDict.get(item))
+        # print("---------snippetsList -------")
+        # for i in range(len(snippetsList)):
+            # print(snippetsList[i])
         # print("-------------KMeans-------------")
-        # # Magic happens here
-        # clusters = kMeansClustering(snippetsList)
-        # clusters.find_clusters(5)
-        # # print(clusters.get_common_phrases(2))
-        # # clusters.print_clusters()
-        # clusters_dict = clusters.get_clusters()
-        # # print(clusters_dict)
-        # # print(len(clusters_dict))
+        # Magic happens here
+        clusters = kMeansClustering(snippetsList)
+        clusters.find_clusters(4)
+        # print(clusters.get_common_phrases(2))
+        clusters.print_clusters()
+        clusters_dict = clusters.get_clusters()
+        # print(clusters_dict)
+        # print(len(clusters_dict))
         # for i in range(len(clusters_dict)):
+        #     print("\n")
         #     print("cluster Number : " + str(i))
         #     cluster_items = clusters_dict.get(i+1)
         #     for item in cluster_items:
         #         print("item number : " + str(item), end=' ')
-        #         print(music_files[item])
+        #         print(snippetsList[item])
+        # print("----------------")
+        # print("playing song")
+        # print(snippetsList[indexOfPlayingSong])
+        # print(relevantSongDict.get(SongPath))
+        # print(list(relevantSongDict)[indexOfPlayingSong])
+        # detect cluster that have our song
+        final_cluster = ""
+        suggestedSongsPath = []
+        for key in clusters_dict:
+            item = clusters_dict.get(key)
+            # print(item)
+            if indexOfPlayingSong in item:
+                final_cluster = item
+                # print(item)
+                # print(key)
+        print("---- suggested songs ----")
+        print(final_cluster)
+        # use indexes of suggested songs and make a list of path of suggested songs
+        for index in final_cluster:
+            suggestedSongsPath.append(list(relevantSongDict)[index])
+            # print(list(relevantSongDict)[index])
+
+        return suggestedSongsPath
 
     def metadataToPara(self, SongPath):
+        # print(SongPath)
         metadataDict = ManageMetaData.ReadMetaData(self, SongPath)
         text = ""
         for item in metadataDict:
