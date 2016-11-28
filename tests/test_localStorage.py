@@ -9,10 +9,12 @@ from LocalStorage.AccessLocalStorageModule import AccessLocalStorage as als
 # TESTS for ManageLocalStorageModule
 ## CLASS ManageLocalStorage
 
+#### tests for connect() and disconnect() are not written becaues they are not in use
+
 ### test for 'build'
 class Test10_build(unittest.TestCase):
     def setUp(self):
-        global obj_mls 
+        global obj_mls
         obj_mls = mls('someConnect123')
     def test_build(self):
         self.assertEqual(obj_mls.build(), True)
@@ -78,6 +80,6 @@ class Test42_delete(unittest.TestCase):
         self.assertEqual(obj_als.delete(self.SongID), True)
     def tearDown(self):
         del self.SongID
-        
+
 if __name__ == "__main__":
     unittest.main()

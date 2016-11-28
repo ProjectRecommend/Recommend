@@ -15,7 +15,7 @@ class Test10_ReadMetaData(unittest.TestCase):
         obj = mmd()
         global SongPath
         SongPath = 'sample_song.mp3'
-    def test(self):
+    def test_readMetaData(self):
         global songMetaData
         songMetaData = obj.ReadMetaData(SongPath)
         self.assertEqual(isinstance(songMetaData, dict), True)
@@ -24,7 +24,7 @@ class Test10_ReadMetaData(unittest.TestCase):
 class Test20_WriteMetaData(unittest.TestCase):
     def setUp(self):
         pass
-    def test(self):
+    def test_writeMetaData(self):
         self.assertEqual(obj.WriteMetaData(songMetaData, SongPath), True)
     def tearDown(self):
         del globals()['obj']
@@ -32,6 +32,7 @@ class Test20_WriteMetaData(unittest.TestCase):
         # not deleting global SongPath due to errors in reassignment in Test30
 
 # TESTS for 'tagsReadMetadata'
+### TODO test for metaDataDictToUnicode
 ### Test for getMetadataDict(mp3file)
 class Test30_getMetadataDict(unittest.TestCase):
     def setUp(self):
@@ -39,13 +40,13 @@ class Test30_getMetadataDict(unittest.TestCase):
         val = trm.getMetadataDict(SongPath)
         global OGGSongPath
         #OGGSongPath = 'sample_song.ogg'
-    
+
     # File is valid
-    def test1(self):
+    def test_getMetadataDict_fileValidity(self):
         self.assertEqual(isinstance(val, dict), True)
-    
+
     # Returned dictionay should not be empty if file is valid
-    def test2(self):
+    def test_getMetadataDict_fileNotEmpty(self):
         self.assertEqual((len(val) > 0), True)
 
     # Returned dictionary should be empty if file is not valid or no file passed
@@ -57,6 +58,8 @@ class Test30_getMetadataDict(unittest.TestCase):
         #del globals()['OGGSongPath']
         del globals()['val']
 
+
+# TODO tests for functions in LyricsAndMetaData.py
 
 # Test for metaDataDictToUnicode(metaDataDict)
 # class Test40_metaDataDictToUnicode(unittest.TestCase):
