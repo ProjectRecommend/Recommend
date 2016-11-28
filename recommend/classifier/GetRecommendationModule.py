@@ -67,6 +67,8 @@ class GetRecommendation(object):
         relevantSongPathList = []
         # dict that contains metadata of songs in paragraph as value and songPath as key
         relevantSongDict = {}
+        # print("test")
+        # print(SongPath)
         metadataDict = ManageMetaData.ReadMetaData(self, SongPath)
         # print(metadataDict)
         # get year out of metadata TDRC tag
@@ -107,10 +109,11 @@ class GetRecommendation(object):
             # print(path)
             relevantSongDict[path] = self.metadataToPara(path)
         # predict
-        if SongPath:
-            self.predict(SongPath, relevantSongDict)
-        else:
-            print("problem with SongPath so can't call predict")
+        # if SongPath:
+        #     self.predict(SongPath, relevantSongDict)
+        # else:
+        #     print("problem with SongPath so can't call predict")
+        return relevantSongDict
 
     def predict(self, SongPath, relevantSongDict):
         # convert relevantSongDict to an OrderedDict
@@ -171,7 +174,6 @@ class GetRecommendation(object):
         for index in final_cluster:
             suggestedSongsPath.append(list(relevantSongDict)[index])
             # print(list(relevantSongDict)[index])
-
         return suggestedSongsPath
 
     def metadataToPara(self, SongPath):

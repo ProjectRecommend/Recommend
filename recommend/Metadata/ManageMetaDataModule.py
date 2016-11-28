@@ -26,6 +26,8 @@ class ManageMetaData(object):
         # the tags python file contains the necessary functions to read metadata from the song and return it in the form of both
         # a dictionary and a list
         metadataDict = {}
+        # print("test")
+        # print(SongPath)
         metadataDict = tagsReadMetadata.getMetadataDict(SongPath)
         # SongPath is the absolute song path.
         # for example: "D://Songs(english)//naked//Bony_M_Jingle_Bells.mp3", the // are necessary here

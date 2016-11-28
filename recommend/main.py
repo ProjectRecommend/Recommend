@@ -9,6 +9,7 @@ from LocalStorage.AccessLocalStorageModule import AccessLocalStorage
 from LocalStorage.ManageLocalStorageModule import ManageLocalStorage
 from Metadata.ManageMetaDataModule import ManageMetaData
 from classifier.GetRecommendationModule import GetRecommendation
+from classifier.ManageCacheModule import ManageCache
 
 
 class MainWindow(Ui_MainWindow):
@@ -33,8 +34,8 @@ class MainWindow(Ui_MainWindow):
         self.window = self.ui
         # Lists
         self.playlistView = self.window.Playlist
-        self.recommendLocalList = self.window.RecommendLocal
-        self.recommendOnlineList = self.window.RecommendOnline
+        self.recommendLocalListView = self.window.RecommendLocal
+        self.recommendOnlineListView = self.window.RecommendOnline
         # Song Info section
         self.posterView = self.window.PosterView
         self.songTitle = self.window.SongTitle
@@ -101,6 +102,10 @@ class MainWindow(Ui_MainWindow):
         self.loadSettings()
         # localStorage init
         self.manageLocalStorage = ManageLocalStorage(const.LS_connectionName)
+        # recommendation Cache init
+
+        # build Cache
+        # self.manageCache.buildCache()
         # The playback volume is linear in effect and the value
         # can range from 0 - 100, values outside this range will be clamped.
         self.mediaPlayer.setVolume(int(self.volume))
@@ -159,6 +164,7 @@ class MainWindow(Ui_MainWindow):
             # print(len(self.filePathList))
             # add stuff into LocalStorage
             lsStatus = self.manageLocalStorage.build()
+            self.manageCache = ManageCache(const.LS_connectionName)
             # print(lsStatus)
             if lsStatus:
                 print("built LS/Already there")
@@ -351,8 +357,24 @@ class MainWindow(Ui_MainWindow):
             # print(self.currentPlayingMediaUrl)
         # call recommendation function here
         # recommend hook
-        getRecom = GetRecommendation(self.manageLocalStorage)
-        getRecom.fetchRelevantSongOffline(self.currentPlayingMediaUrl)
+        # read cache for recommendation
+        print("currentPlayingMediaUrl")
+        print(self.currentPlayingMediaUrl)
+
+        recommendModel = self.manageCache.queryCache(self.currentPlayingMediaUrl, self.manageLocalStorage)
+        recommendModel.setHeaderData(0, QtCore.Qt.Horizontal, 'Track Title')
+        recommendModel.setHeaderData(1, QtCore.Qt.Horizontal, 'Artist')
+        self.recommendLocalListView.setSelectionBehavior(QtWidgets.QTableView.SelectRows)
+        # self.playlistView.setColumnWidth(1000, 2000)
+        # Query db and hide all the not required fields
+        print("setting recommendModel to view")
+        self.recommendLocalListView.setModel(recommendModel)
+        # hide column 0 SPath, which we will use to other purposes
+        self.recommendLocalListView.setColumnHidden(0, True)
+        self.recommendLocalListView.setColumnWidth(1, 200)
+        self.recommendLocalListView.setColumnWidth(2, 100)
+        self.recommendLocalListView.setTabKeyNavigation(False)
+        self.recommendLocalListView.setCornerButtonEnabled(False)
 
     def seekPosition(self, position):
         # print("seek position called")
