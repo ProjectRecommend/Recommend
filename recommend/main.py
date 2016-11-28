@@ -36,6 +36,7 @@ class MainWindow(Ui_MainWindow):
         # Lists
         self.playlistView = self.window.Playlist
         self.recommendLocalListView = self.window.RecommendLocal
+        self.recommendLocalListView.doubleClicked.connect(self.recommendLocalListViewDoubleClickHandler)
         # self.recommendOnlineListView = self.window.RecommendOnline
         # Song Info section
         self.posterView = self.window.PosterView
@@ -376,7 +377,6 @@ class MainWindow(Ui_MainWindow):
         self.recommendLocalListView.setColumnWidth(2, 100)
         self.recommendLocalListView.setTabKeyNavigation(False)
         self.recommendLocalListView.setCornerButtonEnabled(False)
-        self.recommendLocalListView.doubleClicked.connect(self.recommendLocalListViewDoubleClickHandler)
 
     def recommendLocalListViewDoubleClickHandler(self, index):
         print("recommendLocalListView item double clicked")
@@ -394,9 +394,10 @@ class MainWindow(Ui_MainWindow):
             mediaItemIndex = self.mediaPlaylistPathList.index(pathOfSong)
             print("index in playlist of song")
             print(mediaItemIndex)
+            self.mediaPlaylist.setCurrentIndex(mediaItemIndex)
+            self.playlistView.selectRow(mediaItemIndex)
         else:
             print("failed to play song")
-        # self.mediaPlaylist.setCurrentIndex(10)
 
     def seekPosition(self, position):
         # print("seek position called")
