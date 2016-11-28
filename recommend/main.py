@@ -35,7 +35,7 @@ class MainWindow(Ui_MainWindow):
         # Lists
         self.playlistView = self.window.Playlist
         self.recommendLocalListView = self.window.RecommendLocal
-        self.recommendOnlineListView = self.window.RecommendOnline
+        # self.recommendOnlineListView = self.window.RecommendOnline
         # Song Info section
         self.posterView = self.window.PosterView
         self.songTitle = self.window.SongTitle
@@ -58,14 +58,14 @@ class MainWindow(Ui_MainWindow):
         # Menu bar items
         self.openFolder = self.window.actionOpen_Folder
         self.editMetadata = self.window.actionEdit_MetaData
-        self.fetchRecommendation = self.window.actionFetch_Recommendation
+        # self.fetchRecommendation = self.window.actionFetch_Recommendation
         self.aboutProject = self.window.actionAbout_Project
         self.seeSourceCode = self.window.actionSee_Source_on_Github
         self.reportBug = self.window.actionReport_Bug
         # set shortcuts on menu items
         self.openFolder.setShortcut('Ctrl+O')
         self.editMetadata.setShortcut('Ctrl+E')
-        self.fetchRecommendation.setShortcut('Ctrl+R')
+        # self.fetchRecommendation.setShortcut('Ctrl+R')
         # add actions on menu items
 
         """
