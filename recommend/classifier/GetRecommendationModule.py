@@ -60,13 +60,15 @@ class GetRecommendation(object):
         return {RelevantSongDict}
 
     def fetchRelevantSongOffline(self, SongPath):
-        print("in fetchRelevantSongOffline")
+        # print("in fetchRelevantSongOffline")
         metadataDict = {}
         year = ""
         # list of path of all the relevant songs
         relevantSongPathList = []
         # dict that contains metadata of songs in paragraph as value and songPath as key
         relevantSongDict = {}
+        # print("test")
+        # print(SongPath)
         metadataDict = ManageMetaData.ReadMetaData(self, SongPath)
         # print(metadataDict)
         # get year out of metadata TDRC tag
@@ -87,7 +89,7 @@ class GetRecommendation(object):
             query.prepare(queryString)
             query.bindValue(":TPE1", TPE1)
             query.bindValue(":year", year)
-            print("executing queryString")
+            # print("executing queryString")
             record = query.exec_()
             # print(record)
             if record:
@@ -95,9 +97,9 @@ class GetRecommendation(object):
                 while query.next():
                     relevantSongPathList.append(query.value(0))
             else:
-                # print("read not successful")
-                print("error")
-                print(query.lastError().text())
+                print("read not successful")
+                # print("error")
+                # print(query.lastError().text())
                 return False
         else:
             print("could not read from the database, connection not found")
@@ -107,10 +109,11 @@ class GetRecommendation(object):
             # print(path)
             relevantSongDict[path] = self.metadataToPara(path)
         # predict
-        if SongPath:
-            self.predict(SongPath, relevantSongDict)
-        else:
-            print("problem with SongPath so can't call predict")
+        # if SongPath:
+        #     self.predict(SongPath, relevantSongDict)
+        # else:
+        #     print("problem with SongPath so can't call predict")
+        return relevantSongDict
 
     def predict(self, SongPath, relevantSongDict):
         # convert relevantSongDict to an OrderedDict
@@ -120,8 +123,8 @@ class GetRecommendation(object):
         relevantSongDict = collections.OrderedDict(relevantSongDict.items())
         # get index of song on which we are getting recommendations
         indexOfPlayingSong = list(relevantSongDict.keys()).index(SongPath)
-        print("----- index of current song ----")
-        print(indexOfPlayingSong)
+        # print("----- index of current song ----")
+        # print(indexOfPlayingSong)
         # make a list of metadata
         snippetsList = []
         for item in relevantSongDict:
@@ -139,7 +142,7 @@ class GetRecommendation(object):
         clusters = kMeansClustering(snippetsList)
         clusters.find_clusters(4)
         # print(clusters.get_common_phrases(2))
-        clusters.print_clusters()
+        # clusters.print_clusters()
         clusters_dict = clusters.get_clusters()
         # print(clusters_dict)
         # print(len(clusters_dict))
@@ -165,13 +168,12 @@ class GetRecommendation(object):
                 final_cluster = item
                 # print(item)
                 # print(key)
-        print("---- suggested songs ----")
-        print(final_cluster)
+        # print("---- suggested songs ----")
+        # print(final_cluster)
         # use indexes of suggested songs and make a list of path of suggested songs
         for index in final_cluster:
             suggestedSongsPath.append(list(relevantSongDict)[index])
             # print(list(relevantSongDict)[index])
-
         return suggestedSongsPath
 
     def metadataToPara(self, SongPath):
