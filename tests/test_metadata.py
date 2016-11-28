@@ -36,7 +36,7 @@ class Test30_getMetadataDict(unittest.TestCase):
         global val
         val = trm.getMetadataDict(SongPath)
         global OGGSongPath
-        OGGSongPath = 'sample_song.ogg'
+        #OGGSongPath = 'sample_song.ogg'
     
     # File is valid
     def test1(self):
@@ -47,30 +47,30 @@ class Test30_getMetadataDict(unittest.TestCase):
         self.assertEqual((len(val) > 0), True)
 
     # Returned dictionary should be empty if file is not valid or no file passed
-    def test3(self):
-        self.assertEqual((len(trm.getMetadataDict(OGGSongPath)) == 0), True)
+    #def test3(self):
+    #   self.assertEqual((len(trm.getMetadataDict(OGGSongPath)) == 0), True)
 
     def teardown(self):
         del globals()['SongPath']
-        del globals()['OGGSongPath']
+        #del globals()['OGGSongPath']
         del globals()['val']
 
 
 # Test for metaDataDictToUnicode(metaDataDict)
-class Test40_metaDataDictToUnicode(unittest.TestCase):
-    def setUp(self):
-        global foo_dict
-        foo_dict = {}
-        foo_dict['elB'] = 'B'
-        x = {}
-        x['elAA'] = 'AA'
-        x['elAB'] = 'AB'
-        foo_dict['elA'] = x
+# class Test40_metaDataDictToUnicode(unittest.TestCase):
+#     def setUp(self):
+#         global bin_foo_dict
+#         foo_dict = {}
+#         foo_dict['elB'] = 'B'
+#         x = {}
+#         x['elAA'] = 'AA'
+#         x['elAB'] = 'AB'
+#         foo_dict['elA'] = x
 
-    def test(self):
-        assert(metaDataDictToUnicode(foo_dict), )
-    def tearDown(self):
-        pass
+#     def test(self):
+#         assertEqual(isinstance(metaDataDictToUnicode(foo_dict), unicode), true )
+#     def tearDown(self):
+#         pass
 
 if __name__ == '__main__':
     unittest.main()
