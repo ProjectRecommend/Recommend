@@ -6,7 +6,9 @@ sys.path.append('../recommend/')
 from Metadata.ManageMetaDataModule import ManageMetaData as mmd
 import Metadata.tagsReadMetadata as trm
 
-# Test for 'ReadMetaData'
+# TEST for ManageMetadataModule
+## CLASS MANAGEMETADATA
+### Test for 'ReadMetaData'
 class Test10_ReadMetaData(unittest.TestCase):
     def setUp(self):
         global obj
@@ -18,7 +20,7 @@ class Test10_ReadMetaData(unittest.TestCase):
         songMetaData = obj.ReadMetaData(SongPath)
         self.assertEqual(isinstance(songMetaData, dict), True)
 
-# Test for 'WriteMetaData'
+### Test for 'WriteMetaData'
 class Test20_WriteMetaData(unittest.TestCase):
     def setUp(self):
         pass
@@ -29,8 +31,8 @@ class Test20_WriteMetaData(unittest.TestCase):
         del globals()['songMetaData']
         # not deleting global SongPath due to errors in reassignment in Test30
 
-# Tests for 'tagsReadMetadata'
-# Test for getMetadataDict(mp3file)
+# TESTS for 'tagsReadMetadata'
+### Test for getMetadataDict(mp3file)
 class Test30_getMetadataDict(unittest.TestCase):
     def setUp(self):
         global val
