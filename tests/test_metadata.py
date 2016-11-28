@@ -38,7 +38,7 @@ class Test30_getMetadataDict(unittest.TestCase):
     def setUp(self):
         global val
         val = trm.getMetadataDict(SongPath)
-        global OGGSongPath
+        #global OGGSongPath
         #OGGSongPath = 'sample_song.ogg'
 
     # File is valid
