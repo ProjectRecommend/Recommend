@@ -2,6 +2,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets, QtMultimedia
 import sys
 import os
 import const
+import time
 from mainWindow import Ui_MainWindow
 from editMetadata_form import Ui_EditMetaDataDialog
 from bs4 import UnicodeDammit
@@ -211,9 +212,9 @@ class MainWindow(Ui_MainWindow):
         # print(mediaPlaylistPathList)
 
     def playlistViewDoubleClickHandler(self, index):
-        # print("playList View item double clicked")
+        print("playList View item double clicked")
         row = index.row()
-        # print(row)
+        print(row)
         self.mediaPlaylist.setCurrentIndex(row)
 
     def saveSettings(self):
@@ -375,6 +376,27 @@ class MainWindow(Ui_MainWindow):
         self.recommendLocalListView.setColumnWidth(2, 100)
         self.recommendLocalListView.setTabKeyNavigation(False)
         self.recommendLocalListView.setCornerButtonEnabled(False)
+        self.recommendLocalListView.doubleClicked.connect(self.recommendLocalListViewDoubleClickHandler)
+
+    def recommendLocalListViewDoubleClickHandler(self, index):
+        print("recommendLocalListView item double clicked")
+        model = self.recommendLocalListView.model()
+        row = index.row()
+        # time.sleep(1)
+        print("row of item")
+        print(row)
+        location = model.index(row, 0)
+        print("location")
+        print(location)
+        pathOfSong = str(model.data(location))
+        print(pathOfSong)
+        if pathOfSong is not None:
+            mediaItemIndex = self.mediaPlaylistPathList.index(pathOfSong)
+            print("index in playlist of song")
+            print(mediaItemIndex)
+        else:
+            print("failed to play song")
+        # self.mediaPlaylist.setCurrentIndex(10)
 
     def seekPosition(self, position):
         # print("seek position called")

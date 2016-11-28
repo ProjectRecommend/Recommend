@@ -107,7 +107,7 @@ class ManageCache:
                 # print("no of rows affected: " + str(self.query.numRowsAffected()))
             elif self.query.lastError().number() is 19:
                 pass
-                print("unique Construct failed")
+                # print("unique Construct failed")
                 # print(self.query.lastError().number().text())
             else:
                 self.buildMessageBox("Not Enough Data to recommend songs for this song, please update metadata or add more songs to collection")
@@ -159,14 +159,14 @@ class ManageCache:
         projectModel = QSqlQueryModel()
         if self.db.open():
             query = QSqlQuery(self.db)
-            print("in queryCache")
-            print(SPath)
+            # print("in queryCache")
+            # print(SPath)
             query.prepare("select SPathRec, Title, Artist from cache WHERE SPath=:SPath ")
             query.bindValue(":SPath", SPath)
             query.exec_()
             projectModel.setQuery(query)
-            print("num of row returned queryCache:")
-            print(query.numRowsAffected())
+            # print("num of row returned queryCache:")
+            # print(query.numRowsAffected())
             # print("query row count")
             if projectModel.rowCount() == 0:
                 print("get recommendation, nothing is in Cache for this song")
@@ -191,8 +191,8 @@ class ManageCache:
                     requery.bindValue(":SPath", SPath)
                     requery.exec_()
                     projectModel.setQuery(requery)
-                    print("row Count After re query ")
-                    print(projectModel.rowCount())
+                    # print("row Count After re query ")
+                    # print(projectModel.rowCount())
         else:
             print("Query failed")
         return projectModel
