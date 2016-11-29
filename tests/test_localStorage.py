@@ -38,57 +38,70 @@ class Test20_query(unittest.TestCase):
 # test for 'dump'
 
 
-class Test50_dump(unittest.TestCase):
-    def setUp(self):
-        pass
+# class Test50_dump(unittest.TestCase):
+#     def setUp(self):
+#         pass
 
-    def test_dump(self):
-        self.assertEqual(obj_mls.dump(), True)
+#     def test_dump(self):
+#         self.assertEqual(obj_mls.dump(), True)
 
-    def tearDown(self):
-        del globals()['obj_mls']
-        del globals()['obj_als']
-        os.remove("PRLocalStorage.sqlite3")
+#     def tearDown(self):
+#         del globals()['obj_mls']
+#         del globals()['obj_als']
+#         os.remove("PRLocalStorage.sqlite3")
 
 
 # TESTS for AccessLocalStorageModule
-## CLASS AccessLocalStorage
+# CLASS AccessLocalStorage
 
-### Test for 'write'
+# Test for 'write'
+
 class Test30_write(unittest.TestCase):
     def setUp(self):
         global obj_als
         obj_als = als('someConnect123')
         global SongPath
         SongPath = "sample_song.mp3"
+
     def test_write(self):
         self.assertEqual(obj_als.write(SongPath), True)
 
-### Test for 'read'
+# Test for 'read'
+
+
 class Test40_read(unittest.TestCase):
     def setUp(self):
         pass
+
     def test_read(self):
         self.assertNotEqual(obj_als.read(SongPath), False)
+
     def tearDown(self):
         pass
 
-### Test for 'update'
+# Test for 'update'
+
+
 class Test41_update(unittest.TestCase):
     def setUp(self):
         pass
+
     def test_update(self):
         self.assertEqual(obj_als.update(SongPath), True)
+
     def tearDown(self):
         del globals()['SongPath']
 
+# Test for 'delete'
 
-### Test for 'delete'
+
 class Test42_delete(unittest.TestCase):
     def setUp(self):
         self.SongID = 100
+
     def test_delete(self):
         self.assertEqual(obj_als.delete(self.SongID), True)
+
     def tearDown(self):
         del self.SongID
 
