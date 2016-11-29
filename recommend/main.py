@@ -364,8 +364,8 @@ class MainWindow(Ui_MainWindow):
         print(self.currentPlayingMediaUrl)
 
         recommendModel = self.manageCache.queryCache(self.currentPlayingMediaUrl, self.manageLocalStorage)
-        recommendModel.setHeaderData(0, QtCore.Qt.Horizontal, 'Track Title')
-        recommendModel.setHeaderData(1, QtCore.Qt.Horizontal, 'Artist')
+        recommendModel.setHeaderData(1, QtCore.Qt.Horizontal, 'Track Title')
+        recommendModel.setHeaderData(2, QtCore.Qt.Horizontal, 'Artist')
         self.recommendLocalListView.setSelectionBehavior(QtWidgets.QTableView.SelectRows)
         # self.playlistView.setColumnWidth(1000, 2000)
         # Query db and hide all the not required fields
