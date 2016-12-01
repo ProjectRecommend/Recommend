@@ -178,6 +178,9 @@ class MainWindow(Ui_MainWindow):
                 self.localStorage.write(path)
 
             # build playlist with all the songs
+            # remove files from localStorage that are deleted
+            self.manageLocalStorage.invalidate(self.localStorage)
+            #
             model = self.manageLocalStorage.query()
             # set header title
             model.setHeaderData(2, QtCore.Qt.Horizontal, 'Track Title')

@@ -1,4 +1,6 @@
 import sys
+import const
+from pathlib import Path
 from PyQt5.QtSql import QSqlDatabase, QSqlQuery, QSqlQueryModel
 
 # SQLite version: 3.11.0
@@ -87,8 +89,8 @@ class ManageLocalStorage(object):
         return projectModel
 
     def connect(self):
-        db = QSqlDatabase.database(self.connectionName,True)
-        print("database name being connected and the connection names are as follows: ")
+        db = QSqlDatabase.database(self.connectionName, True)
+        print("database name being connected and the connection names are as follows:")
         print(db.databaseName())
         print(db.connectionName())
         # del db
@@ -96,10 +98,46 @@ class ManageLocalStorage(object):
         return True
 
     def disconnect(self):
-        db = QSqlDatabase.database(self.connectionName,False)
+        db = QSqlDatabase.database(self.connectionName, False)
         print("database name being disconnected and the connection names are as follows: ")
         print(db.databaseName())
         print(db.connectionName())
         # del db
         self.isConnected = False
+        return True
+
+    def invalidate(self, accessLocalStorageInstance):
+        if self.db.isOpen():
+            query = QSqlQuery(self.db)
+            queryString = "SELECT SPath FROM songs"
+            query.prepare(queryString)
+            record = query.exec_()
+            # now we can use record object (which is an QSqlQuery object) to navigate the record
+            if record:
+                # print("read successful for invalidate, it seems")
+                # a = 0
+                while query.next():
+                    # print("executing times: ")
+                    # print(a)
+                    # a = a + 1
+                    filepath = query.value(0)
+                    # check if that file exists
+                    my_file = Path(filepath)
+                    if my_file.is_file():
+                        pass
+                        # print("file is present")
+                        # file exists
+                    else:
+                        # print(filepath)
+                        # print("got deleted")
+                        # remove that record from DB
+                        accessLocalStorageInstance.delete(filepath)
+            else:
+                print("read not successful for invalidate")
+                print("error")
+                print(query.lastError().text())
+                return False
+        else:
+            print("could not read from the database for invalidate, connection not found")
+            return False
         return True
