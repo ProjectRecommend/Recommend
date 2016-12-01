@@ -12,3 +12,8 @@ install:
 script:
   - cd tests
   - nose2
+
+notifications:
+  slack:
+    rooms:
+      - projectrecommend:5GjQ8YJokT2JlmIuGVPjv6r0#bots
