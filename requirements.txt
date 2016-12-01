@@ -1,0 +1,14 @@
+beautifulsoup4==4.4.1
+cov-core==1.15.0
+coverage==4.2
+discogs-client==2.2.1
+requests==2.9.1
+lxml==3.6.0
+mutagen==1.34.1
+pylint==1.6.4
+nltk==3.2
+nose2==0.6.5
+PyQt5==5.7
+radon==1.4.2
+sklearn==0.0
+numpy==1.10.4
