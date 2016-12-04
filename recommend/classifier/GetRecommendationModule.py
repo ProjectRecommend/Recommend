@@ -181,6 +181,6 @@ class GetRecommendation(object):
         metadataDict = ManageMetaData.ReadMetaData(self, SongPath)
         text = ""
         for item in metadataDict:
-            text = text + metadataDict.get(item) + " "
+            text = text + metadataDict.get(item, " ") + " "
         # print(text)
         return text
