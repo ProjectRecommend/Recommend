@@ -6,7 +6,7 @@ This guide will help you setup development environment to work on Recommend
 
 **install Python**
 install python3 (*tested on python3.5.2*)
-    *if you are on windows we recommend [Anaconda]() distribution, it will make your life easy*
+    *if you are on windows we recommend [Anaconda](https://www.continuum.io/downloads) distribution, it will make your life easy*
 
 **install required dependencies**
 
@@ -16,7 +16,7 @@ If you are on windows then you will see that some packages *like `lxml`* failed 
 
 Go to [this website](http://www.lfd.uci.edu/~gohlke/pythonlibs/) and get wheel of that package for your python and OS Arch. type.
 
-    *if you have a 64bit OS with python 3.5.2 then for example `lxml` package for you will be `lxml‑x.x.x‑cp35‑cp35m‑win_amd64.whl`*
+*for example `lxml` package for 64bit OS with python 3.5.2 will be `lxml‑x.x.x‑cp35‑cp35m‑win_amd64.whl`*
 
 Find wheel for your setup and install it by running `pip install /path/to/wheelfile.whl`
 
