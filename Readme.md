@@ -19,7 +19,7 @@ This project is under development
 
 #### Demo
 
-[Recommend - Demo (alpha)](https://www.youtube.com/watch?v=xF9p5lDcmi4)
+[![Recommend - Demo Video](http://img.youtube.com/vi/xF9p5lDcmi4/0.jpg)](https://www.youtube.com/watch?v=xF9p5lDcmi4)
 
 #### Links
 
