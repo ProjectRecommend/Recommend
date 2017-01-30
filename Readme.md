@@ -5,7 +5,7 @@
 ![Build Status](https://travis-ci.org/ProjectRecommend/Recommend.svg?branch=master)
 
 
-Recommend is a project that is trying to use clustering on metadata(ID3-tags)
+Recommend is a project that uses clustering on metadata(ID3-tags)
 of your music files to Recommend you similar songs from your Offline Music library
 
 #### Why ?
@@ -15,8 +15,16 @@ well we got bored and started a project on something that we like.
 all jokes aside, We thought it would be cool to use ID3 tags to find similarity
 in your offline music collection.
 
-This project is under heavy development
+This project is under development
 
 #### Demo
 
 [Recommend - Demo (alpha)](https://www.youtube.com/watch?v=xF9p5lDcmi4)
+
+#### Links
+
+[Website](https://projectrecommend.github.io/)
+
+[Docs](https://github.com/ProjectRecommend/docs)
+
+[Issue Tracker](https://github.com/ProjectRecommend/Recommend/issues)
