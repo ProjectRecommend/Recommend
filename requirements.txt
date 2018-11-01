@@ -1,4 +1,4 @@
-beautifulsoup4==4.4.1
+beautifulsoup4==4.6.3
 cov-core==1.15.0
 coverage==4.2
 discogs-client==2.2.1
