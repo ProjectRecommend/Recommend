@@ -1,6 +1,6 @@
 beautifulsoup4==4.4.1
 cov-core==1.15.0
-coverage==4.2
+coverage==4.5.2
 discogs-client==2.2.1
 requests==2.20.0
 lxml==3.6.0
