@@ -9,6 +9,6 @@ pylint==2.1.1
 nltk==3.2
 nose2==0.6.5
 PyQt5==5.7
-radon==1.4.2
+radon==3.0.1
 sklearn==0.0
 numpy==1.10.4
