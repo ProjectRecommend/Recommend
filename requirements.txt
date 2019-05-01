@@ -11,4 +11,4 @@ nose2==0.6.5
 PyQt5==5.7
 radon==1.4.2
 sklearn==0.0
-numpy==1.10.4
+numpy==1.16.3
