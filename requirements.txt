@@ -3,7 +3,7 @@ cov-core==1.15.0
 coverage==4.2
 discogs-client==2.2.1
 requests==2.20.0
-lxml==3.6.0
+lxml==4.3.4
 mutagen==1.34.1
 pylint==2.1.1
 nltk==3.2
